@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title>نمط بصري مستلهم من هوية المشروع</title><desc>تكرار زخرفي بخط أخضر وعناصر ذهبية مستوحى من الشعار</desc>
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e4b85f"/><stop offset="1" stop-color="#bd8332"/></linearGradient><g id="motif" fill="none" stroke="#0e5639" stroke-width="2"><path d="M70 165V92c0-22 8-42 24-59l31-31 31 31c16 17 24 37 24 59v73"/><path d="M125 165c-33-41-72-58-112-61 1 46 22 77 63 91l49-30Z"/><path d="M125 165c33-41 72-58 112-61-1 46-22 77-63 91l-49-30Z"/><path d="M73 146c28 21 46 38 52 50 7-12 25-29 53-50"/><path d="M80 187l45 38 45-38"/></g></defs>
+<rect width="1600" height="900" fill="#fff"/>
+<g opacity=".92" transform="translate(0 520)">
+<g transform="translate(-120 0)"><use href="#motif"/><g fill="url(#g)"><path d="M104 105h14v55h-14zM128 86h14v74h-14zM152 66h14v94h-14z"/></g></g>
+<g transform="translate(150 70)"><use href="#motif"/><g fill="url(#g)"><path d="M104 105h14v55h-14zM128 86h14v74h-14zM152 66h14v94h-14z"/></g></g>
+<g transform="translate(420 0)"><use href="#motif"/><g fill="url(#g)"><path d="M104 105h14v55h-14zM128 86h14v74h-14zM152 66h14v94h-14z"/></g></g>
+<g transform="translate(690 70)"><use href="#motif"/><g fill="url(#g)"><path d="M104 105h14v55h-14zM128 86h14v74h-14zM152 66h14v94h-14z"/></g></g>
+<g transform="translate(960 0)"><use href="#motif"/><g fill="url(#g)"><path d="M104 105h14v55h-14zM128 86h14v74h-14zM152 66h14v94h-14z"/></g></g>
+<g transform="translate(1230 70)"><use href="#motif"/><g fill="url(#g)"><path d="M104 105h14v55h-14zM128 86h14v74h-14zM152 66h14v94h-14z"/></g></g>
+<g transform="translate(1500 0)"><use href="#motif"/></g>
+</g>
+<g fill="url(#g)"><path d="M130 505l8 17 17 8-17 8-8 17-8-17-17-8 17-8zM397 612l8 17 17 8-17 8-8 17-8-17-17-8 17-8zM670 505l8 17 17 8-17 8-8 17-8-17-17-8 17-8zM944 612l8 17 17 8-17 8-8 17-8-17-17-8 17-8zM1210 505l8 17 17 8-17 8-8 17-8-17-17-8 17-8zM1480 612l8 17 17 8-17 8-8 17-8-17-17-8 17-8z"/></g>
+</svg>
