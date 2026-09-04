@@ -28,6 +28,6 @@ jobs:
           fi
           git config user.name "Naif Almohammdi"
           git config user.email "almohammdin@gmail.com"
-          git add index.html assets/site-icon.svg
-          git commit -m "Clarify redeemable shares and normalize calculator numbers"
+          git add mudaraba-controls/index.html
+          git commit -m "Add marketing and CMA analysis to mudaraba study"
           git push origin HEAD:main
