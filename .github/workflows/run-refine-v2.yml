@@ -1,0 +1,50 @@
+name: Run V2 refinement
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/run-refine-v2.yml"
+      - "scripts/refine_v2_copy.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply refinement
+        run: python scripts/refine_v2_copy.py
+      - name: Validate JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('index.html').read_text(encoding='utf-8')
+          blocks=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>',s,re.S)
+          Path('/tmp/site-inline.js').write_text('\n'.join(b for b in blocks if b.strip()),encoding='utf-8')
+          PY
+          node --check /tmp/site-inline.js
+      - name: Validate content
+        run: |
+          grep -q 'إما أن يبقى المال داخل شركة المشروع، أو يسلم للمشغل بعقد مضاربة' index.html
+          grep -q 'السيناريو المتحفظ' index.html
+          grep -q 'السيناريو المتفائل' index.html
+          grep -q 'سقف 50% في المادة 51 يختص' index.html
+          if grep -q 'لا كأصل' index.html; then exit 1; fi
+      - name: Commit
+        run: |
+          if git diff --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git config user.name "Naif Almohammdi"
+          git config user.email "almohammdin@gmail.com"
+          git add index.html
+          git commit -m "Refine scenarios and simplify operator relationship"
+          git push origin HEAD:main
