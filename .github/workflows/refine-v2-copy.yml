@@ -1,0 +1,52 @@
+name: Refine V2 copy
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/refine_v2_copy.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply wording refinement
+        run: python scripts/refine_v2_copy.py
+      - name: Validate inline JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s = Path('index.html').read_text(encoding='utf-8')
+          blocks = re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>', s, re.S)
+          inline = '\n'.join(b for b in blocks if b.strip())
+          Path('/tmp/site-inline.js').write_text(inline, encoding='utf-8')
+          PY
+          node --check /tmp/site-inline.js
+      - name: Validate requested changes
+        run: |
+          grep -q 'الفرق بينها يظهر في التصويت، أولوية الأرباح، والاسترداد' index.html
+          grep -q 'السيناريو المتحفظ' index.html
+          grep -q 'السيناريو المتفائل' index.html
+          grep -q 'إما أن يبقى المال داخل شركة المشروع، أو يسلم للمشغل بعقد مضاربة' index.html
+          grep -q 'سقف 50% في المادة 51 يختص' index.html
+          if grep -q 'لا كأصل' index.html; then exit 1; fi
+      - name: Commit changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git config user.name "Naif Almohammdi"
+          git config user.email "almohammdin@gmail.com"
+          git add index.html
+          git commit -m "Simplify operator models and refine share language"
+          git push origin HEAD:main
