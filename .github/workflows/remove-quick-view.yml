@@ -1,0 +1,38 @@
+name: Remove quick view
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/remove_quick_view.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Remove quick view
+        run: python scripts/remove_quick_view.py
+      - name: Validate removal
+        run: |
+          ! grep -q 'quickViewBtn' index.html
+          ! grep -q 'quickMode' index.html
+          ! grep -q 'عرض سريع · 3 دقائق' index.html
+      - name: Commit changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git config user.name "Naif Almohammdi"
+          git config user.email "almohammdin@gmail.com"
+          git add index.html
+          git commit -m "Remove quick view mode completely"
+          git push origin HEAD:main
