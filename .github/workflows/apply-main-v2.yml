@@ -5,6 +5,7 @@ on:
     branches: ["main"]
     paths:
       - "scripts/apply_main_v2.py"
+      - ".github/workflows/apply-main-v2.yml"
   workflow_dispatch:
 
 permissions:
