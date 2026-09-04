@@ -92,3 +92,4 @@ s = s.replace('بصورة مستقلة', 'بشكل مستقل')
 
 p.write_text(s, encoding='utf-8')
 print(f'Arab Writer pass applied: {changed} targeted edits')
+# Triggered after workflow path was corrected.
