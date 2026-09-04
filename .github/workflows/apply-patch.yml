@@ -28,6 +28,6 @@ jobs:
           fi
           git config user.name "Naif Almohammdi"
           git config user.email "almohammdin@gmail.com"
-          git add mudaraba-controls/index.html
-          git commit -m "Add marketing and CMA analysis to mudaraba study"
+          git add index.html
+          git commit -m "Refine Arabic copy with Arab Writer principles"
           git push origin HEAD:main
