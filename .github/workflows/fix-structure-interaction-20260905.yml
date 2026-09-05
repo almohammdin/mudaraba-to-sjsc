@@ -1,0 +1,32 @@
+name: Fix structure interaction 20260905
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/fix_structure_interaction_20260905.py"
+      - ".github/workflows/fix-structure-interaction-20260905.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply fix
+        run: python scripts/fix_structure_interaction_20260905.py
+      - name: Validate
+        run: |
+          grep -q "distribution:{k:'7 · التوزيع على المساهمين'" index.html
+          grep -q "contract:{k:'4 · عقد المضاربة'" index.html
+      - name: Commit
+        run: |
+          if git diff --quiet -- index.html; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Fix interactive structure sequence details"
+          git push
