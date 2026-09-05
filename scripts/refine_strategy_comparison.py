@@ -4,16 +4,18 @@ import re
 p = Path('index.html')
 s = p.read_text(encoding='utf-8')
 
-# Replace the comparison section with a more neutral, legally precise version.
 section = '''<section class="sec soft" id="why-sjsc"><div class="c"><div class="head"><span class="ey">مبررات التحول</span><h2>مقارنة بين عقود المضاربة المتعددة وشركة المساهمة المبسطة</h2><p>الهدف من المقارنة بيان الفرق في طبيعة العلاقة والحوكمة والتكييف النظامي، مع إبقاء كل مسار في إطاره القانوني الصحيح.</p></div><div class="panel strategyCompare"><div class="table strategyTable"><table><thead><tr><th>المحور</th><th>عقود مضاربة متعددة</th><th>شركة مساهمة مبسطة</th></tr></thead><tbody><tr><td>صفة صاحب المال</td><td>رب مال في عقد مضاربة</td><td>مساهم في شركة المشروع</td></tr><tr><td>طبيعة الحق</td><td>حق تعاقدي ناشئ عن عقد المضاربة</td><td>ملكية أسهم وحقوق مرتبطة بالفئة</td></tr><tr><td>تجميع الأموال</td><td>قد تكون عقودا مستقلة أو أموالا مجمعة بحسب الممارسة</td><td>الأموال تدخل رأس مال الشركة مقابل الأسهم</td></tr><tr><td>العلاقة مع المضارب</td><td>كل رب مال يرتبط بالمضارب بحسب عقده</td><td>شركة المشروع تكون رب المال في عقد مضاربة واحد مع الشركة الأخرى</td></tr><tr><td>الحوكمة</td><td>العقد، التفويض، الحسابات والتقارير</td><td>نظام أساس، سجل مساهمين، قرارات وقوائم مالية</td></tr><tr><td>دخول طرف جديد</td><td>عقد مضاربة جديد</td><td>إصدار أو نقل أسهم وفق الإجراءات المعتمدة</td></tr><tr><td>الخروج</td><td>تسوية العقد وفق شروطه</td><td>نقل السهم أو الاسترداد وفق نوع السهم وشروطه</td></tr><tr><td>كثرة المستثمرين</td><td>العدد بحد ذاته مؤشر حجم، وتزداد أهمية ضبط العقود والحسابات والتقارير</td><td>تزداد متطلبات تنظيم الإصدار والطرح بحسب نوع الطرح وعدد المطروح عليهم وقيمته</td></tr><tr class="riskRow"><td>التكييف لدى هيئة السوق المالية</td><td>يظهر الفحص عند اقتراب الممارسة من برنامج استثمار مشترك: أموال مجمعة، سياسة استثمار موحدة، إدارة موحدة، ومشاركة جماعية في الأرباح</td><td>الأسهم أوراق مالية، ويخضع إصدارها وطرحها للمسار النظامي المناسب</td></tr><tr class="riskRow"><td>مثال توضيحي</td><td>100 عقد مستقل لكل منها رأس مال وحساب وتسوية: الصورة أقرب إلى مضاربات ثنائية متعددة. 100 شخص في حوض واحد بسياسة واحدة وأرباح جماعية: تزداد أهمية فحص وصف البرنامج الاستثماري الجماعي</td><td>100 مساهم يدخلون عن طريق إصدار أسهم: تحدد قواعد الطرح المسار النظامي بحسب نوع الطرح وشروطه</td></tr><tr class="riskRow"><td>التكييف المصرفي</td><td>يبرز الفحص إذا أخذت الأموال خصائص الوديعة أو الأموال واجبة الرد مع ضمانات أو عائد محدد</td><td>تمويل الملكية بالأسهم يقرأ أساسا ضمن نظام الشركات وقواعد الأوراق المالية</td></tr></tbody></table></div><div class="strategyBottom"><div class="strategyKey"><small>الخلاصة</small><b>كثرة عقود المضاربة وحجمها لا يصنعان مخالفة رقمية بذاتهما. محور الفحص هو كيفية جمع الأموال وإدارتها وطبيعة المشاركة في الأرباح والتسويق. شركة المساهمة المبسطة تعطي إطار ملكية وحوكمة أوضح، ومع إصدار الأسهم تظهر قواعد الطرح مباشرة.</b></div><div class="strategyRisk"><small>ملاحظة نظامية</small><b>العقود الكثيرة تحتاج قراءة على مستويين</b><p>المستوى الأول: سلامة كل عقد مضاربة وفقا لنظام المعاملات المدنية. المستوى الثاني: قراءة مجموع العقود كممارسة واحدة لتحديد مدى اقترابها من برنامج استثمار مشترك أو نشاط مالي منظم.</p></div></div></div></div></section>'''
 
-s, n = re.subn(r'<section class="sec soft" id="why-sjsc">.*?</section>(?=<section class="sec soft water" id="structure">)', section, s, count=1, flags=re.S)
+pattern = r'<section[^>]*id="why-sjsc"[^>]*>.*?(?=<section[^>]*id="structure"[^>]*>)'
+s, n = re.subn(pattern, section, s, count=1, flags=re.S)
 if n != 1:
     raise SystemExit('comparison section not found')
 
-# Remove any Snam Al-Amaal card or links from the main study.
-s = re.sub(r'<div class="strategyRisk"><small>مثال تنظيمي</small><b>قضية سنام الأعمال</b>.*?</div></div></div></div></section>', '</div></div></div></section>', s, flags=re.S)
-s = s.replace('https://cma.gov.sa/MediaCenter/NEWS/Pages/CMA_N_3907.aspx','')
+# Defensive cleanup of Snam references in the main study only.
+s = re.sub(r'<div[^>]*class="[^"]*strategyRisk[^"]*"[^>]*>\s*<small>مثال تنظيمي</small>\s*<b>قضية سنام الأعمال</b>.*?</div>', '', s, count=1, flags=re.S)
+s = s.replace('https://cma.gov.sa/MediaCenter/NEWS/Pages/CMA_N_3907.aspx', '')
+s = s.replace('قضية سنام الأعمال', '')
+s = s.replace('سنام الأعمال', '')
 
 p.write_text(s, encoding='utf-8')
 print('strategy comparison refined and Snam example removed')
