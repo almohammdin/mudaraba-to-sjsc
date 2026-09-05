@@ -1,0 +1,34 @@
+name: Add Mudarabah vs SJSC comparison
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/add_mudaraba_vs_sjsc_comparison.py"
+      - ".github/workflows/add-mudaraba-vs-sjsc-comparison.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Apply comparison update
+        run: python scripts/add_mudaraba_vs_sjsc_comparison.py
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Add Mudarabah versus SJSC comparison"
+            git push
+          fi
