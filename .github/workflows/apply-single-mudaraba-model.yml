@@ -1,0 +1,31 @@
+name: Apply single Mudarabah model
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/simplify_single_mudaraba_model.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Apply content refinement
+        run: python scripts/simplify_single_mudaraba_model.py
+      - name: Commit updated study
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Use single Mudarabah model and simplify share comparison"
+          git push
