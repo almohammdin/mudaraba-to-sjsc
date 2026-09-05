@@ -14,7 +14,16 @@ css = r'''
 if '/* share-card-layout-20260905 */' not in s:
     s = s.replace('</style>', css + '\n</style>', 1)
 
-# 2) Replace visible Arabic currency word with the Saudi Riyal symbol.
+# 2) Keep the Saudi Riyal symbol and its amount together wherever the money component is used.
+nowrap_css = r'''
+/* money-nowrap-fix-20260905 */
+.money{display:inline-flex!important;direction:ltr!important;align-items:baseline!important;gap:.28em!important;white-space:nowrap!important;flex-wrap:nowrap!important;word-break:keep-all!important}
+.money>span{display:inline!important;white-space:nowrap!important;word-break:keep-all!important;flex:none!important}
+'''
+if '/* money-nowrap-fix-20260905 */' not in s:
+    s = s.replace('</style>', nowrap_css + '\n</style>', 1)
+
+# 3) Replace visible Arabic currency word with the Saudi Riyal symbol.
 # Work only on text outside tags and outside script/style blocks to avoid changing JS/CSS source.
 parts = re.split(r'(<script\b.*?</script>|<style\b.*?</style>)', s, flags=re.S|re.I)
 
@@ -39,4 +48,4 @@ for i in range(0, len(parts), 2):
 s = ''.join(parts)
 
 p.write_text(s, encoding='utf-8')
-print('share card layout refined and Riyal symbol applied to visible text')
+print('share card layout refined, Riyal symbol applied, and money kept on one line')
