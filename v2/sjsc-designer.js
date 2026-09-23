@@ -472,7 +472,7 @@
   function exportSymbolHtml(size = 18, color = "#0D3656") {
     if (state.capital.currency === "SAR") {
       const height = Math.round(size * 1.12);
-      return `<img src="../assets/riyal-symbol.svg?v=20260923-4" alt="ريال سعودي" width="${size}" height="${height}" crossorigin="anonymous" style="display:inline-block;width:${size}px;height:${height}px;object-fit:contain;vertical-align:-.16em;flex:0 0 auto">`;
+      return `<img src="../assets/riyal-symbol.svg?v=20260923-5" alt="ريال سعودي" width="${size}" height="${height}" crossorigin="anonymous" style="display:inline-block;width:${size}px;height:${height}px;object-fit:contain;vertical-align:-.16em;flex:0 0 auto">`;
     }
     return `<span aria-label="دولار أمريكي" style="font-family:Arial,sans-serif;font-weight:900;color:${color}">$</span>`;
   }
