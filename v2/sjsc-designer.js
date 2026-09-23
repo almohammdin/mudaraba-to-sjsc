@@ -463,6 +463,193 @@
     $('platformOutput').hidden = false;
   }
 
+
+  function exportFileBase() {
+    const raw = (state.companyName || "شركة-مساهمة-مبسطة").trim();
+    return ("تصميم-" + raw).replace(/[\\/:*?"<>|]+/g, "-").replace(/\s+/g, "-");
+  }
+
+  function buildA4Export() {
+    syncCapitalFromInputs();
+    updateAll();
+    const cap = capitalCalc();
+    const stocks = stockCalc();
+    const difference = cap.issued - stocks.totalValue;
+    const matched = Math.abs(difference) < 0.005 && !stocks.invalid && !cap.errors.length;
+    const method = { cash: "نقدي", inkind: "عيني", mixed: "نقدي وعيني" }[state.capital.type];
+    const date = new Intl.DateTimeFormat("ar-SA-u-nu-latn", { year: "numeric", month: "long", day: "numeric" }).format(new Date());
+    const rightsRows = stocks.rows.filter((row) => row.categoryMode === "new" && row.rights.trim());
+    const rowFont = stocks.rows.length > 6 ? 17 : 19;
+    const rightsFont = rightsRows.length > 4 ? 17 : 19;
+
+    const host = document.createElement("div");
+    host.setAttribute("aria-hidden", "true");
+    host.style.cssText = "position:fixed;left:-20000px;top:0;width:1240px;height:1754px;pointer-events:none;z-index:-1;";
+
+    const page = document.createElement("article");
+    page.style.cssText = "width:1240px;height:1754px;box-sizing:border-box;padding:62px 68px 52px;background:#FFFEFC;color:#18232D;font-family:Craft,Tahoma,Arial,sans-serif;direction:rtl;display:flex;flex-direction:column;overflow:hidden;";
+
+    const summaryCards = [
+      ["رأس المال المصدر", moneyHtml(cap.issued)],
+      ["النقدي", moneyHtml(cap.cash)],
+      ["العيني", moneyHtml(cap.inKind)],
+      ["المدفوع", moneyHtml(cap.paid)],
+      ["الحد الأدنى للمدفوع", moneyHtml(cap.minimum)],
+      ["المصرح به", cap.authorized == null ? "غير محدد" : moneyHtml(cap.authorized)]
+    ].map(([label, value]) => `
+      <div style="border:1px solid #E3DED6;border-radius:16px;padding:14px 16px;background:#fff;min-height:82px">
+        <div style="font-size:16px;color:#5E6C76;margin-bottom:4px">${label}</div>
+        <div style="font-size:23px;font-weight:900;color:#0D3656">${value}</div>
+      </div>`).join("");
+
+    const stockRows = stocks.rows.map((row) => `
+      <tr>
+        <td>${esc(categoryLabel(row))}</td>
+        <td style="direction:ltr;text-align:left">${fmt(row.count)}</td>
+        <td style="direction:ltr;text-align:left">${moneyHtml(row.value)}</td>
+        <td style="direction:ltr;text-align:left">${moneyHtml(row.amount)}</td>
+        <td style="direction:ltr;text-align:left">${fmt(row.ownership)}%</td>
+        <td style="direction:ltr;text-align:left">${fmt(row.voteShare)}%</td>
+      </tr>`).join("");
+
+    const rightsHtml = rightsRows.length ? `
+      <section style="margin-top:20px">
+        <h2 style="margin:0 0 10px;font-size:24px;color:#0D3656">الحقوق والفئات</h2>
+        <div style="display:grid;gap:8px">
+          ${rightsRows.map((row) => `
+            <div style="display:grid;grid-template-columns:190px 1fr;gap:14px;padding:10px 12px;border:1px solid #E7E0D7;border-radius:13px;background:#fff">
+              <b style="font-size:${rightsFont}px;color:#0D3656">${esc(row.categoryName || categoryLabel(row))}</b>
+              <span style="font-size:${rightsFont}px;line-height:1.55;color:#44525C">${esc(row.rights)}</span>
+            </div>`).join("")}
+        </div>
+      </section>` : "";
+
+    const valuationLine = cap.inKind > 0 ? `
+      <div style="display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-top:1px solid #E7E0D7">
+        <span>تقرير التقييم المعتمد</span><b style="color:${state.attachments.valuation ? "#165A3D" : "#8A6640"}">${state.attachments.valuation ? "جاهز" : "غير محدد كجاهز"}</b>
+      </div>` : "";
+
+    page.innerHTML = `
+      <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:22px;border-bottom:3px solid #C9853C">
+        <div>
+          <div style="font-size:16px;font-weight:800;color:#C9853C;margin-bottom:5px">شركة مساهمة مبسطة</div>
+          <h1 style="font-size:34px;line-height:1.25;color:#0D3656;margin:0">ملخص تصميم رأس المال وفئات الأسهم</h1>
+          <div style="font-size:20px;color:#44525C;margin-top:7px">${esc(state.companyName || "شركة غير مسماة")}</div>
+        </div>
+        <div style="text-align:left;min-width:250px">
+          <img src="https://almohammdin.github.io/emtidad/assets/images/naif-logo-gold.png" alt="" crossorigin="anonymous" style="width:122px;height:auto;object-fit:contain">
+          <div style="font-size:14px;color:#6B777F;margin-top:7px">${date}</div>
+        </div>
+      </header>
+
+      <section style="margin-top:22px">
+        <div style="display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:11px">
+          <h2 style="margin:0;font-size:25px;color:#0D3656">رأس المال</h2>
+          <div style="font-size:16px;color:#5E6C76">العملة: <b style="color:#0D3656">${state.capital.currency}</b> · الوفاء: <b style="color:#0D3656">${method}</b></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">${summaryCards}</div>
+      </section>
+
+      <section style="margin-top:22px">
+        <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:9px">
+          <h2 style="margin:0;font-size:25px;color:#0D3656">هيكل الأسهم</h2>
+          <div style="font-size:16px;color:#5E6C76">إجمالي الأسهم: <b style="color:#0D3656">${fmt(stocks.totalCount)}</b></div>
+        </div>
+        <table style="width:100%;border-collapse:collapse;border:1px solid #DED8D0;border-radius:14px;overflow:hidden;font-size:${rowFont}px">
+          <thead><tr style="background:#F2EEE8;color:#0D3656">
+            <th style="padding:9px 10px;text-align:right">الفئة</th>
+            <th style="padding:9px 10px;text-align:left">عدد الأسهم</th>
+            <th style="padding:9px 10px;text-align:left">قيمة السهم</th>
+            <th style="padding:9px 10px;text-align:left">قيمة الأسهم</th>
+            <th style="padding:9px 10px;text-align:left">الملكية</th>
+            <th style="padding:9px 10px;text-align:left">التصويت</th>
+          </tr></thead>
+          <tbody>${stockRows}</tbody>
+        </table>
+      </section>
+
+      ${rightsHtml}
+
+      <section style="margin-top:20px;display:grid;grid-template-columns:1.25fr .75fr;gap:12px">
+        <div style="border:1px solid #D9E3DD;border-radius:15px;background:#F5FAF7;padding:15px 18px">
+          <div style="font-size:17px;color:#5E6C76">مطابقة نموذج التأسيس</div>
+          <div style="font-size:25px;font-weight:900;color:${matched ? "#165A3D" : "#8A6640"};margin-top:3px">${matched ? "متطابق حسابيا" : "يحتاج مراجعة"}</div>
+          <div style="font-size:16px;color:#44525C;margin-top:5px">الفرق غير الموزع: ${moneyHtml(difference)}</div>
+        </div>
+        <div style="border:1px solid #E3DED6;border-radius:15px;background:#fff;padding:12px 16px;font-size:16px;color:#44525C">
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:3px 0">
+            <span>شهادة إيداع رأس المال</span><b style="color:${state.attachments.deposit ? "#165A3D" : "#8A6640"}">${state.attachments.deposit ? "جاهزة" : "غير محددة كجاهزة"}</b>
+          </div>
+          ${valuationLine}
+        </div>
+      </section>
+
+      <footer style="margin-top:auto;padding-top:17px;border-top:1px solid #DED8D0;display:flex;justify-content:space-between;gap:20px;align-items:center;color:#6B777F;font-size:14px">
+        <span>مخرج من مصمم شركة المساهمة المبسطة</span>
+        <span style="direction:ltr">almohammdin</span>
+      </footer>`;
+
+    page.querySelectorAll("th,td").forEach((cell) => {
+      cell.style.borderBottom = "1px solid #E7E0D7";
+      if (!cell.style.padding) cell.style.padding = "9px 10px";
+    });
+    host.appendChild(page);
+    document.body.appendChild(host);
+    return { host, page, fileBase: exportFileBase() };
+  }
+
+  async function renderA4Canvas() {
+    if (typeof html2canvas === "undefined") throw new Error("تعذر تحميل أداة تصدير الصورة.");
+    const built = buildA4Export();
+    try {
+      if (document.fonts?.ready) await document.fonts.ready;
+      const images = [...built.page.querySelectorAll("img")];
+      await Promise.all(images.map((img) => img.complete ? Promise.resolve() : new Promise((resolve) => { img.onload = resolve; img.onerror = resolve; })));
+      const canvas = await html2canvas(built.page, {
+        backgroundColor: "#FFFEFC",
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        width: 1240,
+        height: 1754,
+        windowWidth: 1240,
+        windowHeight: 1754
+      });
+      return { canvas, fileBase: built.fileBase };
+    } finally {
+      built.host.remove();
+    }
+  }
+
+  async function exportA4(format, button) {
+    const old = button.textContent;
+    button.disabled = true;
+    button.textContent = "جاري التجهيز";
+    try {
+      const { canvas, fileBase } = await renderA4Canvas();
+      if (format === "png") {
+        const link = document.createElement("a");
+        link.download = fileBase + ".png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        toast("تم تجهيز صورة A4.");
+      } else {
+        const jsPDF = window.jspdf?.jsPDF;
+        if (!jsPDF) throw new Error("تعذر تحميل أداة PDF.");
+        const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
+        doc.addImage(canvas.toDataURL("image/jpeg", 0.96), "JPEG", 0, 0, 210, 297, undefined, "FAST");
+        doc.save(fileBase + ".pdf");
+        toast("تم تجهيز PDF A4.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast(error.message || "تعذر التصدير.");
+    } finally {
+      button.disabled = false;
+      button.textContent = old;
+    }
+  }
+
   async function copyText(text) {
     try { await navigator.clipboard.writeText(text); }
     catch {
@@ -589,6 +776,9 @@
     if (!$('authEmail').reportValidity()) return;
     runAccountAction(() => window.SJSCCloud.resetPassword(accountCredentials().email), true);
   });
+  $('exportA4Png')?.addEventListener('click', () => exportA4("png", $('exportA4Png')));
+  $('exportA4Pdf')?.addEventListener('click', () => exportA4("pdf", $('exportA4Pdf')));
+
   $('shareCompany').addEventListener('click', async () => {
     if (!window.SJSCCloud?.isConfigured) return;
     const url = await window.SJSCCloud.createShare(state.id, snapshot());
