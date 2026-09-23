@@ -469,6 +469,41 @@
     return ("تصميم-" + raw).replace(/[\\/:*?"<>|]+/g, "-").replace(/\s+/g, "-");
   }
 
+  function exportRiyalSvg(size = 18, color = "#0D3656") {
+    const height = Math.round(size * 1.12);
+    return `<svg viewBox="0 0 1124.14 1256.39" width="${size}" height="${height}" aria-label="ريال سعودي" role="img" style="display:inline-block;vertical-align:-.16em;flex:0 0 auto;overflow:visible">
+      <path fill="${color}" d="M699.62,1113.02h0c-20.06,44.48-33.32,92.75-38.4,143.37l424.51-90.24c20.06-44.47,33.31-92.75,38.4-143.37l-424.51,90.24Z"/>
+      <path fill="${color}" d="M1085.73,895.8c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.33v-135.2l292.27-62.11c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.27V66.13c-50.67,28.45-95.67,66.32-132.25,110.99v403.35l-132.25,28.11V0c-50.67,28.44-95.67,66.32-132.25,110.99v525.69l-295.91,62.88c-20.06,44.47-33.33,92.75-38.42,143.37l334.33-71.05v170.26l-358.3,76.14c-20.06,44.47-33.32,92.75-38.4,143.37l375.04-79.7c30.53-6.35,56.77-24.4,73.83-49.24l68.78-101.97v-.02c7.14-10.55,11.3-23.27,11.3-36.97v-149.98l132.25-28.11v270.4l424.53-90.28Z"/>
+    </svg>`;
+  }
+
+  function exportSymbolHtml(size = 18, color = "#0D3656") {
+    return state.capital.currency === "SAR"
+      ? exportRiyalSvg(size, color)
+      : `<span aria-label="دولار أمريكي" style="font-family:Arial,sans-serif;font-weight:900;color:${color}">$</span>`;
+  }
+
+  function exportMoneyHtml(value, size = 18, color = "#0D3656") {
+    return `<span style="display:inline-flex;direction:ltr;align-items:center;gap:5px;white-space:nowrap;color:${color}">
+      ${exportSymbolHtml(size, color)}
+      <span style="font-family:Arial,sans-serif;font-weight:800">${fmt(value)}</span>
+    </span>`;
+  }
+
+  function exportIssueSummary(cap, stocks, difference) {
+    const issues = [];
+    if (cap.errors.length) issues.push(cap.errors[0]);
+    if (Math.abs(difference) >= 0.005) issues.push(`الفرق غير الموزع: ${fmt(difference)}`);
+    if (stocks.invalid) {
+      const incompleteCategory = stocks.rows.some((row) =>
+        (row.categoryMode === "new" && (!row.categoryName.trim() || !row.rights.trim())) ||
+        (row.categoryMode === "existing" && !row.existingCategory.trim())
+      );
+      issues.push(incompleteCategory ? "استكمل اسم الفئة وحقوقها." : "استكمل بيانات صفوف الأسهم.");
+    }
+    return issues[0] || "رأس المال والأسهم متطابقان.";
+  }
+
   function buildA4Export() {
     syncCapitalFromInputs();
     updateAll();
@@ -476,6 +511,7 @@
     const stocks = stockCalc();
     const difference = cap.issued - stocks.totalValue;
     const matched = Math.abs(difference) < 0.005 && !stocks.invalid && !cap.errors.length;
+    const reviewText = exportIssueSummary(cap, stocks, difference);
     const method = { cash: "نقدي", inkind: "عيني", mixed: "نقدي وعيني" }[state.capital.type];
     const date = new Intl.DateTimeFormat("ar-SA-u-nu-latn", { year: "numeric", month: "long", day: "numeric" }).format(new Date());
     const rightsRows = stocks.rows.filter((row) => row.categoryMode === "new" && row.rights.trim());
@@ -490,12 +526,12 @@
     page.style.cssText = "width:1240px;height:1754px;box-sizing:border-box;padding:62px 68px 52px;background:#FFFEFC;color:#18232D;font-family:Craft,Tahoma,Arial,sans-serif;direction:rtl;display:flex;flex-direction:column;overflow:hidden;";
 
     const summaryCards = [
-      ["رأس المال المصدر", moneyHtml(cap.issued)],
-      ["النقدي", moneyHtml(cap.cash)],
-      ["العيني", moneyHtml(cap.inKind)],
-      ["المدفوع", moneyHtml(cap.paid)],
-      ["الحد الأدنى للمدفوع", moneyHtml(cap.minimum)],
-      ["المصرح به", cap.authorized == null ? "غير محدد" : moneyHtml(cap.authorized)]
+      ["رأس المال المصدر", exportMoneyHtml(cap.issued, 19)],
+      ["النقدي", exportMoneyHtml(cap.cash, 19)],
+      ["العيني", exportMoneyHtml(cap.inKind, 19)],
+      ["المدفوع", exportMoneyHtml(cap.paid, 19)],
+      ["الحد الأدنى للمدفوع", exportMoneyHtml(cap.minimum, 19)],
+      ["المصرح به", cap.authorized == null ? "غير محدد" : exportMoneyHtml(cap.authorized, 19)]
     ].map(([label, value]) => `
       <div style="border:1px solid #E3DED6;border-radius:16px;padding:14px 16px;background:#fff;min-height:82px">
         <div style="font-size:16px;color:#5E6C76;margin-bottom:4px">${label}</div>
@@ -506,8 +542,8 @@
       <tr>
         <td>${esc(categoryLabel(row))}</td>
         <td style="direction:ltr;text-align:left">${fmt(row.count)}</td>
-        <td style="direction:ltr;text-align:left">${moneyHtml(row.value)}</td>
-        <td style="direction:ltr;text-align:left">${moneyHtml(row.amount)}</td>
+        <td style="direction:ltr;text-align:left">${exportMoneyHtml(row.value, 15)}</td>
+        <td style="direction:ltr;text-align:left">${exportMoneyHtml(row.amount, 15)}</td>
         <td style="direction:ltr;text-align:left">${fmt(row.ownership)}%</td>
         <td style="direction:ltr;text-align:left">${fmt(row.voteShare)}%</td>
       </tr>`).join("");
@@ -529,6 +565,8 @@
         <span>تقرير التقييم المعتمد</span><b style="color:${state.attachments.valuation ? "#165A3D" : "#8A6640"}">${state.attachments.valuation ? "جاهز" : "غير محدد كجاهز"}</b>
       </div>` : "";
 
+    const currencyLine = `<span style="display:inline-flex;direction:ltr;align-items:center;gap:5px">${exportSymbolHtml(15)}<b style="font-family:Arial,sans-serif;color:#0D3656">${state.capital.currency}</b></span>`;
+
     page.innerHTML = `
       <header style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:22px;border-bottom:3px solid #C9853C">
         <div>
@@ -545,7 +583,9 @@
       <section style="margin-top:22px">
         <div style="display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:11px">
           <h2 style="margin:0;font-size:25px;color:#0D3656">رأس المال</h2>
-          <div style="font-size:16px;color:#5E6C76">العملة: <b style="color:#0D3656">${state.capital.currency}</b> · الوفاء: <b style="color:#0D3656">${method}</b></div>
+          <div style="font-size:16px;color:#5E6C76;display:flex;align-items:center;gap:7px">
+            <span>العملة:</span>${currencyLine}<span>· الوفاء:</span><b style="color:#0D3656">${method}</b>
+          </div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">${summaryCards}</div>
       </section>
@@ -574,7 +614,7 @@
         <div style="border:1px solid #D9E3DD;border-radius:15px;background:#F5FAF7;padding:15px 18px">
           <div style="font-size:17px;color:#5E6C76">مطابقة نموذج التأسيس</div>
           <div style="font-size:25px;font-weight:900;color:${matched ? "#165A3D" : "#8A6640"};margin-top:3px">${matched ? "متطابق حسابيا" : "يحتاج مراجعة"}</div>
-          <div style="font-size:16px;color:#44525C;margin-top:5px">الفرق غير الموزع: ${moneyHtml(difference)}</div>
+          <div style="font-size:16px;color:#44525C;margin-top:5px">${matched ? `الفرق غير الموزع: ${exportMoneyHtml(difference, 14)}` : esc(reviewText)}</div>
         </div>
         <div style="border:1px solid #E3DED6;border-radius:15px;background:#fff;padding:12px 16px;font-size:16px;color:#44525C">
           <div style="display:flex;justify-content:space-between;gap:16px;padding:3px 0">
@@ -585,7 +625,7 @@
       </section>
 
       <footer style="margin-top:auto;padding-top:17px;border-top:1px solid #DED8D0;display:flex;justify-content:space-between;gap:20px;align-items:center;color:#6B777F;font-size:14px">
-        <span>مخرج من مصمم شركة المساهمة المبسطة</span>
+        <span>مصمم شركة المساهمة المبسطة</span>
         <span style="direction:ltr">almohammdin</span>
       </footer>`;
 
@@ -621,8 +661,90 @@
     }
   }
 
+  function dataUrlBytes(dataUrl) {
+    const base64 = dataUrl.split(",")[1] || "";
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+
+  function a4PdfBlobFromCanvas(canvas) {
+    const jpg = dataUrlBytes(canvas.toDataURL("image/jpeg", 0.96));
+    const encoder = new TextEncoder();
+    const chunks = [];
+    const offsets = [];
+    let length = 0;
+    const pushBytes = (bytes) => { chunks.push(bytes); length += bytes.length; };
+    const pushText = (text) => pushBytes(encoder.encode(text));
+    const objectStart = (number) => { offsets[number] = length; pushText(`${number} 0 obj\n`); };
+    const objectEnd = () => pushText("endobj\n");
+
+    pushText("%PDF-1.4\n%SJSC\n");
+
+    objectStart(1);
+    pushText("<< /Type /Catalog /Pages 2 0 R >>\n");
+    objectEnd();
+
+    objectStart(2);
+    pushText("<< /Type /Pages /Kids [3 0 R] /Count 1 >>\n");
+    objectEnd();
+
+    objectStart(3);
+    pushText("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>\n");
+    objectEnd();
+
+    objectStart(4);
+    pushText(`<< /Type /XObject /Subtype /Image /Width ${canvas.width} /Height ${canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>\nstream\n`);
+    pushBytes(jpg);
+    pushText("\nendstream\n");
+    objectEnd();
+
+    const content = "q\n595.28 0 0 841.89 0 0 cm\n/Im0 Do\nQ\n";
+    const contentBytes = encoder.encode(content);
+    objectStart(5);
+    pushText(`<< /Length ${contentBytes.length} >>\nstream\n`);
+    pushBytes(contentBytes);
+    pushText("endstream\n");
+    objectEnd();
+
+    const xrefOffset = length;
+    pushText("xref\n0 6\n");
+    pushText("0000000000 65535 f \n");
+    for (let i = 1; i <= 5; i += 1) pushText(String(offsets[i]).padStart(10, "0") + " 00000 n \n");
+    pushText(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`);
+
+    return new Blob(chunks, { type: "application/pdf" });
+  }
+
+  function downloadBlob(blob, filename, previewWindow = null) {
+    const url = URL.createObjectURL(blob);
+    if (previewWindow && !previewWindow.closed) {
+      previewWindow.location.href = url;
+      setTimeout(() => URL.revokeObjectURL(url), 120000);
+      return;
+    }
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.rel = "noopener";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 120000);
+  }
+
   async function exportA4(format, button) {
     const old = button.textContent;
+    const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    let pdfPreview = null;
+    if (format === "pdf" && isiOS) {
+      pdfPreview = window.open("", "_blank");
+      if (pdfPreview) {
+        pdfPreview.document.write('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>PDF</title><body style="font-family:Arial,sans-serif;padding:30px;text-align:center">جاري تجهيز PDF…</body>');
+        pdfPreview.document.close();
+      }
+    }
     button.disabled = true;
     button.textContent = "جاري التجهيز";
     try {
@@ -631,18 +753,18 @@
         const link = document.createElement("a");
         link.download = fileBase + ".png";
         link.href = canvas.toDataURL("image/png");
+        document.body.appendChild(link);
         link.click();
+        link.remove();
         toast("تم تجهيز صورة A4.");
       } else {
-        const jsPDF = window.jspdf?.jsPDF;
-        if (!jsPDF) throw new Error("تعذر تحميل أداة PDF.");
-        const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
-        doc.addImage(canvas.toDataURL("image/jpeg", 0.96), "JPEG", 0, 0, 210, 297, undefined, "FAST");
-        doc.save(fileBase + ".pdf");
-        toast("تم تجهيز PDF A4.");
+        const blob = a4PdfBlobFromCanvas(canvas);
+        downloadBlob(blob, fileBase + ".pdf", pdfPreview);
+        toast(isiOS ? "تم فتح PDF ويمكن حفظه أو مشاركته." : "تم تجهيز PDF A4.");
       }
     } catch (error) {
       console.error(error);
+      if (pdfPreview && !pdfPreview.closed) pdfPreview.close();
       toast(error.message || "تعذر التصدير.");
     } finally {
       button.disabled = false;
