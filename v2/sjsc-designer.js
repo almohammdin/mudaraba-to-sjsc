@@ -469,18 +469,12 @@
     return ("تصميم-" + raw).replace(/[\\/:*?"<>|]+/g, "-").replace(/\s+/g, "-");
   }
 
-  function exportRiyalSvg(size = 18, color = "#0D3656") {
-    const height = Math.round(size * 1.12);
-    return `<svg viewBox="0 0 1124.14 1256.39" width="${size}" height="${height}" aria-label="ريال سعودي" role="img" style="display:inline-block;vertical-align:-.16em;flex:0 0 auto;overflow:visible">
-      <path fill="${color}" d="M699.62,1113.02h0c-20.06,44.48-33.32,92.75-38.4,143.37l424.51-90.24c20.06-44.47,33.31-92.75,38.4-143.37l-424.51,90.24Z"/>
-      <path fill="${color}" d="M1085.73,895.8c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.33v-135.2l292.27-62.11c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.27V66.13c-50.67,28.45-95.67,66.32-132.25,110.99v403.35l-132.25,28.11V0c-50.67,28.44-95.67,66.32-132.25,110.99v525.69l-295.91,62.88c-20.06,44.47-33.33,92.75-38.42,143.37l334.33-71.05v170.26l-358.3,76.14c-20.06,44.47-33.32,92.75-38.4,143.37l375.04-79.7c30.53-6.35,56.77-24.4,73.83-49.24l68.78-101.97v-.02c7.14-10.55,11.3-23.27,11.3-36.97v-149.98l132.25-28.11v270.4l424.53-90.28Z"/>
-    </svg>`;
-  }
-
   function exportSymbolHtml(size = 18, color = "#0D3656") {
-    return state.capital.currency === "SAR"
-      ? exportRiyalSvg(size, color)
-      : `<span aria-label="دولار أمريكي" style="font-family:Arial,sans-serif;font-weight:900;color:${color}">$</span>`;
+    if (state.capital.currency === "SAR") {
+      const height = Math.round(size * 1.12);
+      return `<img src="../assets/riyal-symbol.svg?v=20260923-4" alt="ريال سعودي" width="${size}" height="${height}" crossorigin="anonymous" style="display:inline-block;width:${size}px;height:${height}px;object-fit:contain;vertical-align:-.16em;flex:0 0 auto">`;
+    }
+    return `<span aria-label="دولار أمريكي" style="font-family:Arial,sans-serif;font-weight:900;color:${color}">$</span>`;
   }
 
   function exportMoneyHtml(value, size = 18, color = "#0D3656") {
@@ -758,13 +752,23 @@
         link.remove();
         toast("تم تجهيز صورة A4.");
       } else {
-        const blob = a4PdfBlobFromCanvas(canvas);
+        let blob;
+        const JsPDF = window.jspdf?.jsPDF;
+        if (JsPDF) {
+          const doc = new JsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
+          doc.addImage(canvas.toDataURL("image/jpeg", 0.96), "JPEG", 0, 0, 210, 297, undefined, "FAST");
+          blob = doc.output("blob");
+        } else {
+          blob = a4PdfBlobFromCanvas(canvas);
+        }
         downloadBlob(blob, fileBase + ".pdf", pdfPreview);
         toast(isiOS ? "تم فتح PDF ويمكن حفظه أو مشاركته." : "تم تجهيز PDF A4.");
       }
     } catch (error) {
       console.error(error);
-      if (pdfPreview && !pdfPreview.closed) pdfPreview.close();
+      if (pdfPreview && !pdfPreview.closed) {
+        pdfPreview.document.body.innerHTML = '<div style="font-family:Arial,sans-serif;padding:30px;text-align:center;direction:rtl"><b>تعذر فتح PDF.</b><br><br><span>ارجع للصفحة وجرب مرة أخرى.</span></div>';
+      }
       toast(error.message || "تعذر التصدير.");
     } finally {
       button.disabled = false;
