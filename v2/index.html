@@ -45,8 +45,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 @media(max-width:680px){.platformBanner,.cloudHead,.panelTitle{flex-direction:column;align-items:flex-start}.stepTabs{grid-template-columns:1fr 1fr}.formGrid,.templateGrid,.stockFields,.copyGrid,.cloudGrid{grid-template-columns:1fr}.stockField.wide{grid-column:span 1}.capitalSummary,.adviceFacts{grid-template-columns:1fr 1fr}.designerPanel{padding:16px}.analysisTable,.platformTable{min-width:720px}.tableScroll{overflow:auto}.matchRail{padding:16px}}
 #shareDesigner [hidden]{display:none!important}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 </head>
 <body>
 <nav class="nav">
@@ -59,13 +59,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <a href="#about">ما هي؟</a>
 <a href="#uses">الاستخدامات</a>
 <a href="#decision">شركة أم عدة شركات؟</a>
+<a href="#offer">اختيار الهيكل</a>
 <a href="#structure">الهيكل</a>
 <a href="#case">دراسة الحالة</a>
-<a href="#shares">الأسهم</a>
-<a href="#shareDesigner">مصمم رأس المال</a>
-<a href="#capital">رأس المال</a>
+<a href="#shareDesigner">مصمم الشركة</a>
 <a href="#governance">الحوكمة</a>
-<a href="#offer">اختيار الهيكل</a>
 <a href="#sources">المراجع</a>
 </div>
 </div>
@@ -198,7 +196,172 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="decisionCall">إذا كان لكل فرصة مستثمروها ومخاطرها وعائدها، يكون الفصل بين الفرص أدق. وعندما تشترك الفرص في نفس المساهمين والاستراتيجية والإدارة، يكون الكيان الواحد مناسب.</div>
 </div>
 </section>
-<section class="sec soft" id="structure">
+<section class="sec soft" id="offer">
+<div class="c">
+<div class="head">
+<span class="ey">اختيار الهيكل</span>
+<h2>شركة مساهمة مبسطة، عقد مضاربة، أو صندوق استثماري؟</h2>
+<p>الاختيار يبدأ من طبيعة الحق الذي سيملكه المستثمر، وطريقة إدارة المال، وعدد المستثمرين، وكيف تتحقق الأرباح والخروج من الاستثمار.</p>
+</div>
+<div class="structureChoices" role="tablist" aria-label="اختيار الهيكل">
+<button class="structureOption company active" type="button" role="tab" aria-pressed="true" data-structure="company">
+<span class="sIcon">1</span>
+<small>شركة مشروع</small>
+<h3>شركة مساهمة مبسطة</h3>
+<p>المستثمر يملك أسهم في شركة، والشركة تملك الفرصة أو الأصل أو الحصة وتتصرف باسمها.</p>
+<strong>مثال: الاستحواذ على سلسلة مطاعم</strong>
+</button>
+<button class="structureOption mudaraba" type="button" role="tab" aria-pressed="false" data-structure="mudaraba">
+<span class="sIcon">2</span>
+<small>عقد مباشر</small>
+<h3>عقد مضاربة</h3>
+<p>رب المال يقدم المال للمضارب ليعمل فيه، والربح يقسم بالنسبة المتفق عليها في العقد.</p>
+<strong>مثال: تمويل صفقة تشغيلية محددة</strong>
+</button>
+<button class="structureOption fund" type="button" role="tab" aria-pressed="false" data-structure="fund">
+<span class="sIcon">3</span>
+<small>استثمار جماعي</small>
+<h3>صندوق استثماري</h3>
+<p>المستثمر يملك وحدات في برنامج استثماري يديره مدير صندوق وفق الإطار التنظيمي.</p>
+<strong>مثال: استراتيجية تستثمر في فرص متعددة</strong>
+</button>
+</div>
+<div class="structurePanel" id="structurePanel" role="tabpanel" aria-live="polite">
+<div class="structurePanelHead">
+<div>
+<span class="ey" id="structureEy">شركة مساهمة مبسطة</span>
+<h3 id="structureTitle">المستثمر يدخل كمساهم والشركة تملك الفرصة</h3>
+</div>
+<span class="structureTag" id="structureTag">شركة مشروع</span>
+</div>
+<p id="structureSummary">رأس المال يدخل إلى الشركة، والشركة تملك الأصل أو الحصة أو تدخل العقد باسمها. ويصمم النظام الأساس الإدارة والتصويت وفئات الأسهم والخروج.</p>
+<div class="structureFacts" id="structureFacts">
+<div>
+<b>صفة المستثمر</b>
+<span>مساهم</span>
+</div>
+<div>
+<b>محل الحق</b>
+<span>أسهم في الشركة</span>
+</div>
+<div>
+<b>الإدارة</b>
+<span>حسب النظام الأساس</span>
+</div>
+<div>
+<b>العائد</b>
+<span>من نتائج الشركة</span>
+</div>
+<div>
+<b>مثال</b>
+<span>استحواذ على مطاعم</span>
+</div>
+</div>
+</div>
+<div class="compareHead">
+<div>
+<span class="ey">مقارنة الهياكل</span>
+<h3>نفس المال، وتختلف العلاقة والحق وطريقة الإدارة</h3>
+</div>
+<p>اختيار البطاقة في الأعلى يبرز العمود المقابل في الجدول.</p>
+</div>
+<div class="compareWrap">
+<table class="structureTable" id="structureTable">
+<thead>
+<tr>
+<th>المحور</th>
+<th class="activeCol">شركة مساهمة مبسطة</th>
+<th>عقد مضاربة</th>
+<th>صندوق استثماري</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>صفة المستثمر</td>
+<td class="activeCol">مساهم</td>
+<td>رب مال</td>
+<td>مالك وحدات</td>
+</tr>
+<tr>
+<td>الحق الأساسي</td>
+<td class="activeCol">أسهم في شركة</td>
+<td>حق تعاقدي في المضاربة</td>
+<td>وحدات في صندوق</td>
+</tr>
+<tr>
+<td>من يدير؟</td>
+<td class="activeCol">رئيس أو مدير أو مجلس حسب النظام الأساس</td>
+<td>المضارب وفق العقد</td>
+<td>مدير صندوق وفق لائحة صناديق الاستثمار</td>
+</tr>
+<tr>
+<td>العائد</td>
+<td class="activeCol">نتائج الشركة وتوزيعاتها وقيمة ملكيتها</td>
+<td>حصة من الربح الفعلي للمضاربة</td>
+<td>نتائج استثمارات الصندوق</td>
+</tr>
+<tr>
+<td>الخروج</td>
+<td class="activeCol">بيع أو نقل الأسهم أو الاسترداد وفق الشروط</td>
+<td>تسوية العقد أو انتهاؤه</td>
+<td>استرداد أو تخارج حسب نوع الصندوق وشروطه</td>
+</tr>
+<tr>
+<td>جمع رأس المال</td>
+<td class="activeCol">إصدار أسهم عبر مسار الطرح المناسب</td>
+<td>إبرام عقد مضاربة مع فحص التكييف عند التوسع</td>
+<td>طرح وحدات وفق لائحة صناديق الاستثمار</td>
+</tr>
+<tr>
+<td>يناسب غالبا</td>
+<td class="activeCol">استحواذ أو شركة مشروع أو نشاط تشغيلي</td>
+<td>علاقة مال وعمل محددة</td>
+<td>برنامج استثمار جماعي</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="capitalRoute">
+<span class="ey">جمع رأس المال والتواصل مع المستثمرين</span>
+<h3>مسار جمع المال جزء من تصميم الهيكل</h3>
+<p>بالنسبة لأسهم الشركات، قواعد طرح الأوراق المالية تنظر إلى إصدار الأسهم، والدعوة للاكتتاب، والترويج المباشر أو غير المباشر، وأي اتصال أثره بيع الورقة المالية أو عرضها.</p>
+<div class="capitalRules">
+<div>
+<b>1. حدد ما الذي سيصدر</b>
+<span>أسهم شركة، عقد مضاربة، أو وحدات صندوق.</span>
+</div>
+<div>
+<b>2. حدد مسار الطرح</b>
+<span>عند إصدار الأسهم يحدد المسار بحسب المستثمرين وقيمة الإصدار وطبيعته.</span>
+</div>
+<div>
+<b>3. ابن التواصل على المسار</b>
+<span>الحملة والرسائل والاجتماعات مع المستثمرين تأتي بعد تصميم المسار المناسب.</span>
+</div>
+</div>
+<div class="capitalRuleNote">في قواعد الطرح الحالية توجد مسارات مستثنى، خاص، عام، والسوق الموازية. اختيار المسار يعتمد على حالة الإصدار والمستثمرين ومتطلبات كل حالة.</div>
+</div>
+<div class="caseLawGrid">
+<article class="caseLaw">
+<small>حالة منشورة</small>
+<h4>سنام الأعمال</h4>
+<p>موضوع الدعوى الجماعية يدور حول حملة تسويقية لطرح أسهم شركة تابعة، ويركز النزاع على تطبيق إجراءات قواعد الطرح على الحملة والاكتتاب الناتج عنها.</p>
+<a href="https://crsd.gov.sa/ar/MediaCenter/Announcements/Pages/Announcement-396.aspx" target="_blank" rel="noopener">قراءة الحالة المنشورة</a>
+</article>
+<article class="caseLaw">
+<small>قرار قطعي</small>
+<h4>معنا للاستثمار</h4>
+<p>القرار تناول إدارة اكتتاب، إحضار مستثمرين، جمع أموال مكتتبين، واستلام مقابل، وعد هذه الأعمال من التعامل والترتيب اللذين يتطلبان ترخيص الهيئة.</p>
+<a href="https://cma.gov.sa/MediaCenter/NEWS/pages/CMA_N_3750.aspx" target="_blank" rel="noopener">قراءة قرار الهيئة</a>
+</article>
+</div>
+<div class="fundSignal">
+<b>متى يرتفع أثر إطار الصناديق على التكييف؟</b>
+<p>عندما يدور النموذج حول برنامج استثمار مشترك يشارك المستثمرون جماعيا في أرباحه، وتدار الاستثمارات لهم مقابل رسوم، يصبح تعريف صندوق الاستثمار في المادة 39 محورا أساسيا في دراسة الهيكل.</p>
+</div>
+</div>
+</section>
+<section class="sec white" id="structure">
 <div class="c">
 <div class="head">
 <span class="ey">كيف تبنى الصفقة؟</span>
@@ -258,7 +421,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </div>
 </div>
 </section>
-<section class="sec white" id="case">
+<section class="sec soft" id="case">
 <div class="c">
 <div class="head">
 <span class="ey">دراسة حالة</span>
@@ -387,24 +550,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </details>
 </div>
 </section>
-<section class="sec soft" id="shareDesigner">
+<section class="sec white" id="shareDesigner">
 <div class="c">
 <div class="head">
-<span class="ey">من التصميم إلى منصة المركز</span>
+<span class="ey">مساحة عمل التأسيس</span>
 <h2>مصمم رأس المال وفئات الأسهم</h2>
-<p>ابنِ الهيكل، اختبر الملكية والتصويت، ثم جهّز القيم والصياغات بالترتيب الذي تحتاجه منصة المركز السعودي للأعمال.</p>
-</div>
-<div class="platformBanner">
-<div>
-<span class="ey">مساعد تعبئة للنسخ اليدوي إلى المنصة</span>
-<h3>صمّم هنا، ثم انسخ والصق في منصة المركز</h3>
-<p>يجيز نظام الشركات أسهما عادية وممتازة وقابلة للاسترداد وفئات مختلفة. يستخدم مسار التأسيس المرجعي للأداة «سهم عادي» مع تعريف الفئة وحقوقها. تساعدك القوالب على صياغة الحقوق، ويُراجع تكييفها النظامي عند اعتماد الإصدار.</p>
-</div>
-<span class="platformBadge">نوع السهم في مسار التأسيس: سهم عادي</span>
+<p>يتم تأسيس شركة المساهمة المبسطة عبر منصة المركز السعودي للأعمال. هذه الحاسبة متوافقة مع نموذج إنشاء الشركة في المنصة وتجهز البيانات للنسخ واللصق.</p>
 </div>
 <div class="card cloudPanel" aria-labelledby="cloudTitle">
 <div class="cloudHead">
-<div><h3 id="cloudTitle">ملفات الشركات والحساب</h3><span class="helper">احفظ أكثر من شركة وافتحها وعدّلها لاحقًا. احفظ على هذا الجهاز أو سجّل الدخول بحساب مسراح للمزامنة بين أجهزتك.</span></div>
+<div><h3 id="cloudTitle">ملفات الشركات</h3><span class="helper">احفظ كل شركة وافتحها أو شاركها لاحقًا.</span></div>
 <span class="cloudState" id="cloudState">حفظ محلي على هذا الجهاز</span>
 </div>
 <div class="cloudGrid">
@@ -412,9 +567,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <button class="primaryBtn" id="saveCompany" type="button">حفظ الشركة</button>
 <select id="savedCompanies" aria-label="الشركات المحفوظة"><option value="">فتح شركة محفوظة…</option></select>
 <button class="ghostBtn" id="newCompany" type="button">شركة جديدة</button>
-<button class="ghostBtn" id="shareCompany" type="button">مشاركة النتيجة</button>
+<button class="ghostBtn" id="shareCompany" type="button">مشاركة</button>
+<button class="ghostBtn" id="exportA4Png" type="button">صورة A4</button>
+<button class="ghostBtn" id="exportA4Pdf" type="button">PDF A4</button>
 </div>
-<small class="helper">رابط المشاركة يعرض نسخة من البيانات لكل من يملكه.</small>
+<small class="helper">المشاركة تنشئ رابطًا للنسخة المحفوظة. التصدير يخرج ملخصًا منسقًا دون حقول الإدخال.</small>
 <div class="cloudAccountBar"><div class="cloudAccountInfo"><span class="cloudAvatar" id="accountAvatar">م</span><span><b id="accountName">ملفات الشركات على هذا الجهاز</b><small id="storageHelp">حفظ محلي</small></span></div><button class="ghostBtn" id="accountSignIn" type="button">تسجيل الدخول</button></div>
 </div>
 <div class="designerShell">
@@ -423,10 +580,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <button class="stepTab" role="tab" aria-selected="true" aria-controls="capitalPanel" data-step="capital" type="button">01: بيانات رأس المال</button>
 <button class="stepTab" role="tab" aria-selected="false" aria-controls="stocksPanel" data-step="stocks" type="button">02: الأسهم والفئات</button>
 <button class="stepTab" role="tab" aria-selected="false" aria-controls="analysisPanel" data-step="analysis" type="button">03: الملكية والتصويت</button>
-<button class="stepTab" role="tab" aria-selected="false" aria-controls="matchPanel" data-step="match" type="button">04: مطابقة المنصة</button>
+<button class="stepTab" role="tab" aria-selected="false" aria-controls="matchPanel" data-step="match" type="button">04: مطابقة نموذج التأسيس</button>
 </div>
 <section class="card designerPanel" id="capitalPanel" role="tabpanel" data-panel="capital">
-<div class="panelTitle"><div><h3>بيانات رأس المال</h3><p>بنفس منطق شاشة «تفاصيل رأس المال» في منصة المركز.</p></div><span class="stepNo">01</span></div>
+<div class="panelTitle"><div><h3>بيانات رأس المال</h3></div><span class="stepNo">01</span></div>
 <div class="formGrid">
 <label class="designerField"><span>العملة</span><span class="currencySelectWrap"><select id="cCurrency"><option value="SAR">ريال سعودي</option><option value="USD">دولار أمريكي</option></select><span class="currencyChoiceMark" id="currencyChoiceMark"><span class="sar" role="img" aria-label="ريال سعودي"></span></span></span><small class="currencyPreview"><span id="currencyMark"><span class="sar" role="img" aria-label="ريال سعودي"></span></span><span id="currencyMarkLabel">رمز الريال السعودي المستخدم في جميع النتائج</span></small></label>
 <label class="designerField"><span>طريقة الوفاء برأس المال المصدر</span><select id="cType"><option value="cash">نقدي</option><option value="inkind">عيني</option><option value="mixed">نقدي وعيني</option></select><small class="helper">اختر نقديا أو عينيا أو مزيجا منهما بحسب مساهمات المؤسسين.</small></label>
@@ -451,7 +608,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="explainBox" id="minimumExplain"></div>
 </section>
 <section class="card designerPanel" id="stocksPanel" role="tabpanel" data-panel="stocks" hidden>
-<div class="panelTitle"><div><h3>الأسهم والفئات</h3><p>ابدأ بنوع «سهم عادي» في مسار التأسيس المرجعي، ثم عرّف الفئة وحقوقها عند الحاجة.</p></div><span class="stepNo">02</span></div>
+<div class="panelTitle"><div><h3>الأسهم والفئات</h3></div><span class="stepNo">02</span></div>
 <div class="templateGrid" aria-label="قوالب فئات استرشادية">
 <button class="templateCard active" type="button" data-template="plain"><b>دون حقوق خاصة</b><span>بدون فئة</span><small>عند تساوي الحقوق وعدم الحاجة إلى تمييز مجموعة.</small></button>
 <button class="templateCard" type="button" data-template="founders"><b>مؤسسون: تصويت مرجح</b><span>قالب فئة</span><small>عندما يراد فصل الملكية الاقتصادية عن قوة القرار بصورة صريحة.</small></button>
@@ -466,38 +623,26 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="stockActions"><button class="ghostBtn" id="addStockRow" type="button">+ إضافة صف أسهم</button><button class="primaryBtn" data-next="analysis" type="button">تحليل النتيجة</button></div>
 </section>
 <section class="card designerPanel" id="analysisPanel" role="tabpanel" data-panel="analysis" hidden>
-<div class="panelTitle"><div><h3>تحليل الملكية والتصويت</h3><p>تحليل استشاري لصياغة الحقوق، وتبقى شاشة إدارة الأسهم مخصصة لبيانات الصفوف.</p></div><span class="stepNo">03</span></div>
+<div class="panelTitle"><div><h3>تحليل الملكية والتصويت</h3><p>لصياغة الحقوق ومراجعة أثرها على الملكية والتصويت.</p></div><span class="stepNo">03</span></div>
 <div class="tableScroll"><table class="analysisTable"><thead><tr><th>الفئة</th><th>قيمة الأسهم</th><th>الملكية الاقتصادية</th><th>أصوات/سهم</th><th>إجمالي الأصوات</th><th>قوة التصويت</th></tr></thead><tbody id="analysisRows"></tbody></table></div>
 <div class="analysisBars" id="analysisBars"></div>
 <div class="explainBox warn">أفضل ممارسة: اكتب بدقة نطاق الحق وترتيبه ومحفزه ومدته وسعره أو معادلته وأثر تعديل الفئة. القوالب نقطة بداية تحتاج مراجعة قانونية قبل الاعتماد.</div>
 </section>
 <section class="card designerPanel" id="matchPanel" role="tabpanel" data-panel="match" hidden>
-<div class="panelTitle"><div><h3>مطابقة منصة المركز</h3><p>جدول مطابق لترتيب أعمدة شاشة إدارة بيانات الأسهم، مع متطلبات المرفقات فقط.</p></div><span class="stepNo">04</span></div>
+<div class="panelTitle"><div><h3>مطابقة نموذج التأسيس</h3><p>رتّب البيانات كما ستدخلها في المنصة.</p></div><span class="stepNo">04</span></div>
 <div class="tableScroll"><table class="platformTable"><thead><tr><th>نوع السهم</th><th>فئة السهم</th><th>عدد الأسهم</th><th>قيمة السهم</th><th>قيمة الأسهم</th></tr></thead><tbody id="platformRows"></tbody></table></div>
 <div class="checklist">
-<label class="checkItem"><input id="depositReady" type="checkbox"><span><b>شهادة إيداع رأس المال</b><small>قائمة تحقق فقط: ملف PDF بحد أقصى 5MB.</small></span></label>
-<label class="checkItem" id="valuationCheck" hidden><input id="valuationReady" type="checkbox"><span><b>تقرير التقييم المعتمد</b><small>يظهر عند وجود رأس مال عيني: ملف PDF بحد أقصى 5MB. وقد تعرض المنصة في الملخص عبارة «تقرير تقييم معتمد/تقرير موافقة جميع المؤسسين».</small></span></label>
+<label class="checkItem"><input id="depositReady" type="checkbox"><span><b>شهادة إيداع رأس المال</b><small>PDF بحد أقصى 5MB.</small></span></label>
+<label class="checkItem" id="valuationCheck" hidden><input id="valuationReady" type="checkbox"><span><b>تقرير التقييم المعتمد</b><small>يظهر عند وجود رأس مال عيني: PDF بحد أقصى 5MB.</small></span></label>
 </div>
-<div class="stockActions"><span class="helper">تنتقل البيانات والمرفقات يدويًا بعد المراجعة.</span><button class="primaryBtn" id="preparePlatform" type="button">تجهيز بيانات منصة المركز</button></div>
+<div class="stockActions"><span class="helper">تنتقل البيانات والمرفقات يدويًا بعد المراجعة.</span><button class="primaryBtn" id="preparePlatform" type="button">تجهيز بيانات نموذج التأسيس</button></div>
 <div class="platformOutput" id="platformOutput" hidden>
 <div class="outputHead"><h4>بيانات جاهزة للنسخ واللصق</h4><button class="ghostBtn" id="copyAllPlatform" type="button">نسخ الكل</button></div>
 <div class="copyGrid" id="capitalCopyFields"></div>
 <div class="tableScroll" style="margin-top:12px"><table class="platformTable"><thead><tr><th>الصف</th><th>النوع</th><th>الفئة</th><th>الاسم والحقوق</th><th>العدد والقيمة</th></tr></thead><tbody id="preparedRows"></tbody></table></div>
 </div>
 </section>
-<div class="sourcesStrip">
-<h3>مصادر القواعد والممارسات</h3>
-<p class="legalGuard">المادة 108 من نظام الشركات: أنواع الأسهم وفئاتها. المادة 51 من اللائحة التنفيذية لنظام الشركات: ضوابط الإصدار وحد 50% للأسهم الممتازة والقابلة للاسترداد مجتمعة. توصيف الحقل في المنصة يُراجع مع الحقوق الفعلية وشروط الإصدار.</p>
-<div class="sourceLinks">
-<a href="https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/a8376aea-1bc3-49d4-9027-aed900b555af/1" target="_blank" rel="noopener">نظام الشركات السعودي: النص الرسمي</a>
-<a href="https://mc.gov.sa/ar/Documents/R.pdf" target="_blank" rel="noopener">اللائحة التنفيذية لنظام الشركات: وزارة التجارة</a>
-<a href="https://nvca.org/model-legal-documents/" target="_blank" rel="noopener">نماذج NVCA للاستثمار الجريء</a>
-<a href="https://delcode.delaware.gov/title8/c001/sc05/" target="_blank" rel="noopener">Delaware §151: فئات وحقوق واسترداد الأسهم</a>
-<a href="https://www.uqn.gov.sa/details?p=19697" target="_blank" rel="noopener">نظام الشركات: الجريدة الرسمية</a>
-<a href="https://cma.gov.sa/RulesRegulations/CMALaw/CH6/Pages/default.aspx" target="_blank" rel="noopener">هيئة السوق المالية: الإطار النظامي ذي الصلة</a>
-</div>
-<p class="legalGuard">التوصيات العالمية مستخدمة كمنهج صياغة، وتُكيّف دائمًا مع نظام الشركات السعودي ولائحته ونظام الشركة الأساس. القوالب استرشادية وتحتاج مراجعة قانونية قبل الاعتماد.</p>
-</div>
+
 </div>
 <aside class="card matchRail" aria-live="polite">
 <h3>المطابقة اللحظية</h3>
@@ -517,7 +662,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="accountOverlay" id="accountOverlay" hidden>
 <section class="accountCard" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
 <button class="accountClose" id="accountClose" type="button" aria-label="إغلاق">×</button>
-<div class="accountBrand"><h3 id="accountTitle">دخول حسابك</h3><p>احفظ شركاتك وافتحها من أجهزتك بنفس حساب مسراح.</p></div>
+<div class="accountBrand"><h3 id="accountTitle">دخول حسابك</h3><p>احفظ شركاتك وافتحها من أجهزتك.</p></div>
 <button class="accountGoogle" id="googleSignIn" type="button"><b>G</b> المتابعة بحساب Google</button>
 <div class="accountDivider">أو بالبريد</div>
 <form class="accountForm" id="emailAuthForm">
@@ -527,11 +672,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </form>
 <div class="accountLinks"><button class="accountLink" id="createAccount" type="button">إنشاء حساب</button><button class="accountLink" id="resetPassword" type="button">نسيت كلمة المرور</button></div>
 <div class="accountError" id="accountError" role="status"></div>
-<p class="accountFoot">يمكنك استخدام الحاسبة مباشرة دون حساب. تسجيل الدخول يضيف الحفظ والمزامنة السحابية.</p>
+<p class="accountFoot">يمكنك استخدام الحاسبة دون حساب. تسجيل الدخول يضيف المزامنة السحابية.</p>
 </section>
 </div>
 </section>
-<section class="sec soft" id="shares">
+<section class="sec soft" id="shares" hidden aria-hidden="true">
 <div class="c">
 <div class="head">
 <span class="ey">تصميم الملكية</span>
@@ -670,7 +815,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </div>
 </div>
 </section>
-<section class="sec white" id="capital">
+<section class="sec white" id="capital" hidden aria-hidden="true">
 <div class="c">
 <div class="head">
 <span class="ey">رأس المال والعائد</span>
@@ -854,172 +999,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </div>
 </div>
 </section>
-<section class="sec white" id="offer">
-<div class="c">
-<div class="head">
-<span class="ey">اختيار الهيكل</span>
-<h2>شركة مساهمة مبسطة، عقد مضاربة، أو صندوق استثماري؟</h2>
-<p>الاختيار يبدأ من طبيعة الحق الذي سيملكه المستثمر، وطريقة إدارة المال، وعدد المستثمرين، وكيف تتحقق الأرباح والخروج من الاستثمار.</p>
-</div>
-<div class="structureChoices" role="tablist" aria-label="اختيار الهيكل">
-<button class="structureOption company active" type="button" role="tab" aria-pressed="true" data-structure="company">
-<span class="sIcon">1</span>
-<small>شركة مشروع</small>
-<h3>شركة مساهمة مبسطة</h3>
-<p>المستثمر يملك أسهم في شركة، والشركة تملك الفرصة أو الأصل أو الحصة وتتصرف باسمها.</p>
-<strong>مثال: الاستحواذ على سلسلة مطاعم</strong>
-</button>
-<button class="structureOption mudaraba" type="button" role="tab" aria-pressed="false" data-structure="mudaraba">
-<span class="sIcon">2</span>
-<small>عقد مباشر</small>
-<h3>عقد مضاربة</h3>
-<p>رب المال يقدم المال للمضارب ليعمل فيه، والربح يقسم بالنسبة المتفق عليها في العقد.</p>
-<strong>مثال: تمويل صفقة تشغيلية محددة</strong>
-</button>
-<button class="structureOption fund" type="button" role="tab" aria-pressed="false" data-structure="fund">
-<span class="sIcon">3</span>
-<small>استثمار جماعي</small>
-<h3>صندوق استثماري</h3>
-<p>المستثمر يملك وحدات في برنامج استثماري يديره مدير صندوق وفق الإطار التنظيمي.</p>
-<strong>مثال: استراتيجية تستثمر في فرص متعددة</strong>
-</button>
-</div>
-<div class="structurePanel" id="structurePanel" role="tabpanel" aria-live="polite">
-<div class="structurePanelHead">
-<div>
-<span class="ey" id="structureEy">شركة مساهمة مبسطة</span>
-<h3 id="structureTitle">المستثمر يدخل كمساهم والشركة تملك الفرصة</h3>
-</div>
-<span class="structureTag" id="structureTag">شركة مشروع</span>
-</div>
-<p id="structureSummary">رأس المال يدخل إلى الشركة، والشركة تملك الأصل أو الحصة أو تدخل العقد باسمها. ويصمم النظام الأساس الإدارة والتصويت وفئات الأسهم والخروج.</p>
-<div class="structureFacts" id="structureFacts">
-<div>
-<b>صفة المستثمر</b>
-<span>مساهم</span>
-</div>
-<div>
-<b>محل الحق</b>
-<span>أسهم في الشركة</span>
-</div>
-<div>
-<b>الإدارة</b>
-<span>حسب النظام الأساس</span>
-</div>
-<div>
-<b>العائد</b>
-<span>من نتائج الشركة</span>
-</div>
-<div>
-<b>مثال</b>
-<span>استحواذ على مطاعم</span>
-</div>
-</div>
-</div>
-<div class="compareHead">
-<div>
-<span class="ey">مقارنة الهياكل</span>
-<h3>نفس المال، وتختلف العلاقة والحق وطريقة الإدارة</h3>
-</div>
-<p>اختيار البطاقة في الأعلى يبرز العمود المقابل في الجدول.</p>
-</div>
-<div class="compareWrap">
-<table class="structureTable" id="structureTable">
-<thead>
-<tr>
-<th>المحور</th>
-<th class="activeCol">شركة مساهمة مبسطة</th>
-<th>عقد مضاربة</th>
-<th>صندوق استثماري</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>صفة المستثمر</td>
-<td class="activeCol">مساهم</td>
-<td>رب مال</td>
-<td>مالك وحدات</td>
-</tr>
-<tr>
-<td>الحق الأساسي</td>
-<td class="activeCol">أسهم في شركة</td>
-<td>حق تعاقدي في المضاربة</td>
-<td>وحدات في صندوق</td>
-</tr>
-<tr>
-<td>من يدير؟</td>
-<td class="activeCol">رئيس أو مدير أو مجلس حسب النظام الأساس</td>
-<td>المضارب وفق العقد</td>
-<td>مدير صندوق وفق لائحة صناديق الاستثمار</td>
-</tr>
-<tr>
-<td>العائد</td>
-<td class="activeCol">نتائج الشركة وتوزيعاتها وقيمة ملكيتها</td>
-<td>حصة من الربح الفعلي للمضاربة</td>
-<td>نتائج استثمارات الصندوق</td>
-</tr>
-<tr>
-<td>الخروج</td>
-<td class="activeCol">بيع أو نقل الأسهم أو الاسترداد وفق الشروط</td>
-<td>تسوية العقد أو انتهاؤه</td>
-<td>استرداد أو تخارج حسب نوع الصندوق وشروطه</td>
-</tr>
-<tr>
-<td>جمع رأس المال</td>
-<td class="activeCol">إصدار أسهم عبر مسار الطرح المناسب</td>
-<td>إبرام عقد مضاربة مع فحص التكييف عند التوسع</td>
-<td>طرح وحدات وفق لائحة صناديق الاستثمار</td>
-</tr>
-<tr>
-<td>يناسب غالبا</td>
-<td class="activeCol">استحواذ أو شركة مشروع أو نشاط تشغيلي</td>
-<td>علاقة مال وعمل محددة</td>
-<td>برنامج استثمار جماعي</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="capitalRoute">
-<span class="ey">جمع رأس المال والتواصل مع المستثمرين</span>
-<h3>مسار جمع المال جزء من تصميم الهيكل</h3>
-<p>بالنسبة لأسهم الشركات، قواعد طرح الأوراق المالية تنظر إلى إصدار الأسهم، والدعوة للاكتتاب، والترويج المباشر أو غير المباشر، وأي اتصال أثره بيع الورقة المالية أو عرضها.</p>
-<div class="capitalRules">
-<div>
-<b>1. حدد ما الذي سيصدر</b>
-<span>أسهم شركة، عقد مضاربة، أو وحدات صندوق.</span>
-</div>
-<div>
-<b>2. حدد مسار الطرح</b>
-<span>عند إصدار الأسهم يحدد المسار بحسب المستثمرين وقيمة الإصدار وطبيعته.</span>
-</div>
-<div>
-<b>3. ابن التواصل على المسار</b>
-<span>الحملة والرسائل والاجتماعات مع المستثمرين تأتي بعد تصميم المسار المناسب.</span>
-</div>
-</div>
-<div class="capitalRuleNote">في قواعد الطرح الحالية توجد مسارات مستثنى، خاص، عام، والسوق الموازية. اختيار المسار يعتمد على حالة الإصدار والمستثمرين ومتطلبات كل حالة.</div>
-</div>
-<div class="caseLawGrid">
-<article class="caseLaw">
-<small>حالة منشورة</small>
-<h4>سنام الأعمال</h4>
-<p>موضوع الدعوى الجماعية يدور حول حملة تسويقية لطرح أسهم شركة تابعة، ويركز النزاع على تطبيق إجراءات قواعد الطرح على الحملة والاكتتاب الناتج عنها.</p>
-<a href="https://crsd.gov.sa/ar/MediaCenter/Announcements/Pages/Announcement-396.aspx" target="_blank" rel="noopener">قراءة الحالة المنشورة</a>
-</article>
-<article class="caseLaw">
-<small>قرار قطعي</small>
-<h4>معنا للاستثمار</h4>
-<p>القرار تناول إدارة اكتتاب، إحضار مستثمرين، جمع أموال مكتتبين، واستلام مقابل، وعد هذه الأعمال من التعامل والترتيب اللذين يتطلبان ترخيص الهيئة.</p>
-<a href="https://cma.gov.sa/MediaCenter/NEWS/pages/CMA_N_3750.aspx" target="_blank" rel="noopener">قراءة قرار الهيئة</a>
-</article>
-</div>
-<div class="fundSignal">
-<b>متى يرتفع أثر إطار الصناديق على التكييف؟</b>
-<p>عندما يدور النموذج حول برنامج استثمار مشترك يشارك المستثمرون جماعيا في أرباحه، وتدار الاستثمارات لهم مقابل رسوم، يصبح تعريف صندوق الاستثمار في المادة 39 محورا أساسيا في دراسة الهيكل.</p>
-</div>
-</div>
-</section>
-<section class="sec soft" id="sources">
+<section class="sec white" id="sources">
 <div class="c">
 <div class="head">
 <span class="ey">المراجع النظامية</span>
