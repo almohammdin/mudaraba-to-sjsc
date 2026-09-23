@@ -46,7 +46,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 #shareDesigner [hidden]{display:none!important}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="./vendor/jspdf.umd.min.js?v=20260923-4"></script>
+<script src="./vendor/jspdf.umd.min.js?v=20260923-5"></script>
 </head>
 <body>
 <nav class="nav">
@@ -1110,9 +1110,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </div>
 </div>
 </footer>
-<script src="./firebase-config.js" defer></script>
-<script src="./cloud-storage.js" defer></script>
-<script src="./sjsc-designer.js" defer></script>
+<script src="./firebase-config.js?v=20260923-5" defer></script>
+<script src="./cloud-storage.js?v=20260923-5" defer></script>
+<script src="./sjsc-designer.js?v=20260923-5" defer></script>
 <script>
 (()=>{const $=id=>document.getElementById(id),num=v=>{const n=parseFloat(String(v??'').replace(/,/g,''));return Number.isFinite(n)?n:0},fmt=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Math.round(num(n))),fmt2=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(num(n)),pct=n=>num(n).toFixed(2).replace(/\.00$/,'')+'%';
 const navLinks=[...document.querySelectorAll('.links a[href^="#"]')];function nav(){let y=scrollY+120,current='';navLinks.forEach(a=>{let el=document.querySelector(a.getAttribute('href'));if(el&&el.offsetTop<=y)current=a.getAttribute('href')});navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===current))}addEventListener('scroll',nav,{passive:true});nav();
