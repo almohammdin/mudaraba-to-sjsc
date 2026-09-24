@@ -237,6 +237,7 @@
     renderCapital();
     updateTables();
     updateMatch();
+    document.dispatchEvent(new CustomEvent('sjsc:designer-changed'));
   }
 
   function setStep(step) {
@@ -260,6 +261,7 @@
 
   function snapshot() {
     syncCapitalFromInputs();
+    if (window.SJSCDealImpact) state.dealEngineering = window.SJSCDealImpact.capture();
     return JSON.parse(JSON.stringify(state));
   }
 
@@ -280,6 +282,7 @@
     $('valuationReady').checked = !!state.attachments?.valuation;
     renderRows();
     updateAll();
+    window.SJSCDealImpact?.restore(state.dealEngineering);
   }
 
   function localRecords() {
@@ -912,6 +915,13 @@
     toast("أُنشئ رابط مشاركة ونسخ إلى الحافظة.");
   });
 
+  // Scenario data is stored alongside the design, never inserted into legal capital or class totals.
+  window.SJSCDesigner = Object.freeze({
+    context: () => ({ id: state.id, companyName: state.companyName, currency: state.capital.currency,
+      cashPaid: Math.max(0, capitalCalc().paid - capitalCalc().inKind), capitalValid: capitalCalc().errors.length === 0 }),
+    dealEngineering: () => state.dealEngineering ? JSON.parse(JSON.stringify(state.dealEngineering)) : null,
+    showAnalysis: () => { setStep('analysis'); $('shareDesigner').scrollIntoView({ behavior: 'auto' }); }
+  });
   loadSnapshot(state);
   prepareAccount();
 })();

@@ -1,0 +1,29 @@
+.deal-impact{margin-block:22px;padding:20px;border:1px solid #dac7ac;border-radius:18px;background:#fffdf9}
+.deal-impact h5,.impact-attached h5{font-size:17px;color:var(--n);margin-block:18px 8px}
+.deal-impact small{line-height:1.8;color:var(--muted);font-size:12px}
+.deal-impact input[inputmode]{font-family:Arial,sans-serif;font-variant-numeric:tabular-nums}
+.deal-impact [hidden],.impact-attached[hidden]{display:none!important}
+.deal-impact input[aria-invalid=true]{border:2px solid #9c3932;background:#fff5f3}
+.deal-impact input:disabled{background:#f2efeb;color:#737373}
+.impact-check{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.8;margin-block:16px}
+.impact-check input{flex:0 0 auto;width:18px;height:18px;margin-top:5px}
+.impact-comparison{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.impact-comparison article{background:#f3f6f7;border-radius:14px;padding:15px}
+.impact-totals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-block:20px}
+.impact-totals>div{min-width:0;padding:14px;border-radius:12px;background:#edf4f0}
+.impact-totals small,.impact-totals b{display:block;margin-bottom:6px}
+.impact-totals .money{font-size:16px;color:var(--n)}
+.impact-table-wrap{overflow:auto}
+.impact-table{border-collapse:collapse;width:100%;font-size:14px}
+.impact-table th,.impact-table td{padding:12px 8px;border-bottom:1px solid var(--line);text-align:start}
+.impact-table thead{background:#edf2f5;color:var(--n)}
+.impact-table bdi{font-family:Arial,sans-serif}
+.impact-actions{display:flex;flex-wrap:wrap;gap:10px;margin-block:18px}
+.impact-connection{padding:14px;margin-block:12px;border:1px dashed #c9a06b;border-radius:14px;background:#fffbf5;font-size:14px}
+.impact-connection p{margin-block:6px}.impact-connection small,.impact-connection a{display:block;font-size:12px;margin-top:6px}
+.impact-attached{border:1px solid #d5c6ae;background:#fffdf9;padding:18px;border-radius:16px;margin-top:20px;overflow-wrap:anywhere}
+.impact-attached h4{color:var(--n);margin-top:0}.impact-attached p{font-size:13px;line-height:1.9}
+.impact-attached .impact-totals{grid-template-columns:repeat(2,minmax(0,1fr))}
+.impact-alert{border-inline-start:3px solid #b37836;padding:12px;background:#fff2df}
+.deal-impact button:focus-visible,.deal-impact select:focus-visible,.deal-impact input:focus-visible{outline:3px solid var(--g);outline-offset:3px}
+@media(max-width:680px){.deal-impact{padding:13px}.impact-comparison,.impact-totals,.impact-attached .impact-totals{grid-template-columns:1fr}.impact-table{font-size:12px}.impact-table th,.impact-table td{padding:9px 5px}.impact-actions{flex-direction:column}.impact-totals .money{font-size:17px}}

@@ -43,7 +43,7 @@
     <p class="edu-caveat">الحروف أسماء تعليمية ثابتة: A لشركة الاستثمار، وB وC وD للشركات المستهدفة. في المشهد المستقل تظهر A1 وA2. «مساهمة مبسطة» شكل قانوني، و«شركة استحواذ» دور في الصفقة. الأشكال القانونية للشركات المستهدفة تحدد بحسب الحالة. نسب الملكية في شركات مختلفة تقرأ كل منها مستقلة.</p>
     <div class="edu-sim" id="eduSim">
       <h4>المساهمون والمستثمر القائد</h4><p>شركة A هي شركة المساهمة المبسطة التي تجمع المساهمين، وB هي الشركة المستهدفة. القيم مثال تعليمي قابل للتعديل، مستقل عن ملفات الشركات المحفوظة.</p>
-      <div class="edu-payment"><label for="eduHasLeader">هل يوجد مستثمر قائد في شركة A؟</label><select id="eduHasLeader"><option value="no">لا، يظهر المساهمون مجتمعين بملكية 100%</option><option value="yes">نعم، يوجد مستثمر قائد</option></select></div>
+      <div class="edu-payment"><label for="eduHasLeader">هل يوجد مستثمر قائد في شركة A؟</label><select id="eduHasLeader"><option value="no">لا</option><option value="yes">نعم</option></select></div>
       <p>المستثمر القائد يشارك بمساهمة رئيسية، وقد تسهم خبرته ومشاركته في جذب بقية المستثمرين. حقوق التصويت والإدارة تحدد بصورة مستقلة في وثائق الشركة.</p>
       <div class="edu-name"><label for="eduFunding">مبلغ الاكتتاب النقدي المستهدف في A <span class="sar" role="img" aria-label="ريال سعودي"></span></label><input id="eduFunding" type="text" inputmode="decimal" dir="ltr" lang="en" value="10,000,000" aria-describedby="eduFundingHint eduFundingError"><p id="eduFundingHint">بالريال السعودي. يحسب المثال المساهمات بافتراض سعر اكتتاب موحد وتناسب الملكية مع المبالغ، مع فصل أتعاب الصفقة عن مبلغ الاكتتاب.</p><p id="eduFundingError" class="edu-input-error" role="status" hidden>أدخل مبلغًا موجبًا حتى 1,000,000,000,000 بمنزلتين عشريتين. تبقى آخر قيمة صحيحة في الحساب.</p></div>
       <label class="edu-name" id="eduLeaderNameField" for="eduInvestorName" hidden>اسم المستثمر القائد (اختياري)<input id="eduInvestorName" type="text" maxlength="60" dir="auto" placeholder="مثال: المستثمر القائد"></label>
@@ -239,6 +239,7 @@
     q('#eduInsight').innerHTML='<b>'+insight[0]+'</b>'+insight[1];
     explain(nodes.some(n=>n.id===state.selected)?state.selected:nodes.find(n=>n.kind==='company').id);
     draw(); if(animate)play();
+    root.dispatchEvent(new CustomEvent('sjsc:structure-changed', { detail: { scene: state.scene } }));
   }
   root.addEventListener('click',event=>{
     const button=event.target.closest('button');if(!button)return;

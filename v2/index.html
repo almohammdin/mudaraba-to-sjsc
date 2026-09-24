@@ -10,7 +10,8 @@
 <link rel="apple-touch-icon" href="../assets/site-icon.svg">
 <link rel="stylesheet" href="./structure-learning.css?v=20260924-6">
 <link rel="stylesheet" href="./deal-roles.css?v=20260924-1">
-<script src="./structure-learning.js?v=20260924-6" defer></script>
+<link rel="stylesheet" href="./deal-impact.css?v=20260924-1">
+<script src="./structure-learning.js?v=20260924-7" defer></script>
 <script src="./deal-roles.js?v=20260924-1" defer></script>
 <style>
 @font-face{font-family:Craft;src:url('https://almohammdin.github.io/emtidad/assets/fonts/TheYearofHandicrafts-Regular.woff2')}@font-face{font-family:Craft;src:url('https://almohammdin.github.io/emtidad/assets/fonts/TheYearofHandicrafts-SemiBold.woff2');font-weight:600}@font-face{font-family:Craft;src:url('https://almohammdin.github.io/emtidad/assets/fonts/TheYearofHandicrafts-Black.woff2');font-weight:900}
@@ -575,7 +576,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <button class="ghostBtn" id="exportA4Png" type="button">صورة A4</button>
 <button class="ghostBtn" id="exportA4Pdf" type="button">PDF A4</button>
 </div>
-<small class="helper">المشاركة تنشئ رابطًا للنسخة المحفوظة. التصدير يخرج ملخصًا منسقًا دون حقول الإدخال.</small>
+<small class="helper">المشاركة تشمل بيانات التكليف ومعاينته، ويمكن لمن يحصل على الرابط قراءتها. تصدير A4 يختص بملخص رأس المال والأسهم.</small>
 <div class="cloudAccountBar"><div class="cloudAccountInfo"><span class="cloudAvatar" id="accountAvatar">م</span><span><b id="accountName">ملفات الشركات على هذا الجهاز</b><small id="storageHelp">حفظ محلي</small></span></div><button class="ghostBtn" id="accountSignIn" type="button">تسجيل الدخول</button></div>
 </div>
 <div class="designerShell">
@@ -1116,7 +1117,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </footer>
 <script src="./firebase-config.js?v=20260923-5" defer></script>
 <script src="./cloud-storage.js?v=20260923-5" defer></script>
-<script src="./sjsc-designer.js?v=20260923-5" defer></script>
+<script src="./sjsc-designer.js?v=20260924-1" defer></script>
+<script src="./deal-impact-model.js?v=20260924-1" defer></script>
+<script src="./deal-impact.js?v=20260924-1" defer></script>
 <script>
 (()=>{const $=id=>document.getElementById(id),num=v=>{const n=parseFloat(String(v??'').replace(/,/g,''));return Number.isFinite(n)?n:0},fmt=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Math.round(num(n))),fmt2=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(num(n)),pct=n=>num(n).toFixed(2).replace(/\.00$/,'')+'%';
 const navLinks=[...document.querySelectorAll('.links a[href^="#"]')];function nav(){let y=scrollY+120,current='';navLinks.forEach(a=>{let el=document.querySelector(a.getAttribute('href'));if(el&&el.offsetTop<=y)current=a.getAttribute('href')});navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===current))}addEventListener('scroll',nav,{passive:true});nav();
