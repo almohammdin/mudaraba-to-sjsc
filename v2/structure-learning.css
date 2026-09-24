@@ -1,4 +1,8 @@
 .edu{--edu-gold:#b8752e;--edu-light:#f6f2ec;margin-block:28px;color:var(--n);font-family:inherit}
+.edu .edu-line.edu-inactive{stroke:#b8c0c5;opacity:.65;stroke-dasharray:3 8}
+.edu-assumption{display:flex;align-items:flex-start;gap:10px;padding:13px 16px;background:#fff7eb;border:1px solid #dfc7a6;border-radius:12px;font-size:14px;margin-block:12px}.edu-assumption input{accent-color:var(--n);width:20px;height:20px;flex:0 0 auto;margin-top:3px}
+.edu-sequence{font-size:13px;line-height:1.9;color:var(--muted);min-height:50px;padding:10px 14px;border-inline-start:3px solid var(--g);background:#faf7f2;border-radius:8px}
+.edu .edu-replay:disabled{opacity:.5;cursor:default}.edu-payment{margin-block:12px}
 .edu-line.edu-money{stroke:var(--green)}.edu-intro-icon svg{width:30px;height:30px}.edu-inline{display:none}
 @media(max-width:600px){.edu-node[aria-pressed=true] .edu-inline{display:block;text-align:start;background:#eef3f6;border-radius:12px;padding:12px;margin-top:14px;font-size:13px;line-height:1.9;color:var(--n)}.edu-layout .edu-detail{display:none}}
 .edu [hidden]{display:none!important}.edu button,.edu select,.edu input{font:inherit}.edu button{cursor:pointer}.edu button:focus-visible,.edu select:focus-visible,.edu input:focus-visible{outline:3px solid var(--g);outline-offset:4px}
