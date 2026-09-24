@@ -29,7 +29,7 @@
       <button type="button" class="edu-replay" id="eduReplay">إعادة الحركة</button><label><input type="checkbox" id="eduMotion" ${movement?'checked':''}> الحركة التوضيحية</label>
     </div>
     <div class="edu-payment" id="eduPayment" hidden><label for="eduPaymentType">كيف تدخل شركة الاستثمار إلى الشركة المستهدفة؟</label><select id="eduPaymentType"><option value="purchase">شراء ملكية من مساهمين قائمين</option><option value="subscription">اكتتاب بأسهم جديدة</option></select></div>
-    <div class="edu-payment" id="eduExit" hidden><label for="eduExitType">من الذي يتخارج؟</label><select id="eduExitType"><option value="company">شركة الاستثمار تبيع استثمارها</option><option value="shareholder">مساهم يبيع أسهمه في شركة الاستثمار</option></select></div>
+    <div class="edu-payment" id="eduExit" hidden><label for="eduExitType">من الذي يتخارج؟</label><select id="eduExitType"><option value="company">شركة الاستثمار تبيع استثمارها</option><option value="shareholder">المساهمون يبيعون أسهمهم في شركة الاستثمار</option></select></div>
     <label class="edu-assumption" id="eduDistribution" hidden><input type="checkbox" id="eduDistributionCheck"> افتراض تعليمي: توافر أرباح قابلة للتوزيع وصدور قرار توزيع من شركة الاستثمار</label>
     <p class="edu-sequence" id="eduSequence" role="status"></p>
     <div class="edu-layout">
@@ -42,12 +42,12 @@
     <div class="edu-insight" id="eduInsight" aria-live="polite"></div>
     <p class="edu-caveat">الحروف أسماء تعليمية ثابتة: A لشركة الاستثمار، وB وC وD للشركات المستهدفة. في المشهد المستقل تظهر A1 وA2. «مساهمة مبسطة» شكل قانوني، و«شركة استحواذ» دور في الصفقة. الأشكال القانونية للشركات المستهدفة تحدد بحسب الحالة. نسب الملكية في شركات مختلفة تقرأ كل منها مستقلة.</p>
     <div class="edu-sim" id="eduSim">
-      <h4>مدخلات مثال الملكية</h4><p>القيم الأولية مثال قابل للتعديل. تمثل هذه الحقول مساهمًا محددًا في A وحصة A في B، وتحدّث الرسم مباشرة. تبقى مدخلات التجربة داخل هذه الصفحة ومستقلة عن ملفات الشركات المحفوظة.</p>
-      <label class="edu-name" for="eduInvestorName">اسم المساهم أو صفته (اختياري)<input id="eduInvestorName" type="text" maxlength="60" dir="auto" placeholder="مثال: المساهم الأول أو شركة الاستثمار"></label>
-      <div class="edu-sim-grid"><div class="edu-percent-field"><label for="eduInvestorNumber">نسبة المساهم المحدد في A (%)</label><input id="eduInvestorNumber" type="text" lang="en" dir="ltr" inputmode="decimal" value="25" aria-describedby="eduInputHint eduInputError"><input id="eduInvestor" type="range" aria-label="تعديل نسبة المساهم المحدد في A" min="0" max="100" value="25" step="0.01"></div>
+      <h4>مدخلات مثال الملكية</h4><p>القيم الأولية مثال قابل للتعديل. تمثل هذه الحقول مجموعة مساهمين في شركة الاستثمار A وحصة A في الشركة المستهدفة B، وتحدّث الرسم مباشرة. تبقى مدخلات التجربة داخل هذه الصفحة ومستقلة عن ملفات الشركات المحفوظة.</p>
+      <label class="edu-name" for="eduInvestorName">أسماء المساهمين أو اسم مجموعتهم (اختياري)<input id="eduInvestorName" type="text" maxlength="60" dir="auto" placeholder="مثال: مجموعة المؤسسين"></label>
+      <div class="edu-sim-grid"><div class="edu-percent-field"><label for="eduInvestorNumber">إجمالي نسبة ملكية المساهمين المذكورين في شركة A (%)</label><input id="eduInvestorNumber" type="text" lang="en" dir="ltr" inputmode="decimal" value="25" aria-describedby="eduInputHint eduInputError"><input id="eduInvestor" type="range" aria-label="تعديل إجمالي نسبة ملكية المساهمين المذكورين في A" min="0" max="100" value="25" step="0.01"></div>
       <div class="edu-percent-field"><label for="eduStakeNumber">نسبة ملكية A في B (%)</label><input id="eduStakeNumber" type="text" lang="en" dir="ltr" inputmode="decimal" value="60" aria-describedby="eduInputHint eduInputError"><input id="eduStake" type="range" aria-label="تعديل نسبة ملكية A في B" min="0" max="100" value="60" step="0.01"></div>
-      <div class="edu-result" role="status"><strong id="eduIndirect" dir="ltr">15%</strong><small>نسبة المساهم المحدد غير المباشرة عبر A في B</small><div class="edu-equation" id="eduEquation">25% × 60% = 15%</div></div></div>
-      <p id="eduInputHint">يمكن كتابة نسبة من 0 إلى 100 بمنزلتين عشريتين، أو استخدام شريط التعديل. تحسب نسبة بقية المساهمين تلقائيًا.</p><p id="eduInputError" class="edu-input-error" role="status" hidden></p>
+      <div class="edu-result" role="status"><strong id="eduIndirect" dir="ltr">15%</strong><small>إجمالي الملكية غير المباشرة للمساهمين المذكورين في B عبر A</small><div class="edu-equation" id="eduEquation">25% × 60% = 15%</div></div></div>
+      <p id="eduInputHint">النسبة هي مجموع ملكية المساهمين المذكورين في A. إذا شملت المجموعة جميع مساهمي A، تدخل النسبة 100%. يمكن كتابة نسبة من 0 إلى 100 بمنزلتين عشريتين، أو استخدام شريط التعديل. تحسب نسبة بقية المساهمين تلقائيًا.</p><p id="eduInputError" class="edu-input-error" role="status" hidden></p>
       <p style="margin-top:14px">هذه نسبة حسابية عبر مسار واحد، بافتراض تناسب الملكية مع رأس المال. حقوق التصويت واستحقاقات الأرباح والتخارج تقرأ وفق الحقوق والاتفاقات. بقية ملكية A وB تعود إلى مساهمين آخرين بحسب النسب الظاهرة.</p>
       <button type="button" class="edu-next" id="eduAddAcquisition">ماذا يتغير عند إضافة استحواذات أخرى؟</button>
     </div>
@@ -59,7 +59,7 @@
   let nodes = [], edges = [];
   function model() {
     const s = scenes[state.scene], independent = state.scene==='separate', assets = state.scene==='assets';
-    const shareholder=(state.name||'').trim()||'المساهم المحدد';
+    const shareholder=(state.name||'').trim()||'مجموعة المساهمين';
     nodes=[];edges=[];
     const makeNode = (id,label,sub,kind,col,row,mobile,description) => {
       nodes.push({id,label,sub,kind,col,row,mobile,description});
@@ -70,12 +70,12 @@
       for(let g=0;g<groups;g++){
         const aid=independent?'A'+(g+1):'A',sid='I'+g,bid='buyerA'+g,row=g+1;
         const active=independent||state.investor>0;
-        makeNode(sid,independent?'مساهم بائع في '+aid:shareholder,independent?'بيع أسهم يملكها في '+aid:'المساهم البائع: نسبة ملكيته '+num(state.investor)+'% من A','person',1,row,g*3+1,
-          active?'يبيع المساهم أسهمًا يملكها ويتلقى الثمن مباشرة من المشتري، وفق القيود والموافقات والقيد اللازم. المثال بيع لطرف آخر؛ إعادة شراء الشركة لأسهمها لها أحكام مستقلة.':'نسبة المساهم المحدد 0% في A. يمكن تعديل النسبة في مشهد الملكية لتجربة تخارجه.');
-        makeNode(bid,'مشتري أسهم المساهم','يسدد الثمن للمساهم البائع','person',2,row,g*3+2,'يدفع المشتري إلى المساهم البائع مقابل الأسهم المنقولة إليه. تتغير هوية مالك هذه الأسهم وفق إجراءات نقلها.');
+        makeNode(sid,independent?'المساهمون البائعون في '+aid:shareholder,independent?'بيع أسهم يملكونها في '+aid:'المساهمون البائعون: مجموع ملكيتهم '+num(state.investor)+'% من A','person',1,row,g*3+1,
+          active?'يبيع المساهمون أسهمًا يملكونها ويتلقون الثمن مباشرة من المشتري، كل بحسب الأسهم التي يبيعها، وفق القيود والموافقات والقيد اللازم. المثال بيع لطرف آخر؛ إعادة شراء الشركة لأسهمها لها أحكام مستقلة.':'إجمالي نسبة المساهمين المذكورين 0% في A. يمكن تعديل النسبة في مشهد الملكية لتجربة تخارجهم.');
+        makeNode(bid,'مشتري أسهم المساهمين','يسدد الثمن للمساهمين البائعين','person',2,row,g*3+2,'يدفع المشتري إلى المساهمين البائعين مقابل الأسهم المنقولة إليه. تتغير هوية مالك هذه الأسهم وفق إجراءات نقلها.');
         makeNode(aid,'شركة الاستثمار '+aid,'تستمر في تملك استثماراتها','company',3,row,g*3+3,
-          'تظل استثمارات '+aid+' مملوكة لها في هذا المثال. ثمن البيع يستحقه المساهم البائع، وتقتصر العملية المعروضة على انتقال أسهمه إلى المشتري.');
-        edges.push({from:bid,to:sid,label:active?'ثمن الأسهم':'نسبة المساهم 0%',active,phase:0});
+          'تظل استثمارات '+aid+' مملوكة لها في هذا المثال. ثمن البيع يستحقه المساهمون البائعون، وتقتصر العملية المعروضة على انتقال أسهمهم إلى المشتري.');
+        edges.push({from:bid,to:sid,label:active?'ثمن الأسهم':'نسبة المجموعة 0%',active,phase:0});
       }
       return s;
     }
@@ -84,7 +84,7 @@
       const row = independent ? g+1 : s.targets.length===1?1:2;
       const mobile=independent?g*3+1:1;
       makeNode(iid,independent?'مستثمرو الفرصة '+(g+1):'المساهمون في A',independent?'مساهمون في '+aid:shareholder+': '+num(state.investor)+'%، وبقية المساهمين: '+num(100-state.investor)+'%','person',1,row,mobile,
-        'المساهم يملك أسهم شركة المشروع. تحدد وثائقها حقوقه في المعلومات والقرارات والعوائد والتصرف بأسهمه.');
+        'المساهمون يملكون أسهم شركة المشروع. تحدد وثائقها حقوقهم في المعلومات والقرارات والعوائد والتصرف بأسهمهم.');
       makeNode(aid,'شركة الاستثمار '+aid,'مساهمة مبسطة في المثال','company',2,row,mobile+1,
         independent?'تجمع هذه الشركة مساهمي فرصتها وتملك الحصة المستهدفة. تحدد لها إدارة وحسابات والتزامات بحسب هيكلها.':'A هي شركة المشروع التي يملكها المساهمون. تتولى الشراء باسمها، وتدار بصلاحيات يحددها نظامها الأساس.');
       const hasInvestment=assets||independent||s.targets.some(([id,,percent])=>(id==='B'?state.stake:percent)>0);
@@ -127,12 +127,12 @@
     const s=scenes[state.scene],node=nodes.find(n=>n.id===id);
     state.selected=node?node.id:'';
     network.querySelectorAll('.edu-node').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.eduNode===state.selected)));
-    q('#eduDetail').innerHTML='<span class="edu-kicker">'+(node?'دور هذا الطرف':'اقرأ المشهد')+'</span><h4>'+(node?esc(node.label):s.title)+'</h4><p>'+(node?esc(node.description):s.text)+'</p><dl><div><dt>المشهد</dt><dd>'+s.name+'</dd></div><div><dt>المسار الحالي</dt><dd>'+({ownership:'تتبع من يملك',payment:'تتبع وجهة المال',returns:'توزيعات افتراضية مشروطة',exit:state.exitType==='shareholder'?'بيع المساهم لأسهمه إلى طرف آخر':'بيع الاستثمار ثم فحص المتاح للتوزيع'}[state.mode])+'</dd></div></dl>';
+    q('#eduDetail').innerHTML='<span class="edu-kicker">'+(node?'دور هذا الطرف':'اقرأ المشهد')+'</span><h4>'+(node?esc(node.label):s.title)+'</h4><p>'+(node?esc(node.description):s.text)+'</p><dl><div><dt>المشهد</dt><dd>'+s.name+'</dd></div><div><dt>المسار الحالي</dt><dd>'+({ownership:'تتبع من يملك',payment:'تتبع وجهة المال',returns:'توزيعات افتراضية مشروطة',exit:state.exitType==='shareholder'?'بيع المساهمين لأسهمهم إلى طرف آخر':'بيع الاستثمار ثم فحص المتاح للتوزيع'}[state.mode])+'</dd></div></dl>';
   }
   function stop(){cancelAnimationFrame(frame);frame=0;dots.forEach(d=>d.setAttribute('visibility','hidden'));}
   function sequenceText(phase){
     if(state.mode==='ownership')return 'تتبع الملكية: من المالك إلى ما يملكه. النسب تعبر عن رأس المال، وتفحص السيطرة والحقوق بصورة مستقلة.';
-    if(state.mode==='exit'&&state.exitType==='shareholder')return 'تخارج المساهم: المشتري يسدد الثمن إلى المساهم البائع مباشرة.';
+    if(state.mode==='exit'&&state.exitType==='shareholder')return 'تخارج المساهمين: المشتري يسدد الثمن إلى المساهمين البائعين مباشرة، كل بحسب الأسهم التي يبيعها.';
     if(state.mode==='payment')return phase===0?'1. تمويل رأسمالي مفترض لشركة الاستثمار. يمكن في صفقة فعلية استخدام سيولة قائمة أو تمويل آخر.':'2. شركة الاستثمار تسدد إلى البائع أو الشركة المصدرة بحسب المسار المختار.';
     return phase===0?'1. متحصلات مفترضة تصل إلى شركة الاستثمار.':'2. توزيع تعليمي مفترض بعد تحقق شروط الأرباح القابلة للتوزيع والقرار اللازم.';
   }
@@ -210,17 +210,17 @@
     root.querySelectorAll('[data-edu-mode]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.eduMode===state.mode)));
     network.innerHTML='<svg class="edu-lines" aria-hidden="true"></svg><div class="edu-edge-labels" aria-hidden="true"></div>'+nodes.map(n=>'<button type="button" class="edu-node '+n.kind+'" data-edu-node="'+n.id+'" style="--col:'+n.col+';--row:'+n.row+';--mobile:'+n.mobile+'" aria-label="'+esc(n.label)+'" aria-pressed="false"><span class="edu-orb">'+(n.kind==='company'?bdi(n.id):icon(n.kind))+'</span><b>'+esc(n.label)+'</b><small>'+esc(n.sub)+'</small><span class="edu-inline">'+esc(n.description)+'</span></button>').join('');
     const captions={
-      ownership:assets?'A تملك الأصول مباشرة. اختر الأصل لقراءة دوره.':state.scene==='separate'?'المجموعة الأولى تملك A1 التي تملك 70% من B؛ والمجموعة الثانية تملك A2 التي تملك 80% من C.':'نسبة '+(state.name.trim()||'المساهم المحدد')+' في A تساوي '+num(state.investor)+'%، وتملك A '+num(state.stake)+'% من B.'+(state.scene==='portfolio'?' وتملك A أيضًا 80% من C و100% من D.':''),
+      ownership:assets?'A تملك الأصول مباشرة. اختر الأصل لقراءة دوره.':state.scene==='separate'?'المجموعة الأولى تملك A1 التي تملك 70% من B؛ والمجموعة الثانية تملك A2 التي تملك 80% من C.':'نسبة '+(state.name.trim()||'المساهمين المذكورين')+' في A تساوي '+num(state.investor)+'%، وتملك A '+num(state.stake)+'% من B.'+(state.scene==='portfolio'?' وتملك A أيضًا 80% من C و100% من D.':''),
       payment:assets?'يتجه الثمن من A إلى بائعي الأصول مقابل نقلها إليها.':state.payment==='purchase'?'يتجه ثمن شراء الملكية إلى المساهمين البائعين. الشركة المستهدفة تحتفظ بأصولها داخلها.':'يتجه مبلغ الاكتتاب إلى الشركة المستهدفة مقابل أسهم جديدة. النسب النهائية تحسب بعد الإصدار.',
       returns:assets?'المسار من الأصل إلى A تعبير عن تدفقات نشاطه داخل الشركة، والأصل جزء منها. الرصيد النقدي والأرباح القابلة للتوزيع مفهومان مستقلان.':'يفترض المسار الأول صدور قرارات توزيع جائزة في الشركات المستهدفة وتلقي شركة الاستثمار نصيبها. توزيع شركة الاستثمار على مساهميها قرار مستقل بشروطه.',
-      exit:state.exitType==='shareholder'?'المثال بيع المساهم لأسهمه إلى طرف آخر. يستحق المساهم البائع الثمن مباشرة، وتستمر شركة الاستثمار في تملك أصولها وحصصها. تراجع قيود التصرف والموافقات وقيد نقل الأسهم.':'المثال بيع شركة الاستثمار لحصتها أو أصلها، فتستحق هي حصيلة البيع. تتضمن الحصيلة قيمة الاستثمار وربحًا أو خسارة بحسب الصفقة. توزيع الأرباح يتطلب أرباحًا قابلة للتوزيع وقرارًا جائزًا؛ ورد رأس المال أو التصفية مساران بإجراءات مستقلة.'
+      exit:state.exitType==='shareholder'?'المثال بيع المساهمين لأسهمهم إلى طرف آخر. يستحق المساهمون البائعون الثمن مباشرة، كل بحسب الأسهم التي يبيعها، وتستمر شركة الاستثمار في تملك أصولها وحصصها. تراجع قيود التصرف والموافقات وقيد نقل الأسهم.':'المثال بيع شركة الاستثمار لحصتها أو أصلها، فتستحق هي حصيلة البيع. تتضمن الحصيلة قيمة الاستثمار وربحًا أو خسارة بحسب الصفقة. توزيع الأرباح يتطلب أرباحًا قابلة للتوزيع وقرارًا جائزًا؛ ورد رأس المال أو التصفية مساران بإجراءات مستقلة.'
     };
     const zeroB=!assets&&state.scene!=='separate'&&state.stake===0&&!(state.mode==='exit'&&state.exitType==='shareholder');
-    q('#eduCaption').textContent=captions[state.mode]+(zeroB?' حصة A في B تساوي 0%؛ مسار B متوقف في المثال.':'')+(state.mode==='exit'&&state.exitType==='shareholder'&&state.scene!=='separate'&&state.investor===0?' نسبة المساهم المحدد في A تساوي 0%؛ مسار بيع أسهمه متوقف.':'')+((state.mode==='returns'||(state.mode==='exit'&&state.exitType==='company'))&&!state.distribution?' مسار التوزيع للمساهمين متوقف حتى اختيار الافتراض التعليمي أعلاه.':'');
+    q('#eduCaption').textContent=captions[state.mode]+(zeroB?' حصة A في B تساوي 0%؛ مسار B متوقف في المثال.':'')+(state.mode==='exit'&&state.exitType==='shareholder'&&state.scene!=='separate'&&state.investor===0?' إجمالي نسبة المساهمين المذكورين في A تساوي 0%؛ مسار بيع أسهمهم متوقف.':'')+((state.mode==='returns'||(state.mode==='exit'&&state.exitType==='company'))&&!state.distribution?' مسار التوزيع للمساهمين متوقف حتى اختيار الافتراض التعليمي أعلاه.':'');
     q('#eduRouteKind').textContent=state.mode==='ownership'?'اتجاه السهم الإرشادي: من المالك إلى المملوك':'اتجاه السهم الإرشادي: من الدافع إلى المستلم';
     const modeInsight={
       payment:['افحص وجهة المقابل ووثائق الدخول','في شراء ملكية قائمة يستحق البائع الثمن، وفي إصدار أسهم جديدة تتلقى الشركة مبلغ الاكتتاب. المثال يعرض تمويلًا رأسماليًا مفترضًا قبل الدفع؛ وقد تستخدم الصفقة الفعلية سيولة قائمة أو تمويلًا آخر.'],
-      returns:['افصل الرصيد النقدي عن الأرباح القابلة للتوزيع','تفحص القوائم والحقوق والالتزامات، ثم تتخذ قرارات التوزيع اللازمة لكل شركة على حدة. الحركة افتراض تعليمي، وتحديد المبلغ المستحق لكل مساهم يرجع إلى حقوق أسهمه.'],
+      returns:['افصل الرصيد النقدي عن الأرباح القابلة للتوزيع','تفحص القوائم والحقوق والالتزامات، ثم تتخذ قرارات التوزيع اللازمة لكل شركة على حدة. الحركة افتراض تعليمي، وتحديد مستحقات المساهمين يرجع إلى حقوق أسهمهم.'],
       exit:state.exitType==='shareholder'?['التخارج يغير حامل الأسهم','حدد الأسهم المباعة والثمن والشروط وآلية التسوية. افحص قيود التصرف والموافقات وسجل المساهمين. الشكل القانوني للشركة المستهدفة يؤثر في إجراءات نقل ملكيتها.']:['التصرف في الاستثمار مستقل عن استمرار الشركة','حدد الاستثمار المباع كليًا أو جزئيًا، ومن يستحق المقابل. افحص الالتزامات والموافقات والمصروفات والضرائب، ثم حدد معالجة الحصيلة وأي توزيع جائز.']
     };
     const insight=modeInsight[state.mode]||[s.insight,s.why];
@@ -266,7 +266,7 @@
   render(false);
 
   const intro=document.createElement('div');intro.className='edu';
-  intro.innerHTML='<div class="edu-intro" aria-label="من المساهم إلى الاستثمار"><div class="edu-intro-item"><span class="edu-intro-icon">'+icon('person')+'</span><b>المساهمون</b><small>يملكون أسهم شركة المشروع</small></div><div class="edu-intro-item"><span class="edu-intro-icon">A</span><b>شركة المشروع</b><small>مساهمة مبسطة في هذا المثال</small></div><div class="edu-intro-item"><span class="edu-intro-icon">B</span><b>الشركة المستهدفة B</b><small>A تملك حصة في هذه الشركة</small></div></div><p class="edu-intro-note">ابدأ بالتمييز بين المساهم، والشركة، والاستثمار الذي تملكه. <a href="#structureLearning">استكشف العلاقات في الرسم التفاعلي</a>.</p>';
+  intro.innerHTML='<div class="edu-intro" aria-label="من المساهمين إلى الاستثمار"><div class="edu-intro-item"><span class="edu-intro-icon">'+icon('person')+'</span><b>المساهمون</b><small>يملكون أسهم شركة المشروع</small></div><div class="edu-intro-item"><span class="edu-intro-icon">A</span><b>شركة المشروع</b><small>مساهمة مبسطة في هذا المثال</small></div><div class="edu-intro-item"><span class="edu-intro-icon">B</span><b>الشركة المستهدفة B</b><small>A تملك حصة في هذه الشركة</small></div></div><p class="edu-intro-note">ابدأ بالتمييز بين المساهمين، والشركة، والاستثمار الذي تملكه الشركة. <a href="#structureLearning">استكشف العلاقات في الرسم التفاعلي</a>.</p>';
   document.querySelector('#about .grid2').after(intro);
 
   const journey=document.createElement('section');journey.className='edu edu-journey';journey.setAttribute('aria-label','تتبع رحلة الاستحواذ');
@@ -274,7 +274,7 @@
     ['تحديد محل الصفقة','ما الذي ستملكه A؟','ابدأ بتحديد ما إذا كانت الصفقة شراء ملكية في B أو شراء أصول محددة. وثق النسبة أو الأصول والحقوق والعقود المشمولة، ثم افحصها قبل الالتزام.'],
     ['تجهيز شركة المشروع','من يشارك في A؟','حدد المساهمين ومساهماتهم وحقوقهم والإدارة وحدود الصلاحيات. راجع مسار جمع رأس المال والتراخيص والمتطلبات المنطبقة على الصفقة.'],
     ['تنفيذ الشراء أو الاكتتاب','إلى من يصل المبلغ؟','عند شراء ملكية قائمة يتلقى البائع الثمن. عند الاكتتاب بأسهم جديدة تتلقى الشركة مبلغ الاكتتاب. يرتبط التنفيذ بالعقود والموافقات وإجراءات نقل الملكية أو إصدار الأسهم.'],
-    ['الإدارة والعائد والتخارج','كيف تتابع الاستثمار؟','حدد التقارير والقرارات والتوزيعات وآلية التخارج. بيع A لاستثمارها يعيد الحصيلة إلى A؛ وبيع المساهم لأسهمه في A يمثل مسار تخارج مختلفًا.']
+    ['الإدارة والعائد والتخارج','كيف تتابع الاستثمار؟','حدد التقارير والقرارات والتوزيعات وآلية التخارج. بيع A لاستثمارها يعيد الحصيلة إلى A؛ وبيع المساهمين لأسهمهم في A يمثل مسار تخارج مختلفًا.']
   ];
   journey.innerHTML='<div class="edu-header"><div><span class="edu-kicker">تتبع الصفقة خطوة بخطوة</span><h3>من قرار الاستثمار إلى التخارج</h3></div></div><div class="edu-journey-steps" role="group" aria-label="خطوات رحلة الصفقة">'+steps.map((s,i)=>'<button type="button" data-edu-step="'+i+'" aria-pressed="'+(i===0)+'"><span>'+String(i+1).padStart(2,'0')+'</span>'+s[0]+'</button>').join('')+'</div><div class="edu-journey-copy" aria-live="polite" aria-atomic="true"><h4>'+steps[0][1]+'</h4><p>'+steps[0][2]+'</p></div><p class="edu-caveat"><a href="#structureLearning">ارجع إلى الرسم لتجربة مسارات الملكية والمال</a></p>';
   journey.addEventListener('click',event=>{const button=event.target.closest('[data-edu-step]');if(!button)return;const index=Number(button.dataset.eduStep);journey.querySelectorAll('[data-edu-step]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));journey.querySelector('.edu-journey-copy').innerHTML='<h4>'+steps[index][1]+'</h4><p>'+steps[index][2]+'</p>';});
