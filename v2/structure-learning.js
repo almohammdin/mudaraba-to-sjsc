@@ -6,7 +6,7 @@
   const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const num = value => new Intl.NumberFormat('en-US', {maximumFractionDigits:2}).format(value);
   const bdi = value => '<bdi dir="ltr">' + esc(value) + '</bdi>';
-  const state = {scene:'single',mode:'ownership',payment:'purchase',exitType:'company',distribution:false,investor:25,stake:60,name:'',selected:'A'};
+  const state = {scene:'single',mode:'ownership',payment:'purchase',exitType:'company',distribution:false,leader:false,investor:100,leaderShare:40,funding:10000000,stake:60,name:'',selected:'A'};
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   let movement = !reduced.matches;
   let frame = 0, resizeFrame = 0, paths = [], dots = [];
@@ -42,14 +42,17 @@
     <div class="edu-insight" id="eduInsight" aria-live="polite"></div>
     <p class="edu-caveat">الحروف أسماء تعليمية ثابتة: A لشركة الاستثمار، وB وC وD للشركات المستهدفة. في المشهد المستقل تظهر A1 وA2. «مساهمة مبسطة» شكل قانوني، و«شركة استحواذ» دور في الصفقة. الأشكال القانونية للشركات المستهدفة تحدد بحسب الحالة. نسب الملكية في شركات مختلفة تقرأ كل منها مستقلة.</p>
     <div class="edu-sim" id="eduSim">
-      <h4>مدخلات مثال الملكية</h4><p>القيم الأولية مثال قابل للتعديل. تمثل هذه الحقول مجموعة مساهمين في شركة الاستثمار A وحصة A في الشركة المستهدفة B، وتحدّث الرسم مباشرة. تبقى مدخلات التجربة داخل هذه الصفحة ومستقلة عن ملفات الشركات المحفوظة.</p>
-      <label class="edu-name" for="eduInvestorName">أسماء المساهمين أو اسم مجموعتهم (اختياري)<input id="eduInvestorName" type="text" maxlength="60" dir="auto" placeholder="مثال: مجموعة المؤسسين"></label>
-      <div class="edu-sim-grid"><div class="edu-percent-field"><label for="eduInvestorNumber">إجمالي نسبة ملكية المساهمين المذكورين في شركة A (%)</label><input id="eduInvestorNumber" type="text" lang="en" dir="ltr" inputmode="decimal" value="25" aria-describedby="eduInputHint eduInputError"><input id="eduInvestor" type="range" aria-label="تعديل إجمالي نسبة ملكية المساهمين المذكورين في A" min="0" max="100" value="25" step="0.01"></div>
+      <h4>المساهمون والمستثمر القائد</h4><p>شركة A هي شركة المساهمة المبسطة التي تجمع المساهمين، وB هي الشركة المستهدفة. القيم مثال تعليمي قابل للتعديل، مستقل عن ملفات الشركات المحفوظة.</p>
+      <div class="edu-payment"><label for="eduHasLeader">هل يوجد مستثمر قائد في شركة A؟</label><select id="eduHasLeader"><option value="no">لا، يظهر المساهمون مجتمعين بملكية 100%</option><option value="yes">نعم، يوجد مستثمر قائد</option></select></div>
+      <p>المستثمر القائد يشارك بمساهمة رئيسية، وقد تسهم خبرته ومشاركته في جذب بقية المستثمرين. حقوق التصويت والإدارة تحدد بصورة مستقلة في وثائق الشركة.</p>
+      <div class="edu-name"><label for="eduFunding">مبلغ الاكتتاب النقدي المستهدف في A <span class="sar" role="img" aria-label="ريال سعودي"></span></label><input id="eduFunding" type="text" inputmode="decimal" dir="ltr" lang="en" value="10,000,000" aria-describedby="eduFundingHint eduFundingError"><p id="eduFundingHint">بالريال السعودي. يحسب المثال المساهمات بافتراض سعر اكتتاب موحد وتناسب الملكية مع المبالغ، مع فصل أتعاب الصفقة عن مبلغ الاكتتاب.</p><p id="eduFundingError" class="edu-input-error" role="status" hidden>أدخل مبلغًا موجبًا حتى 1,000,000,000,000 بمنزلتين عشريتين. تبقى آخر قيمة صحيحة في الحساب.</p></div>
+      <label class="edu-name" id="eduLeaderNameField" for="eduInvestorName" hidden>اسم المستثمر القائد (اختياري)<input id="eduInvestorName" type="text" maxlength="60" dir="auto" placeholder="مثال: المستثمر القائد"></label>
+      <div class="edu-sim-grid"><div class="edu-percent-field" id="eduLeaderShareField" hidden><label for="eduInvestorNumber">نسبة ملكية المستثمر القائد في A (%)</label><input id="eduInvestorNumber" type="text" lang="en" dir="ltr" inputmode="decimal" value="100" aria-describedby="eduInputHint eduInputError"><input id="eduInvestor" type="range" aria-label="تعديل نسبة ملكية المستثمر القائد في A" min="0.01" max="100" value="100" step="0.01"></div>
       <div class="edu-percent-field"><label for="eduStakeNumber">نسبة ملكية A في B (%)</label><input id="eduStakeNumber" type="text" lang="en" dir="ltr" inputmode="decimal" value="60" aria-describedby="eduInputHint eduInputError"><input id="eduStake" type="range" aria-label="تعديل نسبة ملكية A في B" min="0" max="100" value="60" step="0.01"></div>
-      <div class="edu-result" role="status"><strong id="eduIndirect" dir="ltr">15%</strong><small>إجمالي الملكية غير المباشرة للمساهمين المذكورين في B عبر A</small><div class="edu-equation" id="eduEquation">25% × 60% = 15%</div></div></div>
-      <p id="eduInputHint">النسبة هي مجموع ملكية المساهمين المذكورين في A. إذا شملت المجموعة جميع مساهمي A، تدخل النسبة 100%. يمكن كتابة نسبة من 0 إلى 100 بمنزلتين عشريتين، أو استخدام شريط التعديل. تحسب نسبة بقية المساهمين تلقائيًا.</p><p id="eduInputError" class="edu-input-error" role="status" hidden></p>
-      <p style="margin-top:14px">هذه نسبة حسابية عبر مسار واحد، بافتراض تناسب الملكية مع رأس المال. حقوق التصويت واستحقاقات الأرباح والتخارج تقرأ وفق الحقوق والاتفاقات. بقية ملكية A وB تعود إلى مساهمين آخرين بحسب النسب الظاهرة.</p>
-      <button type="button" class="edu-next" id="eduAddAcquisition">ماذا يتغير عند إضافة استحواذات أخرى؟</button>
+      <div class="edu-result" role="status"><strong id="eduIndirect" dir="ltr">60%</strong><small id="eduIndirectLabel">إجمالي الملكية غير المباشرة للمساهمين في B عبر A</small><div class="edu-equation" id="eduEquation">100% × 60% = 60%</div></div></div>
+      <div id="eduFundingSummary" class="edu-funding-summary" aria-live="polite"></div><p id="eduInputHint">عند وجود قائد يظهر نصيبه والباقي للمساهمين الآخرين في A. النسبة المدخلة بين 0 و100، ووجود قائد ذي ملكية يتطلب نسبة أكبر من 0. نسبة A في B تخص شركة مختلفة.</p><p id="eduInputError" class="edu-input-error" role="status" hidden></p>
+      <p style="margin-top:14px">هذه نسبة حسابية عبر مسار واحد، بافتراض تناسب الملكية مع رأس المال. حقوق التصويت واستحقاقات الأرباح والتخارج تقرأ وفق الحقوق والاتفاقات. تُقرأ ملكية A بصورة مستقلة عن ملكيتها في B، وتوضح النسب نصيب كل طرف في شركته.</p>
+      <button type="button" class="edu-next" id="eduAddAcquisition">ماذا يتغير عند إضافة استحواذات أخرى؟</button><p style="margin-top:12px"><a href="#dealRoles">مهندسو الصفقة: ما لهم، وما عليهم، وكيف يحدد مقابلهم؟</a></p>
     </div>
     <p class="edu-caveat">المسارات أمثلة مستقلة على الهيكل المفترض؛ اختيار التخارج يعرض اتجاه الثمن، وتبقى نسب مشهد الملكية كما حددتها. الحركة توضح الاتجاه والترتيب التعليمي؛ حجم العلامات وسرعتها ثابتان بصرف النظر عن المبالغ أو مدة التنفيذ. تتطلب الصفقة فحص القيود والموافقات والقيد النظامي بحسب شكل الشركة. <a href="https://www.uqn.gov.sa/details?p=19697" target="_blank" rel="noopener">نظام الشركات: المواد 22 و25 و138 و140 و145 و151</a>، <a href="https://www.uqn.gov.sa/details?p=21325" target="_blank" rel="noopener">اللائحة التنفيذية: ضوابط الأرباح القابلة للتوزيع</a>.</p>`;
   decision.before(root);
@@ -59,7 +62,7 @@
   let nodes = [], edges = [];
   function model() {
     const s = scenes[state.scene], independent = state.scene==='separate', assets = state.scene==='assets';
-    const shareholder=(state.name||'').trim()||'مجموعة المساهمين';
+    const shareholder=state.leader?((state.name||'').trim()||'المستثمر القائد'):'المساهمون';
     nodes=[];edges=[];
     const makeNode = (id,label,sub,kind,col,row,mobile,description) => {
       nodes.push({id,label,sub,kind,col,row,mobile,description});
@@ -83,7 +86,7 @@
       const aid=independent?'A'+(g+1):'A', iid='I'+g;
       const row = independent ? g+1 : s.targets.length===1?1:2;
       const mobile=independent?g*3+1:1;
-      makeNode(iid,independent?'مستثمرو الفرصة '+(g+1):'المساهمون في A',independent?'مساهمون في '+aid:shareholder+': '+num(state.investor)+'%، وبقية المساهمين: '+num(100-state.investor)+'%','person',1,row,mobile,
+      makeNode(iid,independent?'مستثمرو الفرصة '+(g+1):'المساهمون في A',independent?'مساهمون في '+aid:state.leader?shareholder+': '+num(state.investor)+'%، وبقية المساهمين: '+num(100-state.investor)+'%':'يملكون 100% من A مجتمعين','person',1,row,mobile,
         'المساهمون يملكون أسهم شركة المشروع. تحدد وثائقها حقوقهم في المعلومات والقرارات والعوائد والتصرف بأسهمهم.');
       makeNode(aid,'شركة الاستثمار '+aid,'شركة المساهمة المبسطة','company',2,row,mobile+1,
         independent?'تجمع هذه الشركة مساهمي فرصتها وتملك الحصة المستهدفة. تحدد لها إدارة وحسابات والتزامات بحسب هيكلها.':'A هي شركة المشروع التي يملكها المساهمون. تتولى الشراء باسمها، وتدار بصلاحيات يحددها نظامها الأساس.');
@@ -202,6 +205,15 @@
     q('#eduExit').hidden=state.mode!=='exit';
     q('#eduDistribution').hidden=!(state.mode==='returns'||(state.mode==='exit'&&state.exitType==='company'));
     q('#eduSim').hidden=state.mode!=='ownership'||state.scene==='separate'||assets;
+    q('#eduLeaderNameField').hidden=!state.leader;
+    q('#eduLeaderShareField').hidden=!state.leader;
+    q('#eduSim').classList.toggle('edu-no-leader',!state.leader);
+    q('#eduIndirectLabel').textContent=state.leader?'الملكية غير المباشرة للمستثمر القائد في B عبر A':'إجمالي الملكية غير المباشرة للمساهمين في B عبر A';
+    q('#eduIndirect').textContent=num(state.investor*state.stake/100)+'%';
+    q('#eduEquation').textContent=num(state.investor)+'% × '+num(state.stake)+'% = '+num(state.investor*state.stake/100)+'%';
+    const money = value => '<span class="money"><span class="sar" role="img" aria-label="ريال سعودي"></span><span>'+num(value)+'</span></span>';
+    const leaderCash=Math.round(state.funding*state.investor)/100;
+    q('#eduFundingSummary').innerHTML=state.leader?'<div><small>مساهمة المستثمر القائد المفترضة</small><b>'+money(leaderCash)+'</b></div><div><small>مساهمة بقية المساهمين المفترضة</small><b>'+money(state.funding-leaderCash)+'</b></div>':'<div><small>المساهمون مجتمعون بملكية 100%</small><b>'+money(state.funding)+'</b></div>';
     q('#eduMotion').disabled=reduced.matches;
     q('#eduReplay').disabled=!movement||reduced.matches||!edges.some(e=>e.active);
     q('#eduSequence').textContent=sequenceText(0);
@@ -210,13 +222,13 @@
     root.querySelectorAll('[data-edu-mode]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.eduMode===state.mode)));
     network.innerHTML='<svg class="edu-lines" aria-hidden="true"></svg><div class="edu-edge-labels" aria-hidden="true"></div>'+nodes.map(n=>'<button type="button" class="edu-node '+n.kind+'" data-edu-node="'+n.id+'" style="--col:'+n.col+';--row:'+n.row+';--mobile:'+n.mobile+'" aria-label="'+esc(n.label)+'" aria-pressed="false"><span class="edu-orb">'+(n.kind==='company'?bdi(n.id):icon(n.kind))+'</span><b>'+esc(n.label)+'</b><small'+(n.sub==='شركة المساهمة المبسطة'?' class="edu-company-type"':'')+'>'+esc(n.sub)+'</small><span class="edu-inline">'+esc(n.description)+'</span></button>').join('');
     const captions={
-      ownership:assets?'A تملك الأصول مباشرة. اختر الأصل لقراءة دوره.':state.scene==='separate'?'المجموعة الأولى تملك A1 التي تملك 70% من B؛ والمجموعة الثانية تملك A2 التي تملك 80% من C.':'نسبة '+(state.name.trim()||'المساهمين المذكورين')+' في A تساوي '+num(state.investor)+'%، وتملك A '+num(state.stake)+'% من B.'+(state.scene==='portfolio'?' وتملك A أيضًا 80% من C و100% من D.':''),
+      ownership:assets?'A تملك الأصول مباشرة. اختر الأصل لقراءة دوره.':state.scene==='separate'?'المجموعة الأولى تملك A1 التي تملك 70% من B؛ والمجموعة الثانية تملك A2 التي تملك 80% من C.':(state.leader?'نسبة '+(state.name.trim()||'المستثمر القائد')+' في A تساوي '+num(state.investor)+'%، وتملك A ':'المساهمون يملكون 100% من A، وتملك A ')+num(state.stake)+'% من B.'+(state.scene==='portfolio'?' وتملك A أيضًا 80% من C و100% من D.':''),
       payment:assets?'يتجه الثمن من A إلى بائعي الأصول مقابل نقلها إليها.':state.payment==='purchase'?'يتجه ثمن شراء الملكية إلى المساهمين البائعين. الشركة المستهدفة تحتفظ بأصولها داخلها.':'يتجه مبلغ الاكتتاب إلى الشركة المستهدفة مقابل أسهم جديدة. النسب النهائية تحسب بعد الإصدار.',
       returns:assets?'المسار من الأصل إلى A تعبير عن تدفقات نشاطه داخل الشركة، والأصل جزء منها. الرصيد النقدي والأرباح القابلة للتوزيع مفهومان مستقلان.':'يفترض المسار الأول صدور قرارات توزيع جائزة في الشركات المستهدفة وتلقي شركة الاستثمار نصيبها. توزيع شركة الاستثمار على مساهميها قرار مستقل بشروطه.',
       exit:state.exitType==='shareholder'?'المثال بيع المساهمين لأسهمهم إلى طرف آخر. يستحق المساهمون البائعون الثمن مباشرة، كل بحسب الأسهم التي يبيعها، وتستمر شركة الاستثمار في تملك أصولها وحصصها. تراجع قيود التصرف والموافقات وقيد نقل الأسهم.':'المثال بيع شركة الاستثمار لحصتها أو أصلها، فتستحق هي حصيلة البيع. تتضمن الحصيلة قيمة الاستثمار وربحًا أو خسارة بحسب الصفقة. توزيع الأرباح يتطلب أرباحًا قابلة للتوزيع وقرارًا جائزًا؛ ورد رأس المال أو التصفية مساران بإجراءات مستقلة.'
     };
     const zeroB=!assets&&state.scene!=='separate'&&state.stake===0&&!(state.mode==='exit'&&state.exitType==='shareholder');
-    q('#eduCaption').textContent=captions[state.mode]+(zeroB?' حصة A في B تساوي 0%؛ مسار B متوقف في المثال.':'')+(state.mode==='exit'&&state.exitType==='shareholder'&&state.scene!=='separate'&&state.investor===0?' إجمالي نسبة المساهمين المذكورين في A تساوي 0%؛ مسار بيع أسهمهم متوقف.':'')+((state.mode==='returns'||(state.mode==='exit'&&state.exitType==='company'))&&!state.distribution?' مسار التوزيع للمساهمين متوقف حتى اختيار الافتراض التعليمي أعلاه.':'');
+    q('#eduCaption').textContent=captions[state.mode]+(zeroB?' حصة A في B تساوي 0%؛ مسار B متوقف في المثال.':'')+(state.mode==='exit'&&state.exitType==='shareholder'&&state.scene!=='separate'&&state.investor===0?' نسبة المستثمر القائد في A تساوي 0%؛ مسار بيع أسهمه متوقف.':'')+((state.mode==='returns'||(state.mode==='exit'&&state.exitType==='company'))&&!state.distribution?' مسار التوزيع للمساهمين متوقف حتى اختيار الافتراض التعليمي أعلاه.':'');
     q('#eduRouteKind').textContent=state.mode==='ownership'?'اتجاه السهم الإرشادي: من المالك إلى المملوك':'اتجاه السهم الإرشادي: من الدافع إلى المستلم';
     const modeInsight={
       payment:['افحص وجهة المقابل ووثائق الدخول','في شراء ملكية قائمة يستحق البائع الثمن، وفي إصدار أسهم جديدة تتلقى الشركة مبلغ الاكتتاب. المثال يعرض تمويلًا رأسماليًا مفترضًا قبل الدفع؛ وقد تستخدم الصفقة الفعلية سيولة قائمة أو تمويلًا آخر.'],
@@ -248,17 +260,20 @@
   }
   const validPercent = field => /^(?:\d+(?:\.\d{1,2})?|\.\d{1,2})$/.test(field.value)&&Number(field.value)>=0&&Number(field.value)<=100;
   function validateNumbers(){
-    const fields=[q('#eduInvestorNumber'),q('#eduStakeNumber')];
-    const invalid=fields.filter(field=>!validPercent(field));
+    const fields=state.leader?[q('#eduInvestorNumber'),q('#eduStakeNumber')]:[q('#eduStakeNumber')];
+    const invalid=fields.filter(field=>!validPercent(field)||(field.id==='eduInvestorNumber'&&Number(field.value)===0));
     fields.forEach(field=>field.setAttribute('aria-invalid',String(invalid.includes(field))));
     q('#eduInputError').hidden=invalid.length===0;
-    q('#eduInputError').textContent=invalid.length?'تقبل النسبة قيمة من 0 إلى 100 بمنزلتين عشريتين. يحتفظ الرسم بآخر قيمة صحيحة للحقل حتى تصحيح الإدخال.':'';
+    q('#eduInputError').textContent=invalid.length?'تقبل النسبة قيمة من 0 إلى 100 بمنزلتين عشريتين، وتكون نسبة المستثمر القائد أكبر من 0. يحتفظ الرسم بآخر قيمة صحيحة للحقل حتى تصحيح الإدخال.':'';
   }
   [['investor','#eduInvestor','#eduInvestorNumber'],['stake','#eduStake','#eduStakeNumber']].forEach(([key,range,number])=>{
     q(range).addEventListener('input',event=>{state[key]=Number(event.target.value);syncNumbers();validateNumbers();});
-    q(number).addEventListener('input',event=>{const field=event.target;const normalized=field.value.replace(/[\u0660-\u0669]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[\u06f0-\u06f9]/g,c=>String(c.charCodeAt(0)-0x6f0)).replace(/\u066b/g,'.');if(normalized!==field.value)field.value=normalized;if(validPercent(field)){state[key]=Number(field.value);syncNumbers(field);}validateNumbers();});
+    q(number).addEventListener('input',event=>{const field=event.target;const normalized=field.value.replace(/[\u0660-\u0669]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[\u06f0-\u06f9]/g,c=>String(c.charCodeAt(0)-0x6f0)).replace(/\u066b/g,'.');if(normalized!==field.value)field.value=normalized;if(validPercent(field)&&(key!=='investor'||!state.leader||Number(field.value)>0)){state[key]=Number(field.value);syncNumbers(field);}validateNumbers();});
   });
   q('#eduInvestorName').addEventListener('input',event=>{state.name=event.target.value;render(false);});
+  q('#eduHasLeader').addEventListener('change',event=>{if(state.leader)state.leaderShare=state.investor;state.leader=event.target.value==='yes';state.investor=state.leader?state.leaderShare:100;syncNumbers();validateNumbers();});
+  q('#eduFunding').addEventListener('input',event=>{const field=event.target;const raw=field.value.replace(/[\u0660-\u0669]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[\u06f0-\u06f9]/g,c=>String(c.charCodeAt(0)-0x6f0)).replace(/\u066b/g,'.').replace(/\u066c/g,',');if(field.value!==raw)field.value=raw;const ok=/^(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d{1,2})?$/.test(raw)&&Number(raw.replaceAll(',',''))>0&&Number(raw.replaceAll(',',''))<=1000000000000;field.setAttribute('aria-invalid',String(!ok));q('#eduFundingError').hidden=ok;if(ok){state.funding=Number(raw.replaceAll(',',''));render(false);}});
+  q('#eduFunding').addEventListener('blur',event=>{if(event.target.getAttribute('aria-invalid')!=='true')event.target.value=num(state.funding);});
   reduced.addEventListener('change',()=>{if(reduced.matches){movement=false;q('#eduMotion').checked=false;stop();}q('#eduMotion').disabled=reduced.matches;q('#eduReplay').disabled=!movement||reduced.matches;});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   new ResizeObserver(()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{const resume=Boolean(frame);draw();if(resume)play();});}).observe(network);
