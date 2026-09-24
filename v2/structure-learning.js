@@ -85,7 +85,7 @@
       const mobile=independent?g*3+1:1;
       makeNode(iid,independent?'مستثمرو الفرصة '+(g+1):'المساهمون في A',independent?'مساهمون في '+aid:shareholder+': '+num(state.investor)+'%، وبقية المساهمين: '+num(100-state.investor)+'%','person',1,row,mobile,
         'المساهمون يملكون أسهم شركة المشروع. تحدد وثائقها حقوقهم في المعلومات والقرارات والعوائد والتصرف بأسهمهم.');
-      makeNode(aid,'شركة الاستثمار '+aid,'مساهمة مبسطة في المثال','company',2,row,mobile+1,
+      makeNode(aid,'شركة الاستثمار '+aid,'شركة المساهمة المبسطة','company',2,row,mobile+1,
         independent?'تجمع هذه الشركة مساهمي فرصتها وتملك الحصة المستهدفة. تحدد لها إدارة وحسابات والتزامات بحسب هيكلها.':'A هي شركة المشروع التي يملكها المساهمون. تتولى الشراء باسمها، وتدار بصلاحيات يحددها نظامها الأساس.');
       const hasInvestment=assets||independent||s.targets.some(([id,,percent])=>(id==='B'?state.stake:percent)>0);
       const ownershipLabel='100% إجمالي الملكية';
@@ -208,7 +208,7 @@
     q('#eduAddAcquisition').hidden=state.scene==='portfolio';
     root.querySelectorAll('[data-edu-scene]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.eduScene===state.scene)));
     root.querySelectorAll('[data-edu-mode]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.eduMode===state.mode)));
-    network.innerHTML='<svg class="edu-lines" aria-hidden="true"></svg><div class="edu-edge-labels" aria-hidden="true"></div>'+nodes.map(n=>'<button type="button" class="edu-node '+n.kind+'" data-edu-node="'+n.id+'" style="--col:'+n.col+';--row:'+n.row+';--mobile:'+n.mobile+'" aria-label="'+esc(n.label)+'" aria-pressed="false"><span class="edu-orb">'+(n.kind==='company'?bdi(n.id):icon(n.kind))+'</span><b>'+esc(n.label)+'</b><small>'+esc(n.sub)+'</small><span class="edu-inline">'+esc(n.description)+'</span></button>').join('');
+    network.innerHTML='<svg class="edu-lines" aria-hidden="true"></svg><div class="edu-edge-labels" aria-hidden="true"></div>'+nodes.map(n=>'<button type="button" class="edu-node '+n.kind+'" data-edu-node="'+n.id+'" style="--col:'+n.col+';--row:'+n.row+';--mobile:'+n.mobile+'" aria-label="'+esc(n.label)+'" aria-pressed="false"><span class="edu-orb">'+(n.kind==='company'?bdi(n.id):icon(n.kind))+'</span><b>'+esc(n.label)+'</b><small'+(n.sub==='شركة المساهمة المبسطة'?' class="edu-company-type"':'')+'>'+esc(n.sub)+'</small><span class="edu-inline">'+esc(n.description)+'</span></button>').join('');
     const captions={
       ownership:assets?'A تملك الأصول مباشرة. اختر الأصل لقراءة دوره.':state.scene==='separate'?'المجموعة الأولى تملك A1 التي تملك 70% من B؛ والمجموعة الثانية تملك A2 التي تملك 80% من C.':'نسبة '+(state.name.trim()||'المساهمين المذكورين')+' في A تساوي '+num(state.investor)+'%، وتملك A '+num(state.stake)+'% من B.'+(state.scene==='portfolio'?' وتملك A أيضًا 80% من C و100% من D.':''),
       payment:assets?'يتجه الثمن من A إلى بائعي الأصول مقابل نقلها إليها.':state.payment==='purchase'?'يتجه ثمن شراء الملكية إلى المساهمين البائعين. الشركة المستهدفة تحتفظ بأصولها داخلها.':'يتجه مبلغ الاكتتاب إلى الشركة المستهدفة مقابل أسهم جديدة. النسب النهائية تحسب بعد الإصدار.',
@@ -266,7 +266,7 @@
   render(false);
 
   const intro=document.createElement('div');intro.className='edu';
-  intro.innerHTML='<div class="edu-intro" aria-label="من المساهمين إلى الاستثمار"><div class="edu-intro-item"><span class="edu-intro-icon">'+icon('person')+'</span><b>المساهمون</b><small>يملكون أسهم شركة المشروع</small></div><div class="edu-intro-item"><span class="edu-intro-icon">A</span><b>شركة المشروع</b><small>مساهمة مبسطة في هذا المثال</small></div><div class="edu-intro-item"><span class="edu-intro-icon">B</span><b>الشركة المستهدفة B</b><small>A تملك حصة في هذه الشركة</small></div></div><p class="edu-intro-note">ابدأ بالتمييز بين المساهمين، والشركة، والاستثمار الذي تملكه الشركة. <a href="#structureLearning">استكشف العلاقات في الرسم التفاعلي</a>.</p>';
+  intro.innerHTML='<div class="edu-intro" aria-label="من المساهمين إلى الاستثمار"><div class="edu-intro-item"><span class="edu-intro-icon">'+icon('person')+'</span><b>المساهمون</b><small>يملكون أسهم شركة المشروع</small></div><div class="edu-intro-item"><span class="edu-intro-icon">A</span><b>شركة المشروع</b><small class="edu-company-type">شركة المساهمة المبسطة</small></div><div class="edu-intro-item"><span class="edu-intro-icon">B</span><b>الشركة المستهدفة B</b><small>A تملك حصة في هذه الشركة</small></div></div><p class="edu-intro-note">ابدأ بالتمييز بين المساهمين، والشركة، والاستثمار الذي تملكه الشركة. <a href="#structureLearning">استكشف العلاقات في الرسم التفاعلي</a>.</p>';
   document.querySelector('#about .grid2').after(intro);
 
   const journey=document.createElement('section');journey.className='edu edu-journey';journey.setAttribute('aria-label','تتبع رحلة الاستحواذ');
