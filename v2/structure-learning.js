@@ -57,7 +57,32 @@
     <p class="edu-caveat">المسارات أمثلة مستقلة على الهيكل المفترض؛ اختيار التخارج يعرض اتجاه الثمن، وتبقى نسب مشهد الملكية كما حددتها. الحركة توضح الاتجاه والترتيب التعليمي؛ حجم العلامات وسرعتها ثابتان بصرف النظر عن المبالغ أو مدة التنفيذ. تتطلب الصفقة فحص القيود والموافقات والقيد النظامي بحسب شكل الشركة. <a href="https://www.uqn.gov.sa/details?p=19697" target="_blank" rel="noopener">نظام الشركات: المواد 22 و25 و138 و140 و145 و151</a>، <a href="https://www.uqn.gov.sa/details?p=21325" target="_blank" rel="noopener">اللائحة التنفيذية: ضوابط الأرباح القابلة للتوزيع</a>.</p>`;
   decision.before(root);
   const q = selector => root.querySelector(selector);
-  q('.edu-layout').before(q('#eduSim'));
+  // Keep the controls and the picture together; editing is a separate disclosure.
+  const layout=q('.edu-layout'),canvas=q('.edu-canvas'),tools=q('.edu-tools');
+  const modebar=document.createElement('div');modebar.className='edu-modebar';
+  modebar.append(tools.querySelector('strong'),...tools.querySelectorAll('[data-edu-mode]'));
+  const actionbar=document.createElement('div');actionbar.className='edu-actionbar';
+  actionbar.append(tools.querySelector('label'),q('#eduReplay'));
+  const inputsToggle=document.createElement('button');inputsToggle.type='button';inputsToggle.id='eduInputsToggle';inputsToggle.className='edu-toggle';inputsToggle.textContent='تعديل مدخلات المثال';inputsToggle.setAttribute('aria-controls','eduInputsPanel');inputsToggle.setAttribute('aria-expanded','false');actionbar.append(inputsToggle);
+  tools.append(modebar,actionbar);canvas.prepend(tools);
+  const context=document.createElement('div');context.className='edu-context';
+  context.append(q('#eduPayment'),q('#eduExit'),q('#eduDistribution'));tools.after(context);
+  q('#eduCaption').after(q('#eduSequence'));
+  const inputsPanel=document.createElement('aside');inputsPanel.id='eduInputsPanel';inputsPanel.className='edu-input-panel';inputsPanel.hidden=true;inputsPanel.setAttribute('aria-label','مدخلات المثال التعليمي');
+  const inputsClose=document.createElement('button');inputsClose.type='button';inputsClose.id='eduInputsClose';inputsClose.className='edu-toggle';inputsClose.textContent='إغلاق المدخلات';inputsPanel.append(inputsClose,q('#eduSim'));canvas.after(inputsPanel);
+  const inputHelp=document.createElement('details');inputHelp.className='edu-input-help';inputHelp.innerHTML='<summary>شرح الافتراضات وحدود المثال</summary>';
+  const sim=q('#eduSim'),simParagraphs=[...sim.children].filter(el=>el.tagName==='P'&&!el.id);
+  inputHelp.append(...simParagraphs,q('#eduInputHint'));sim.append(inputHelp);
+  const contextHelp=document.createElement('details');contextHelp.className='edu-context-help';contextHelp.innerHTML='<summary>دليل قراءة الرسم والمراجع</summary>';
+  contextHelp.append(...[...root.children].filter(el=>el.classList.contains('edu-caveat')));root.append(contextHelp);
+  function setInputsOpen(open,returnFocus=false){
+    inputsPanel.hidden=!open;layout.classList.toggle('edu-editing',open);inputsToggle.setAttribute('aria-expanded',String(open));
+    inputsToggle.textContent=open?'إخفاء المدخلات':'تعديل مدخلات المثال';
+    if(returnFocus)inputsToggle.focus();
+  }
+  inputsToggle.addEventListener('click',()=>{const open=inputsPanel.hidden;setInputsOpen(open);if(open)q('#eduHasLeader').focus({preventScroll:matchMedia('(min-width:1100px)').matches});});
+  inputsClose.addEventListener('click',()=>setInputsOpen(false,true));
+  inputsPanel.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();setInputsOpen(false,true);}});
   const network = q('#eduNetwork');
   let nodes = [], edges = [];
   function model() {
@@ -130,7 +155,7 @@
     const s=scenes[state.scene],node=nodes.find(n=>n.id===id);
     state.selected=node?node.id:'';
     network.querySelectorAll('.edu-node').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.eduNode===state.selected)));
-    q('#eduDetail').innerHTML='<span class="edu-kicker">'+(node?'دور هذا الطرف':'اقرأ المشهد')+'</span><h4>'+(node?esc(node.label):s.title)+'</h4><p>'+(node?esc(node.description):s.text)+'</p><dl><div><dt>المشهد</dt><dd>'+s.name+'</dd></div><div><dt>المسار الحالي</dt><dd>'+({ownership:'تتبع من يملك',payment:'تتبع وجهة المال',returns:'توزيعات افتراضية مشروطة',exit:state.exitType==='shareholder'?'بيع المساهمين لأسهمهم إلى طرف آخر':'بيع الاستثمار ثم فحص المتاح للتوزيع'}[state.mode])+'</dd></div></dl>';
+    q('#eduDetail').innerHTML='<span class="edu-kicker">'+(node?'دور هذا الطرف':'اقرأ المشهد')+'</span><h4>'+(node?esc(node.label):s.title)+'</h4><p>'+(node?esc(node.description):s.text)+'</p><details><summary>اقرأ المزيد عن المشهد</summary><dl><div><dt>المشهد</dt><dd>'+s.name+'</dd></div><div><dt>المسار الحالي</dt><dd>'+({ownership:'تتبع من يملك',payment:'تتبع وجهة المال',returns:'توزيعات افتراضية مشروطة',exit:state.exitType==='shareholder'?'بيع المساهمين لأسهمهم إلى طرف آخر':'بيع الاستثمار ثم فحص المتاح للتوزيع'}[state.mode])+'</dd></div></dl></details>';
   }
   function stop(){cancelAnimationFrame(frame);frame=0;dots.forEach(d=>d.setAttribute('visibility','hidden'));}
   function sequenceText(phase){
@@ -205,6 +230,8 @@
     q('#eduExit').hidden=state.mode!=='exit';
     q('#eduDistribution').hidden=!(state.mode==='returns'||(state.mode==='exit'&&state.exitType==='company'));
     q('#eduSim').hidden=state.mode!=='ownership'||state.scene==='separate'||assets;
+    inputsToggle.hidden=q('#eduSim').hidden;
+    if(inputsToggle.hidden)setInputsOpen(false);
     q('#eduLeaderNameField').hidden=!state.leader;
     q('#eduLeaderShareField').hidden=!state.leader;
     q('#eduSim').classList.toggle('edu-no-leader',!state.leader);
