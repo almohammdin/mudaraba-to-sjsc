@@ -58,9 +58,10 @@
     </div>
     <p id="impactError" class="edu-input-error" role="status"></p>
     <div id="impactPreview" aria-live="polite" aria-atomic="true"></div>
-    <div class="impact-actions"><button type="button" id="impactAttach" class="primaryBtn">إرفاق السيناريو بالمصمم</button><button type="button" id="impactCopy" class="ghostBtn">نسخ ملخص الأثر</button></div>
+    <div class="impact-actions"><button type="button" id="impactAttach" class="primaryBtn" aria-describedby="impactAttachHelp">إضافة ملخص الأتعاب والملكية إلى الحاسبة</button><button type="button" id="impactCopy" class="ghostBtn">نسخ ملخص الأثر</button></div>
+    <p id="impactAttachHelp" class="edu-caveat">يظهر الملخص في قسمي بيانات رأس المال وتحليل الملكية داخل حاسبة رأس المال وفئات الأسهم، ويُحفظ مع ملف الشركة عند الضغط على «حفظ الشركة». تبقى أرقام رأس المال وصفوف الأسهم كما أُدخلت.</p>
     <p id="impactStatus" role="status"></p>
-    <p class="edu-caveat">الإرفاق يضيف معاينة إلى ميزانية الصفقة وتحليل الملكية في المصمم. تظل بيانات رأس المال وصفوف الأسهم ومخرجات منصة التأسيس كما هي، حتى إعداد التعديل القانوني المناسب. تصدير A4 الحالي مخصص لرأس المال؛ يمكن نسخ هذا الملخص بصورة مستقلة.</p>`;
+    <p class="edu-caveat">تظل مخرجات منصة التأسيس كما هي، ويحتاج تعديل الأسهم إلى إعداد التعديل القانوني المناسب. تصدير A4 الحالي مخصص لرأس المال؛ يمكن نسخ هذا الملخص بصورة مستقلة.</p>`;
   roles.querySelector('.edu-role-workspace > details').before(panel);
   roles.querySelector('.edu-role-workspace > summary').textContent = 'تصميم تكليف مهندسي الصفقة وحساب أثره';
   $('eduEngineerOwner').parentElement.firstChild.textContent = 'هل يملكون أسهمًا حاليًا في الكيان محل معاينة الأسهم؟';
@@ -236,7 +237,7 @@
     if (errorsFor(draft, result).length) return;
     if (draft.values.Currency !== designer.context().currency) { $('impactStatus').textContent = 'عملة المعاينة تختلف عن عملة المصمم. راجع العملة والمبالغ ووحدها قبل الإرفاق.'; return; }
     applied = { draft, at: new Date().toISOString() }; attached();
-    $('impactStatus').textContent = 'أُرفقت المعاينة بالمصمم دون تعديل رأس المال أو صفوف الأسهم. استخدم حفظ الشركة للاحتفاظ بها.';
+    $('impactStatus').textContent = 'أُضيف ملخص الأتعاب والملكية إلى الحاسبة. بقي رأس المال وصفوف الأسهم كما أُدخلت. اضغط «حفظ الشركة» للاحتفاظ بالملخص مع ملف الشركة.';
     designer.showAnalysis();
   });
   $('impactCopy').addEventListener('click', async () => {
