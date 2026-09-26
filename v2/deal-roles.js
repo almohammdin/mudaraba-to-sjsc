@@ -6,7 +6,7 @@
   const section=document.createElement('section');
   section.id='dealRoles';section.className='edu-roles';section.setAttribute('aria-labelledby','eduRolesTitle');
   section.innerHTML=`
-    <div class="edu-header"><div><span class="edu-kicker">قبل الاتفاق على الأسهم والمقابل</span><h3 id="eduRolesTitle">أطراف الصفقة: من يمول، ومن يجهز، ومن يملك؟</h3><p>قد يجمع شخص أو شركة أكثر من دور. تُسجل ملكيته مرة واحدة، وتوضح خدماته وصلاحياته في اتفاق مستقل. هذه مساحة تعليمية للتحضير، ومدخلاتها مؤقتة داخل الصفحة.</p></div></div>
+    <div class="edu-header"><div><span class="edu-kicker">قبل الاتفاق على الأسهم والمقابل</span><h3 id="eduRolesTitle">أطراف الصفقة: من يمول، ومن يجهز، ومن يملك؟</h3><p>قد يجمع شخص أو شركة أكثر من دور. تُسجل ملكيته مرة واحدة، وتوضح خدماته وصلاحياته في اتفاق مستقل. هذه مساحة تعليمية للتحضير.</p></div></div>
     <div class="edu-role-cards" role="group" aria-label="شرح أدوار أطراف الصفقة">
       <button type="button" data-edu-role="investors" aria-pressed="false"><b>المساهمون</b><small>يقدمون رأس المال ويملكون الأسهم</small></button>
       <button type="button" data-edu-role="leader" aria-pressed="false"><b>المستثمر القائد</b><small>مساهم رئيسي عند اختياره في المثال</small></button>
@@ -29,7 +29,7 @@
         <label>الأعمال والمخرجات المطلوبة<textarea id="eduEngineerWork" rows="4" maxlength="3000" placeholder="مثال: إعداد ملف الفرصة، تنسيق الفحص، مقارنة البدائل، متابعة شروط الإقفال"></textarea></label>
         <label>المقابل وشروط استحقاقه<textarea id="eduEngineerTerms" rows="4" maxlength="3000" placeholder="حدد المبلغ أو عدد الأسهم، مصدر الأسهم، المراحل، موعد الاستحقاق، وأثر تعثر الصفقة"></textarea></label>
       </div>
-      <p class="edu-caveat">تُدخل أتعاب الخدمات ضمن ميزانية الصفقة. وتُراجع أسهم مهندسي الصفقة في <a href="#shareDesigner">مصمم رأس المال وفئات الأسهم</a> بعد تحديد مصدرها وأثرها في بقية الملكيات. حقول هذا القسم توثق الفكرة، وتبقى نسب الرسم مستقلة حتى اعتماد هيكل الملكية.</p>
+      <p class="edu-caveat">تُدخل أتعاب الخدمات ضمن ميزانية الصفقة. وتُراجع أسهم مهندسي الصفقة في <a href="#shareDesigner">حاسبة رأس المال وفئات الأسهم</a> بعد تحديد مصدرها وأثرها في بقية الملكيات. حقول هذا القسم توثق الفكرة، وتبقى نسب الرسم مستقلة حتى اعتماد هيكل الملكية.</p>
       <details><summary>ما الذي ينبغي حسمه في الاتفاق؟</summary><ol class="edu-role-checks">
         <li>نطاق العمل والمخرجات ومواعيد التسليم ومعيار قبول كل مرحلة.</li>
         <li>جهة دفع الأتعاب أو نقل الأسهم، وموافقتها، والمصروفات المعتمدة وحدودها.</li>

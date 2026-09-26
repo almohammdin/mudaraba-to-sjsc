@@ -17,11 +17,11 @@
   panel.setAttribute('aria-labelledby', 'impactTitle');
   panel.innerHTML = `
     <h4 id="impactTitle">أثر مهندسي الصفقة على الهيكل والحاسبة</h4>
-    <p>حدد نطاق هذا التكليف ومقابله، ثم قارن أثره. المبالغ تخص الشركة المختارة والعملة المعروضة. تحفظ المدخلات مع ملف الشركة عند الضغط على «حفظ الشركة» في المصمم.</p>
+    <p>حدد نطاق هذا التكليف ومقابله، ثم قارن أثره. المبالغ تخص الشركة المختارة والعملة المعروضة.</p>
     <h5>1. نطاق العمل والجهة التي تتحمل المقابل</h5>
     <div class="edu-role-fields">
       <label>ما نطاق عمل مهندسي الصفقة؟<select id="impactScope"><option value="one">فرصة محددة</option><option value="all">جميع الفرص في الهيكل</option></select></label>
-      <label>الشركة التي نعد ميزانيتها<select id="impactCompany"></select><small>اربط ملف المصمم بهذه الشركة عند إرفاق السيناريو.</small></label>
+      <label>الشركة التي نعد ميزانيتها<select id="impactCompany"></select><small>اختر الشركة نفسها التي تُعد لها ملف الحاسبة.</small></label>
       <label id="impactOpportunityField">الفرصة المحددة<select id="impactOpportunity"></select></label>
       <label>من يتحمل الأتعاب والمصروفات؟<select id="impactPayer"><option value="company">الشركة التي نعد ميزانيتها</option><option value="target">شركة الفرصة المحددة</option><option value="shareholders">مساهمون محددون خارج ميزانية الشركة</option></select></label>
       <label>العملة<span class="currencySelectWrap"><select id="impactCurrency"><option value="SAR">ريال سعودي</option><option value="USD">دولار أمريكي</option></select><span class="currencyChoiceMark" id="impactCurrencyMark"></span></span><small>جميع مبالغ المعاينة بهذه العملة. تغييرها يتطلب مراجعة المبالغ؛ تحويل الصرف يتم خارج المعاينة.</small></label>
@@ -64,9 +64,9 @@
     <p class="edu-caveat">تظل مخرجات منصة التأسيس كما هي، ويحتاج تعديل الأسهم إلى إعداد التعديل القانوني المناسب. تصدير A4 الحالي مخصص لرأس المال؛ يمكن نسخ هذا الملخص بصورة مستقلة.</p>`;
   roles.querySelector('.edu-role-workspace > details').before(panel);
   roles.querySelector('.edu-role-workspace > summary').textContent = 'تصميم تكليف مهندسي الصفقة وحساب أثره';
-  $('eduEngineerOwner').parentElement.firstChild.textContent = 'هل يملكون أسهمًا حاليًا في الكيان محل معاينة الأسهم؟';
+  $('eduEngineerOwner').parentElement.firstChild.textContent = 'هل يملكون أسهمًا حاليًا في الشركة التي تُحسب فيها ملكية مهندسي الصفقة؟';
   const caption = roles.querySelector('.edu-header p');
-  caption.textContent = 'قد يجمع شخص أو شركة أكثر من دور. تُسجل ملكيته مرة واحدة، وتوضح خدماته وصلاحياته في اتفاق مستقل. تحفظ مدخلات التكليف ومعاينة أثره مع ملف الشركة عند استخدام زر حفظ الشركة في المصمم.';
+  caption.textContent = 'قد يجمع شخص أو شركة أكثر من دور. تُسجل ملكيته مرة واحدة، وتوضح خدماته وصلاحياته في اتفاق مستقل.';
   const oldHint = roles.querySelector('.edu-role-fields + p.edu-caveat');
   if (oldHint) oldHint.textContent = 'راجع مصدر الأسهم وشروطها في المعاينة أدناه. نسب الرسم الأساسي تعليمية، ويعرض جدول المعاينة أثر المقابل المتوقع مستقلًا عن الملكية المسجلة.';
 
@@ -227,17 +227,17 @@
   });
   document.addEventListener('sjsc:designer-changed', attached);
   $('impactUseCash').addEventListener('click', () => {
-    if (!designer.context().capitalValid) { $('impactStatus').textContent = 'صحح بيانات رأس المال والمدفوع في المصمم قبل نسخ مصدر التمويل.'; return; }
-    if ($('impactCurrency').value !== designer.context().currency) { $('impactStatus').textContent = 'وحّد عملة المعاينة وعملة المصمم قبل نسخ التمويل. تحويل العملات يحتاج مبلغًا مراجعًا.'; return; }
+    if (!designer.context().capitalValid) { $('impactStatus').textContent = 'صحح بيانات رأس المال والمدفوع في الحاسبة قبل نسخ مصدر التمويل.'; return; }
+    if ($('impactCurrency').value !== designer.context().currency) { $('impactStatus').textContent = 'وحّد عملة المعاينة وعملة الحاسبة قبل نسخ التمويل. تحويل العملات يحتاج مبلغًا مراجعًا.'; return; }
     $('impactAvailable').value = fmt(designer.context().cashPaid); render();
     $('impactStatus').textContent = 'نُسخ المدفوع النقدي كافتراض تمويل. راجع توافره قبل اعتماد الميزانية.';
   });
   $('impactAttach').addEventListener('click', () => {
     const draft = read(), result = math.calculate(input(draft));
     if (errorsFor(draft, result).length) return;
-    if (draft.values.Currency !== designer.context().currency) { $('impactStatus').textContent = 'عملة المعاينة تختلف عن عملة المصمم. راجع العملة والمبالغ ووحدها قبل الإرفاق.'; return; }
+    if (draft.values.Currency !== designer.context().currency) { $('impactStatus').textContent = 'عملة المعاينة تختلف عن عملة الحاسبة. راجع العملة والمبالغ ووحدها قبل الإرفاق.'; return; }
     applied = { draft, at: new Date().toISOString() }; attached();
-    $('impactStatus').textContent = 'أُضيف ملخص الأتعاب والملكية إلى الحاسبة. بقي رأس المال وصفوف الأسهم كما أُدخلت. اضغط «حفظ الشركة» للاحتفاظ بالملخص مع ملف الشركة.';
+    $('impactStatus').textContent = 'أُضيف الملخص إلى الحاسبة. اضغط «حفظ الشركة» للاحتفاظ به.';
     designer.showAnalysis();
   });
   $('impactCopy').addEventListener('click', async () => {

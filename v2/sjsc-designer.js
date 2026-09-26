@@ -43,7 +43,7 @@
     },
     redeemable: {
       title: "متى أستخدم فئة قابلة للاسترداد؟",
-      body: "عندما يُراد بناء مسار خروج مضبوط للشركة أو حملة الفئة وفق حدث أو تاريخ وسعر محدد أو معادلة قابلة للحساب.",
+      body: "عندما يُراد بناء مسار تخارج بشروط محددة للشركة أو حملة الفئة وفق حدث أو تاريخ وسعر محدد أو معادلة قابلة للحساب.",
       name: "فئة قابلة للاسترداد",
       scope: "صاحب الخيار، المحفز، الإشعار، السعر، التمويل",
       warning: "ثبّت السعر أو معادلته والمحفز بمعيار واضح",
@@ -144,9 +144,7 @@
   function renderCapital() {
     const c = state.capital;
     const calc = capitalCalc();
-    $('currencyMark').innerHTML = symbolHtml();
     $('currencyChoiceMark').innerHTML = symbolHtml();
-    $('currencyMarkLabel').textContent = c.currency === "SAR" ? "رمز الريال السعودي المستخدم في جميع النتائج" : "رمز الدولار المستخدم في جميع النتائج";
     $('inKindField').hidden = c.type === "cash";
     $('cInKind').readOnly = c.type === "inkind";
     if (c.type === "inkind") $('cInKind').value = fmt(calc.issued);
@@ -189,7 +187,7 @@
     return `<article class="stockRow" data-row="${esc(row.id)}">
       <div class="stockRowHead"><b>صف الأسهم ${fmt(index + 1)}</b>${state.stocks.length > 1 ? '<button class="dangerBtn" type="button" data-remove-row>حذف الصف</button>' : ""}</div>
       <div class="stockFields">
-        <label class="stockField"><span>نوع السهم في المنصة</span><input type="text" value="سهم عادي" readonly><small class="helper">القيمة المستخدمة في مسار التأسيس المرجعي للأداة.</small></label>
+        <label class="stockField"><span>نوع السهم في المنصة</span><input type="text" value="سهم عادي" readonly></label>
         <label class="stockField"><span>فئة السهم</span><select data-field="categoryMode"><option value="none"${row.categoryMode === "none" ? " selected" : ""}>بدون فئة</option><option value="existing"${row.categoryMode === "existing" ? " selected" : ""}${categories.length ? "" : " disabled"}>فئة سبق تعريفها</option><option value="new"${row.categoryMode === "new" ? " selected" : ""}>تعريف فئة جديدة</option></select><small class="helper">الفئة تحمل الحقوق الخاصة، ونوع السهم في المنصة «سهم عادي».</small></label>
         ${row.categoryMode === "existing" ? `<label class="stockField"><span>اختر الفئة الموجودة</span><select data-field="existingCategory"><option value="">اختر…</option>${categoryOptions}</select></label>` : ""}
         ${row.categoryMode === "new" ? `<label class="stockField"><span>مسمى الفئة</span><input data-field="categoryName" maxlength="255" value="${esc(row.categoryName)}"><small class="charCount">${fmt(row.categoryName.length)} من 255</small></label>
