@@ -15,24 +15,24 @@
     },
     founders: {
       title: "متى أستخدم فئة مؤسسين ذات تصويت مرجح؟",
-      body: "عندما يكون استمرار سيطرة المؤسس على قرارات محددة جزءًا من الصفقة، مع إظهار الفرق بين الملكية الاقتصادية وقوة التصويت.",
+      body: "عندما يكون استمرار سيطرة المؤسس على قرارات محددة جزءا من الصفقة، مع إظهار الفرق بين الملكية الاقتصادية وقوة التصويت.",
       name: "فئة المؤسسين",
       scope: "عدد الأصوات، المسائل المحجوزة، تعديل الحقوق",
-      warning: "حدّد القرارات المشمولة ونطاق قوة التصويت بدقة",
+      warning: "حدد القرارات المشمولة ونطاق قوة التصويت بدقة",
       row: {
         categoryMode: "new",
         categoryName: "فئة المؤسسين",
-        rights: "لكل سهم 10 أصوات في قرارات المساهمين، وتصوّت الفئة مستقلة على أي تعديل يمس حقوقها أو إصدار فئة أعلى منها أولوية.",
+        rights: "لكل سهم 10 أصوات في قرارات المساهمين، وتصوت الفئة مستقلة على أي تعديل يمس حقوقها أو إصدار فئة أعلى منها أولوية.",
         extra: "يضبط نطاق التصويت والمسائل المحجوزة في النظام الأساس.",
         votesPerShare: 10
       }
     },
     investors: {
       title: "متى أستخدم فئة مستثمرين ذات أولوية مالية؟",
-      body: "عندما تتطلب الصفقة ترتيبًا ماليًا واضحًا للمستثمرين عند التوزيعات أو التصفية، دون افتراض عائد مضمون.",
+      body: "عندما تتطلب الصفقة ترتيبا ماليا واضحا للمستثمرين عند التوزيعات أو التصفية، دون افتراض عائد مضمون.",
       name: "فئة المستثمرين",
       scope: "نوع الأولوية، حدها، المشاركة بعدها، ترتيب التصفية",
-      warning: "استبدل الأقواس بقيم فعلية وبيّن هل الأولوية تراكمية أو مشاركة",
+      warning: "استبدل الأقواس بقيم فعلية وبين هل الأولوية تراكمية أو مشاركة",
       row: {
         categoryMode: "new",
         categoryName: "فئة المستثمرين",
@@ -43,14 +43,14 @@
     },
     redeemable: {
       title: "متى أستخدم فئة قابلة للاسترداد؟",
-      body: "عندما يُراد بناء مسار تخارج بشروط محددة للشركة أو حملة الفئة وفق حدث أو تاريخ وسعر محدد أو معادلة قابلة للحساب.",
+      body: "عندما يراد بناء مسار تخارج بشروط محددة للشركة أو حملة الفئة وفق حدث أو تاريخ وسعر محدد أو معادلة قابلة للحساب.",
       name: "فئة قابلة للاسترداد",
       scope: "صاحب الخيار، المحفز، الإشعار، السعر، التمويل",
-      warning: "ثبّت السعر أو معادلته والمحفز بمعيار واضح",
+      warning: "ثبت السعر أو معادلته والمحفز بمعيار واضح",
       row: {
         categoryMode: "new",
         categoryName: "فئة قابلة للاسترداد",
-        rights: "للشركة خيار استرداد أسهم الفئة ابتداءً من [التاريخ] بسعر [ثابت/معادلة] وبعد إشعار مدته [ ] يومًا، وفق النظام وشروط الإصدار.",
+        rights: "للشركة خيار استرداد أسهم الفئة ابتداء من [التاريخ] بسعر [ثابت/معادلة] وبعد إشعار مدته [ ] يوما، وفق النظام وشروط الإصدار.",
         extra: "يحدد مصدر تمويل الاسترداد وأثره على رأس المال والحقوق القائمة.",
         votesPerShare: 1
       }
@@ -66,15 +66,10 @@
   };
   let accountUser = null;
 
-  const num = (value) => {
-    const normalized = String(value ?? "")
-      .replace(/[,\s]/g, "");
-    const parsed = Number(normalized);
-    return Number.isFinite(parsed) ? parsed : 0;
-  };
+  const num = window.SJSCNumbers.parse;
   const esc = (value) => String(value ?? "").replace(/[&<>'"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[c]));
-  const fmt = (value) => new Intl.NumberFormat("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(num(value));
-  const plain = (value) => new Intl.NumberFormat("en-US", { useGrouping: false, minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(num(value));
+  const fmt = window.SJSCNumbers.format;
+  const plain = value => Number.isFinite(num(value)) ? String(num(value)) : "—";
   const symbolHtml = () => state.capital.currency === "SAR" ? '<span class="sar" role="img" aria-label="ريال سعودي"></span>' : '<span aria-label="دولار أمريكي">$</span>';
   const moneyHtml = (value) => `<span class="money">${symbolHtml()}<span>${fmt(value)}</span></span>`;
   const moneyText = (value) => `${fmt(value)} ${state.capital.currency === "SAR" ? "ريال سعودي" : "$"}`;
@@ -92,11 +87,12 @@
     const issued = num(c.issued);
     let inKind = c.type === "inkind" ? issued : c.type === "mixed" ? num(c.inKind) : 0;
     const cash = c.type === "cash" ? issued : Math.max(0, issued - inKind);
-    const minimum = c.type === "inkind" ? issued : c.type === "mixed" ? inKind + cash * 0.25 : issued * 0.25;
+    const minimum = c.type === "inkind" ? issued : c.type === "mixed" ? inKind + window.SJSCNumbers.money(cash * 0.25) : window.SJSCNumbers.money(issued * 0.25);
     const paid = c.paidFull || c.type === "inkind" ? issued : num(c.paid);
     const authorized = c.authorized === "" || c.authorized == null ? null : num(c.authorized);
     const errors = [];
-    if (issued < 0.01) errors.push("الحد الأدنى لرأس المال المصدر 0.01.");
+    if (![issued, inKind, paid].every(Number.isFinite) || (authorized !== null && !Number.isFinite(authorized))) errors.push("راجع كتابة الأرقام. لا يمكن حساب القيمة غير الواضحة.");
+    if (issued < 0.01) errors.push("قيمة رأس المال المصدر المدخلة أقل من 0.01.");
     if (c.type === "mixed" && inKind < 0.01) errors.push("الحد الأدنى للحصة العينية في المختلط 0.01.");
     if (c.type === "mixed" && inKind >= issued) errors.push("في المختلط يجب أن تبقى حصة نقدية موجبة.");
     if (!c.paidFull && c.type !== "inkind" && paid < minimum) errors.push("المدفوع أقل من الحد الأدنى المطلوب.");
@@ -104,34 +100,17 @@
     return { issued, inKind, cash, minimum, paid, unpaid: Math.max(0, issued - paid), authorized, errors };
   }
 
-  function stockCalc() {
-    const rows = state.stocks.map((row) => {
-      const count = num(row.count);
-      const value = num(row.value);
-      const amount = count * value;
-      const votes = count * Math.max(0, num(row.votesPerShare));
-      return { ...row, count, value, amount, votes };
-    });
-    const totalValue = rows.reduce((sum, row) => sum + row.amount, 0);
-    const totalCount = rows.reduce((sum, row) => sum + row.count, 0);
-    const totalVotes = rows.reduce((sum, row) => sum + row.votes, 0);
-    rows.forEach((row) => {
-      row.ownership = totalValue ? row.amount / totalValue * 100 : 0;
-      row.voteShare = totalVotes ? row.votes / totalVotes * 100 : 0;
-    });
-    const invalid = rows.some((row) => row.count <= 0 || !Number.isInteger(row.count) || row.value <= 0 || (row.categoryMode === "existing" && !row.existingCategory.trim()) || (row.categoryMode === "new" && (!row.categoryName.trim() || !row.rights.trim())));
-    return { rows, totalValue, totalCount, totalVotes, invalid };
-  }
+  function stockCalc() { return window.SJSCNumbers.stocksCalc(state.stocks); }
 
   function syncCapitalFromInputs() {
     state.companyName = $('companyName').value.trim();
     state.capital.currency = $('cCurrency').value;
     state.capital.type = $('cType').value;
-    state.capital.issued = num($('cIssued').value);
-    state.capital.inKind = num($('cInKind').value);
+    state.capital.issued = $('cIssued').value;
+    state.capital.inKind = $('cInKind').value;
     state.capital.paidFull = $('cPaidFull').value === "yes";
-    state.capital.paid = num($('cPaid').value);
-    state.capital.authorized = $('cAuthorized').value === "" ? null : num($('cAuthorized').value);
+    state.capital.paid = $('cPaid').value;
+    state.capital.authorized = $('cAuthorized').value === "" ? null : $('cAuthorized').value;
     state.capital.bank = $('cBank').value.trim();
     if (state.capital.type === "inkind") {
       state.capital.paidFull = true;
@@ -149,11 +128,11 @@
     $('cInKind').readOnly = c.type === "inkind";
     if (c.type === "inkind") $('cInKind').value = fmt(calc.issued);
     $('cCash').value = fmt(calc.cash);
-    $('cashHelp').textContent = c.type === "mixed" ? "يُحسب تلقائيًا: المصدر ناقص العيني." : c.type === "inkind" ? "يساوي صفرًا في رأس المال العيني فقط." : "يساوي رأس المال المصدر في النقدي فقط.";
+    $('cashHelp').textContent = c.type === "mixed" ? "يحسب تلقائيا: المصدر ناقص العيني." : c.type === "inkind" ? "يساوي صفرا في رأس المال العيني فقط." : "يساوي رأس المال المصدر في النقدي فقط.";
     $('cPaidFull').disabled = c.type === "inkind";
     $('cPaidFull').value = c.type === "inkind" || c.paidFull ? "yes" : "no";
     $('cPaid').disabled = c.type === "inkind" || c.paidFull;
-    if (document.activeElement !== $('cPaid') || $('cPaid').disabled) $('cPaid').value = fmt(calc.paid);
+    if (document.activeElement !== $('cPaid') || $('cPaid').disabled) $('cPaid').value = Number.isFinite(calc.paid) ? fmt(calc.paid) : window.SJSCNumbers.western(c.paid);
     $('paidHelp').textContent = c.type === "mixed" ? "الحد الأدنى = كامل العيني + 25% من النقدي." : c.type === "cash" ? "عند السداد الجزئي: 25% من المصدر على الأقل وأقل من كامل المصدر." : "العيني فقط مدفوع بالكامل.";
     $('sumIssued').innerHTML = moneyHtml(calc.issued);
     $('sumCash').innerHTML = moneyHtml(calc.cash);
@@ -161,7 +140,7 @@
     $('sumMinimum').innerHTML = moneyHtml(calc.minimum);
     $('sumPaid').innerHTML = moneyHtml(calc.paid);
     $('sumUnpaid').innerHTML = moneyHtml(calc.unpaid);
-    $('sumPaidRate').textContent = calc.issued ? `${fmt(calc.paid / calc.issued * 100)}%` : "0%";
+    $('sumPaidRate').textContent = Number.isFinite(calc.issued) && calc.issued > 0 ? `${fmt(calc.paid / calc.issued * 100)}%` : "—";
     $('sumAuthorized').innerHTML = calc.authorized == null ? "غير محدد" : moneyHtml(calc.authorized);
     const explain = $('minimumExplain');
     if (calc.errors.length) {
@@ -177,25 +156,31 @@
     $('valuationCheck').hidden = calc.inKind <= 0;
   }
 
+  const inputText = value => Number.isFinite(num(value)) ? fmt(value) : window.SJSCNumbers.western(value);
+  function linkClasses() {
+    state.stocks = window.SJSCNumbers.resolveClasses(state.stocks).map(({ missingCategory, ...row }) => row);
+  }
   function definedCategories(currentId) {
     return [...new Set(state.stocks.filter((row) => row.id !== currentId && row.categoryMode === "new" && row.categoryName.trim()).map((row) => row.categoryName.trim()))];
   }
 
   function rowHtml(row, index) {
-    const categories = definedCategories(row.id);
-    const categoryOptions = categories.map((name) => `<option value="${esc(name)}"${row.existingCategory === name ? " selected" : ""}>${esc(name)}</option>`).join("");
+    const categories = state.stocks.filter(r => r.id !== row.id && r.categoryMode === "new" && r.categoryName.trim());
+    const categoryOptions = categories.map((category) => `<option value="${esc(category.id)}"${row.categoryId === category.id ? " selected" : ""}>${esc(category.categoryName)}</option>`).join("");
     return `<article class="stockRow" data-row="${esc(row.id)}">
       <div class="stockRowHead"><b>صف الأسهم ${fmt(index + 1)}</b>${state.stocks.length > 1 ? '<button class="dangerBtn" type="button" data-remove-row>حذف الصف</button>' : ""}</div>
       <div class="stockFields">
+        <label class="stockField full"><span>اسم المساهم أو المجموعة (اختياري)</span><input data-field="holder" maxlength="120" value="${esc(row.holder || '')}" placeholder="مثال: المؤسسون"></label>
         <label class="stockField"><span>نوع السهم في المنصة</span><input type="text" value="سهم عادي" readonly></label>
         <label class="stockField"><span>فئة السهم</span><select data-field="categoryMode"><option value="none"${row.categoryMode === "none" ? " selected" : ""}>بدون فئة</option><option value="existing"${row.categoryMode === "existing" ? " selected" : ""}${categories.length ? "" : " disabled"}>فئة سبق تعريفها</option><option value="new"${row.categoryMode === "new" ? " selected" : ""}>تعريف فئة جديدة</option></select><small class="helper">الفئة تحمل الحقوق الخاصة، ونوع السهم في المنصة «سهم عادي».</small></label>
-        ${row.categoryMode === "existing" ? `<label class="stockField"><span>اختر الفئة الموجودة</span><select data-field="existingCategory"><option value="">اختر…</option>${categoryOptions}</select></label>` : ""}
+        ${row.categoryMode === "existing" ? `<label class="stockField"><span>اختر الفئة الموجودة</span><select data-field="categoryId"><option value="">اختر…</option>${categoryOptions}</select></label>` : ""}
         ${row.categoryMode === "new" ? `<label class="stockField"><span>مسمى الفئة</span><input data-field="categoryName" maxlength="255" value="${esc(row.categoryName)}"><small class="charCount">${fmt(row.categoryName.length)} من 255</small></label>
-        <label class="stockField wide"><span>الحقوق المتصلة بالفئة <small>(تسميها المنصة حاليًا «الحقول المتصلة»)</small></span><textarea data-field="rights" maxlength="255" rows="3">${esc(row.rights)}</textarea><small class="charCount">${fmt(row.rights.length)} من 255</small></label>
+        <label class="stockField wide"><span>الحقوق المتصلة بالفئة <small>(تسميها المنصة حاليا «الحقول المتصلة»)</small></span><textarea data-field="rights" maxlength="255" rows="3">${esc(row.rights)}</textarea><small class="charCount">${fmt(row.rights.length)} من 255</small></label>
         <label class="stockField full"><span>بيان إضافي (اختياري)</span><textarea data-field="extra" rows="2">${esc(row.extra)}</textarea></label>` : ""}
-        <label class="stockField"><span>عدد الأسهم</span><input data-field="count" type="text" inputmode="numeric" value="${fmt(row.count)}"><small class="helper">عدد صحيح موجب.</small></label>
-        <label class="stockField"><span>قيمة السهم</span><input data-field="value" type="text" inputmode="decimal" value="${fmt(row.value)}"></label>
-        <label class="stockField"><span>أصوات لكل سهم: للتحليل فقط</span><input data-field="votesPerShare" type="text" inputmode="numeric" value="${fmt(row.votesPerShare)}"><small class="helper">تُستخدم لصياغة الحق، بينما تعرض شاشة الأسهم بيانات الصف والفئة.</small></label>
+        ${row.categoryMode === "existing" ? `<div class="classLinkNote">تتبع الحقوق والأصوات تعريف الفئة المختارة. <button type="button" class="ghostBtn" data-detach-class>إنشاء فئة مستقلة من هذا الصف</button></div>` : ""}
+        <label class="stockField"><span>عدد الأسهم</span><input data-field="count" type="text" inputmode="numeric" value="${esc(inputText(row.count))}"><small class="helper">عدد صحيح موجب.</small></label>
+        <label class="stockField"><span>قيمة السهم</span><input data-field="value" type="text" inputmode="decimal" value="${esc(inputText(row.value))}"></label>
+        <label class="stockField"><span>أصوات لكل سهم: للتحليل فقط</span><input data-field="votesPerShare" type="text" inputmode="numeric" value="${esc(inputText(row.votesPerShare))}" ${row.categoryMode === "existing" && row.categoryId ? "readonly" : ""}><small class="helper">تستخدم لصياغة الحق، بينما تعرض شاشة الأسهم بيانات الصف والفئة.</small></label>
       </div>
       <div class="rowValue"><span>قيمة أسهم الصف = العدد × قيمة السهم</span><strong>${moneyHtml(num(row.count) * num(row.value))}</strong></div>
     </article>`;
@@ -208,7 +193,7 @@
   function updateTables() {
     const stocks = stockCalc();
     $('analysisRows').innerHTML = stocks.rows.map((row) => `<tr><td>${esc(categoryLabel(row))}</td><td>${moneyHtml(row.amount)}</td><td>${fmt(row.ownership)}%</td><td>${fmt(row.votesPerShare)}</td><td>${fmt(row.votes)}</td><td>${fmt(row.voteShare)}%</td></tr>`).join("");
-    $('analysisBars').innerHTML = stocks.rows.map((row) => `<div><div class="analysisBar"><span>${esc(categoryLabel(row))}: الملكية</span><i><em style="width:${Math.min(100, row.ownership)}%"></em></i><b>${fmt(row.ownership)}%</b></div><div class="analysisBar vote"><span>${esc(categoryLabel(row))}: التصويت</span><i><em style="width:${Math.min(100, row.voteShare)}%"></em></i><b>${fmt(row.voteShare)}%</b></div></div>`).join("");
+    $('analysisBars').innerHTML = stocks.rows.map((row) => `<div><div class="analysisBar"><span>${esc(categoryLabel(row))}: الملكية</span><i><em style="width:${(Number.isFinite(row.ownership) ? Math.min(100, row.ownership) : 0)}%"></em></i><b>${fmt(row.ownership)}%</b></div><div class="analysisBar vote"><span>${esc(categoryLabel(row))}: التصويت</span><i><em style="width:${(Number.isFinite(row.voteShare) ? Math.min(100, row.voteShare) : 0)}%"></em></i><b>${fmt(row.voteShare)}%</b></div></div>`).join("");
     $('platformRows').innerHTML = stocks.rows.map((row) => `<tr><td>سهم عادي</td><td>${esc(categoryLabel(row))}</td><td>${fmt(row.count)}</td><td>${moneyHtml(row.value)}</td><td>${moneyHtml(row.amount)}</td></tr>`).join("");
   }
 
@@ -216,22 +201,34 @@
     const cap = capitalCalc();
     const stocks = stockCalc();
     const difference = cap.issued - stocks.totalValue;
-    const matched = !cap.errors.length && !stocks.invalid && stocks.rows.length > 0 && Math.abs(difference) < 0.005;
+    const matched = stocks.rows.length > 0 && Math.abs(difference) < 0.005;
     const matchNode = $('matchState');
     matchNode.className = `matchState ${matched ? "ok" : "bad"}`;
-    matchNode.innerHTML = matched ? "<b>متطابق حسابيًا</b><span>إجمالي قيمة الأسهم يساوي رأس المال المصدر.</span>" : `<b>قيد الاستكمال</b><span>${stocks.invalid ? "صحح بيانات صفوف الأسهم." : `الفرق غير الموزع: ${moneyHtml(difference)}`}</span>`;
+    matchNode.innerHTML = matched ? "<b>متطابق حسابيا</b><span>إجمالي قيمة الأسهم يساوي رأس المال المصدر.</span>" : `<b>قيد الاستكمال</b><span>${stocks.invalid ? "صحح بيانات صفوف الأسهم." : `الفرق غير الموزع: ${moneyHtml(difference)}`}</span>`;
     $('railIssued').innerHTML = moneyHtml(cap.issued);
     $('railStocks').innerHTML = moneyHtml(stocks.totalValue);
     $('railCount').textContent = fmt(stocks.totalCount);
     $('railDifference').innerHTML = moneyHtml(difference);
     $('railMinimum').innerHTML = moneyHtml(cap.minimum);
     const warnings = [];
-    if (cap.authorized != null && cap.authorized < cap.issued) warnings.push("تنبيه استرشادي: رأس المال المصرح به أقل من المصدر. راجع القيمة قبل نقلها إلى المنصة.");
+    if (stocks.invalid) warnings.push("ملاحظة: راجع أرقام الأسهم والأصوات وتعريف الفئات. يمكنك المتابعة والحفظ.");
+    if (stocks.duplicateNames) warnings.push("يوجد أكثر من تعريف بالاسم نفسه. يمكنك اختيار اسم يميز كل فئة.");
+    if (cap.authorized != null && cap.authorized < cap.issued) warnings.push("رأس المال المصرح به أقل من المصدر. يمكنك مراجعة القيمة أو متابعة التصميم.");
     if (cap.errors.length) warnings.push(cap.errors.join(" "));
     $('railWarning').textContent = warnings.join(" ");
+    $('railWarning').className = warnings.length ? (cap.errors.length || stocks.invalid ? 'advisory danger' : 'advisory warn') : '';
+    document.querySelectorAll('#capitalPanel input[inputmode], #stockRows input[inputmode]').forEach(node => {
+      const invalid = node.value !== '' && !Number.isFinite(num(node.value));
+      node.setAttribute('aria-invalid', String(invalid));
+      const helpId = (node.id || node.closest('[data-row]').dataset.row + '-' + node.dataset.field) + '-numberHelp';
+      let help = document.getElementById(helpId);
+      if (!help) { help = document.createElement('small'); help.id = helpId; help.className = 'numberHelp'; node.insertAdjacentElement('afterend', help); }
+      node.setAttribute('aria-describedby', helpId); help.textContent = invalid ? 'راجع كتابة الرقم. يمكنك المتابعة والحفظ.' : '';
+    });
   }
 
   function updateAll() {
+    linkClasses();
     renderCapital();
     updateTables();
     updateMatch();
@@ -264,23 +261,34 @@
   }
 
   function loadSnapshot(data) {
-    state = data;
+    state = JSON.parse(JSON.stringify(data));
+    state.capital = { currency: 'SAR', type: 'cash', issued: 100000, inKind: 0, paidFull: true, paid: 100000, authorized: null, bank: '', ...state.capital };
+    state.companyName = window.SJSCNumbers.western(state.companyName || '');
+    state.capital.bank = window.SJSCNumbers.western(state.capital.bank || '');
+    state.versions ||= [];
+    state.attachments ||= { deposit: false };
     if (!state.id) state.id = crypto.randomUUID();
-    state.stocks = (state.stocks || []).map((row) => ({ ...row, id: row.id || crypto.randomUUID() }));
+    state.stocks = (Array.isArray(state.stocks) ? state.stocks : []).map((row) => {
+      const normalized = { categoryMode: 'none', categoryName: '', existingCategory: '', rights: '', extra: '', count: '', value: '', votesPerShare: 1, ...row, id: row.id || crypto.randomUUID() };
+      for (const key of ['holder','categoryName','existingCategory','rights','extra']) normalized[key] = window.SJSCNumbers.western(normalized[key] || '');
+      return normalized;
+    });
     $('companyName').value = state.companyName || "";
     $('cCurrency').value = state.capital.currency || "SAR";
     $('cType').value = state.capital.type || "cash";
-    $('cIssued').value = fmt(state.capital.issued ?? 100000);
-    $('cInKind').value = fmt(state.capital.inKind ?? 0);
+    $('cIssued').value = inputText(state.capital.issued ?? 100000);
+    $('cInKind').value = inputText(state.capital.inKind ?? 0);
     $('cPaidFull').value = state.capital.paidFull ? "yes" : "no";
-    $('cPaid').value = fmt(state.capital.paid ?? state.capital.issued);
-    $('cAuthorized').value = state.capital.authorized == null ? "" : fmt(state.capital.authorized);
+    $('cPaid').value = inputText(state.capital.paid ?? state.capital.issued);
+    $('cAuthorized').value = state.capital.authorized == null ? "" : inputText(state.capital.authorized);
     $('cBank').value = state.capital.bank || "";
     $('depositReady').checked = !!state.attachments?.deposit;
-    $('valuationReady').checked = !!state.attachments?.valuation;
+
+    linkClasses();
     renderRows();
     updateAll();
     window.SJSCDealImpact?.restore(state.dealEngineering);
+    document.dispatchEvent(new CustomEvent("sjsc:design-loaded"));
   }
 
   function localRecords() {
@@ -294,31 +302,38 @@
 
   async function saveCurrent() {
     const data = snapshot();
-    if (!data.companyName) return toast("اكتب اسم الشركة أو المشروع قبل الحفظ.");
+    if (!data.companyName) { data.companyName = "تصميم " + new Date().toLocaleDateString("en-GB"); state.companyName = data.companyName; $("companyName").value = data.companyName; }
     const records = localRecords();
     const index = records.findIndex((record) => record.id === data.id);
+    const previous = index >= 0 ? records[index] : null;
+    if (previous && JSON.stringify({ ...previous.data, versions: [] }) !== JSON.stringify({ ...data, versions: [] })) {
+      const oldData = { ...previous.data }; delete oldData.versions;
+      data.versions = [...(previous.data.versions || []), { at: previous.updatedAt, data: oldData }].slice(-10);
+    }
+    state.versions = data.versions || [];
     const record = { id: data.id, companyName: data.companyName, updatedAt: new Date().toISOString(), data };
     if (index >= 0) records[index] = record; else records.unshift(record);
     localStorage.setItem(accountUser ? `${localKey}:${accountUser.uid}` : localKey, JSON.stringify(records));
     refreshLocalList();
+    document.dispatchEvent(new CustomEvent("sjsc:design-saved"));
     $('savedCompanies').value = data.id;
     if (window.SJSCCloud?.isConfigured && await window.SJSCCloud.user()) {
       try {
         await window.SJSCCloud.saveCompany({ id: data.id, companyName: data.companyName, data });
         $('cloudState').textContent = "محفوظ على الحساب";
         $('cloudState').classList.add('online');
-        toast("حُفظت الشركة محليا وفي حسابك السحابي.");
+        toast("حفظت الشركة محليا وفي حسابك السحابي.");
         await refreshCloudList();
         $('savedCompanies').value = `cloud:${data.id}`;
       } catch (error) {
         console.error(error);
         $('cloudState').textContent = "محفوظ على الجهاز، تعذرت المزامنة";
         $('cloudState').classList.remove('online');
-        toast(`حُفظت محليا. ${window.SJSCCloud.errorMessage(error)}`);
+        toast(`حفظت محليا. ${window.SJSCCloud.errorMessage(error)}`);
       }
       return;
     }
-    toast("حُفظت الشركة محليًا على هذا الجهاز فقط.");
+    toast("حفظت الشركة محليا على هذا الجهاز فقط.");
   }
 
   async function refreshCloudList() {
@@ -399,7 +414,7 @@
         shared.id = crypto.randomUUID();
         shared.companyName = `${shared.companyName || "تصميم مشترك"}: نسخة`;
         loadSnapshot(shared);
-        toast("فُتحت نسخة مشاركة. احفظها باسمك لإنشاء نسخة مستقلة.");
+        toast("فتحت نسخة مشاركة. احفظها باسمك لإنشاء نسخة مستقلة.");
         history.replaceState(null, '', `${location.pathname}#shareDesigner`);
       }
     }
@@ -432,8 +447,9 @@
       `اسم البنك: ${state.capital.bank || "غير محدد"}`,
       "",
       ...stocks.rows.flatMap((row, index) => [
-        `صف الأسهم ${fmt(index + 1)}: سهم عادي، ${categoryLabel(row)}`,
+        `صف الأسهم ${fmt(index + 1)}${row.holder ? " — " + row.holder : ""}: سهم عادي، ${categoryLabel(row)}`,
         `عدد الأسهم: ${fmt(row.count)} | قيمة السهم: ${moneyText(row.value)} | قيمة الأسهم: ${moneyText(row.amount)}`,
+        `الملكية: ${fmt(row.ownership)}% | أصوات السهم: ${fmt(row.votesPerShare)} | مجموع الأصوات: ${fmt(row.votes)} | التصويت: ${fmt(row.voteShare)}%`,
         row.categoryMode === "new" ? `مسمى الفئة: ${row.categoryName}\nالحقوق المتصلة: ${row.rights}\nبيان إضافي: ${row.extra || "غير محدد"}` : ""
       ].filter(Boolean)),
       "",
@@ -441,6 +457,7 @@
       `إجمالي قيمة الأسهم: ${moneyText(stocks.totalValue)}`,
       `الفرق غير الموزع: ${moneyText(cap.issued - stocks.totalValue)}`
     ];
+    lines.push("", "ملاحظات التصميم", $("railWarning").textContent || "لا توجد ملاحظات حسابية حالية.");
     return lines.join("\n");
   }
 
@@ -509,16 +526,16 @@
     const reviewText = exportIssueSummary(cap, stocks, difference);
     const method = { cash: "نقدي", inkind: "عيني", mixed: "نقدي وعيني" }[state.capital.type];
     const date = new Intl.DateTimeFormat("ar-SA-u-nu-latn", { year: "numeric", month: "long", day: "numeric" }).format(new Date());
-    const rightsRows = stocks.rows.filter((row) => row.categoryMode === "new" && row.rights.trim());
+    const rightsRows = stocks.rows.filter((row) => row.categoryMode === "new" && (row.rights.trim() || row.extra.trim()));
     const rowFont = stocks.rows.length > 6 ? 17 : 19;
     const rightsFont = rightsRows.length > 4 ? 17 : 19;
 
     const host = document.createElement("div");
     host.setAttribute("aria-hidden", "true");
-    host.style.cssText = "position:fixed;left:-20000px;top:0;width:1240px;height:1754px;pointer-events:none;z-index:-1;";
+    host.style.cssText = "position:fixed;left:-20000px;top:0;width:1240px;min-height:1700px;pointer-events:none;z-index:-1;";
 
     const page = document.createElement("article");
-    page.style.cssText = "width:1240px;height:1754px;box-sizing:border-box;padding:62px 68px 52px;background:#FFFEFC;color:#18232D;font-family:Craft,Tahoma,Arial,sans-serif;direction:rtl;display:flex;flex-direction:column;overflow:hidden;";
+    page.style.cssText = "width:1240px;min-height:1700px;box-sizing:border-box;padding:62px 68px 52px;background:#FFFEFC;color:#18232D;font-family:Craft,Tahoma,Arial,sans-serif;direction:rtl;display:flex;flex-direction:column;";
 
     const summaryCards = [
       ["رأس المال المصدر", exportMoneyHtml(cap.issued, 19)],
@@ -535,7 +552,7 @@
 
     const stockRows = stocks.rows.map((row) => `
       <tr>
-        <td>${esc(categoryLabel(row))}</td>
+        <td>${row.holder ? esc(row.holder) + '<br>' : ''}${esc(categoryLabel(row))}</td>
         <td style="direction:ltr;text-align:left">${fmt(row.count)}</td>
         <td style="direction:ltr;text-align:left">${exportMoneyHtml(row.value, 15)}</td>
         <td style="direction:ltr;text-align:left">${exportMoneyHtml(row.amount, 15)}</td>
@@ -550,15 +567,12 @@
           ${rightsRows.map((row) => `
             <div style="display:grid;grid-template-columns:190px 1fr;gap:14px;padding:10px 12px;border:1px solid #E7E0D7;border-radius:13px;background:#fff">
               <b style="font-size:${rightsFont}px;color:#0D3656">${esc(row.categoryName || categoryLabel(row))}</b>
-              <span style="font-size:${rightsFont}px;line-height:1.55;color:#44525C">${esc(row.rights)}</span>
+              <span style="font-size:${rightsFont}px;line-height:1.55;color:#44525C;white-space:pre-wrap;overflow-wrap:anywhere">${esc(row.rights)}${row.extra ? '\n' + esc(row.extra) : ''}</span>
             </div>`).join("")}
         </div>
       </section>` : "";
 
-    const valuationLine = cap.inKind > 0 ? `
-      <div style="display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-top:1px solid #E7E0D7">
-        <span>تقرير التقييم المعتمد</span><b style="color:${state.attachments.valuation ? "#165A3D" : "#8A6640"}">${state.attachments.valuation ? "جاهز" : "غير محدد كجاهز"}</b>
-      </div>` : "";
+    const valuationLine = cap.inKind > 0 ? "<p>الحصص العينية: راجع تعليمات التقييم في منصة التأسيس.</p>" : "";
 
     const currencyLine = `<span style="display:inline-flex;direction:ltr;align-items:center;gap:5px">${exportSymbolHtml(15)}<b style="font-family:Arial,sans-serif;color:#0D3656">${state.capital.currency}</b></span>`;
 
@@ -628,6 +642,7 @@
       cell.style.borderBottom = "1px solid #E7E0D7";
       if (!cell.style.padding) cell.style.padding = "9px 10px";
     });
+    if ($('railWarning').textContent) { const note = document.createElement("p"); note.style.cssText = "padding:14px;background:#fff2d7;color:#754d00"; note.textContent = $('railWarning').textContent; page.append(note); }
     host.appendChild(page);
     document.body.appendChild(host);
     return { host, page, fileBase: exportFileBase() };
@@ -646,7 +661,7 @@
         useCORS: true,
         logging: false,
         width: 1240,
-        height: 1754,
+        height: Math.ceil(built.page.getBoundingClientRect().height),
         windowWidth: 1240,
         windowHeight: 1754
       });
@@ -664,7 +679,7 @@
     return bytes;
   }
 
-  function a4PdfBlobFromCanvas(canvas) {
+  function legacyA4PdfBlobFromCanvas(canvas) {
     const jpg = dataUrlBytes(canvas.toDataURL("image/jpeg", 0.96));
     const encoder = new TextEncoder();
     const chunks = [];
@@ -751,16 +766,17 @@
         document.body.appendChild(link);
         link.click();
         link.remove();
-        toast("تم تجهيز صورة A4.");
+        toast("تم تجهيز صورة الملخص كاملة.");
       } else {
         let blob;
         const JsPDF = window.jspdf?.jsPDF;
         if (JsPDF) {
           const doc = new JsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
-          doc.addImage(canvas.toDataURL("image/jpeg", 0.96), "JPEG", 0, 0, 210, 297, undefined, "FAST");
+          const pages = window.SJSCExport.sliceCanvas(canvas);
+          pages.forEach((page, index) => { if (index) doc.addPage(); doc.addImage(page.toDataURL("image/jpeg", 0.96), "JPEG", 0, 0, 210, 297, undefined, "FAST"); });
           blob = doc.output("blob");
         } else {
-          blob = a4PdfBlobFromCanvas(canvas);
+          blob = window.SJSCExport.pdfFromCanvas(canvas);
         }
         downloadBlob(blob, fileBase + ".pdf", pdfPreview);
         toast(isiOS ? "تم فتح PDF ويمكن حفظه أو مشاركته." : "تم تجهيز PDF A4.");
@@ -794,36 +810,50 @@
   ['cCurrency','cType','cPaidFull'].forEach((id) => $(id).addEventListener('change', () => { syncCapitalFromInputs(); updateAll(); }));
   ['cIssued','cInKind','cPaid','cAuthorized'].forEach((id) => $(id).addEventListener('blur', () => {
     if (id === 'cAuthorized' && $(id).value.trim() === '') return;
-    $(id).value = fmt($(id).value);
+    if (Number.isFinite(num($(id).value))) $(id).value = fmt($(id).value);
   }));
   $('stockRows').addEventListener('focusout', (event) => {
-    if (['count','value','votesPerShare'].includes(event.target.dataset.field)) event.target.value = fmt(event.target.value);
+    if (['count','value','votesPerShare'].includes(event.target.dataset.field)) if (Number.isFinite(num(event.target.value))) event.target.value = fmt(event.target.value);
   });
   $('depositReady').addEventListener('change', () => { state.attachments.deposit = $('depositReady').checked; });
-  $('valuationReady').addEventListener('change', () => { state.attachments.valuation = $('valuationReady').checked; });
+
 
   $('stockRows').addEventListener('input', (event) => {
     const rowNode = event.target.closest('[data-row]');
     const field = event.target.dataset.field;
     if (!rowNode || !field) return;
     const row = state.stocks.find((item) => item.id === rowNode.dataset.row);
-    row[field] = ['count','value','votesPerShare'].includes(field) ? num(event.target.value) : event.target.value;
+    row[field] = event.target.value;
     const count = event.target.parentElement.querySelector('.charCount');
     if (count) count.textContent = `${fmt(event.target.value.length)} من 255`;
     const valueNode = rowNode.querySelector('.rowValue strong');
     if (valueNode) valueNode.innerHTML = moneyHtml(num(row.count) * num(row.value));
+    linkClasses();
+    state.stocks.filter(r => r.categoryMode === 'existing').forEach(r => {
+      const node = [...$('stockRows').querySelectorAll('[data-row]')].find(n => n.dataset.row === r.id);
+      if (node) node.querySelector('[data-field="votesPerShare"]').value = inputText(r.votesPerShare);
+    });
     updateTables(); updateMatch();
+    document.dispatchEvent(new CustomEvent('sjsc:designer-changed'));
   });
   $('stockRows').addEventListener('change', (event) => {
     const rowNode = event.target.closest('[data-row]');
     const field = event.target.dataset.field;
     if (!rowNode || !field) return;
     const row = state.stocks.find((item) => item.id === rowNode.dataset.row);
-    row[field] = ['count','value','votesPerShare'].includes(field) ? num(event.target.value) : event.target.value;
-    if (field === 'categoryMode') renderRows();
+    row[field] = event.target.value;
+    if (field === 'categoryMode' && row.categoryMode !== 'existing') delete row.categoryId;
+    linkClasses();
+    if (['categoryMode', 'categoryId', 'categoryName'].includes(field)) renderRows();
     updateAll();
   });
   $('stockRows').addEventListener('click', (event) => {
+    const detach = event.target.closest('[data-detach-class]');
+    if (detach) {
+      const row = state.stocks.find(r => r.id === detach.closest('[data-row]').dataset.row);
+      row.categoryMode = 'new'; row.categoryName = (row.existingCategory || 'فئة') + ' مستقلة'; delete row.categoryId;
+      renderRows(); updateAll(); return;
+    }
     const remove = event.target.closest('[data-remove-row]');
     if (!remove) return;
     const id = remove.closest('[data-row]').dataset.row;
@@ -858,7 +888,7 @@
       const record = localRecords().find((item) => item.id === value);
       if (record) loadSnapshot(record.data);
     }
-    toast("فُتحت الشركة المحفوظة.");
+    toast("فتحت الشركة المحفوظة.");
     } catch (error) { toast(window.SJSCCloud.errorMessage(error)); }
   });
   $('accountSignIn').addEventListener('click', async () => {
@@ -907,14 +937,18 @@
   $('exportA4Pdf')?.addEventListener('click', () => exportA4("pdf", $('exportA4Pdf')));
 
   $('shareCompany').addEventListener('click', async () => {
-    if (!window.SJSCCloud?.isConfigured) return;
-    const url = await window.SJSCCloud.createShare(state.id, snapshot());
+    if (!window.SJSCCloud) return;
+    const data = window.SJSCNumbers.shareSnapshot(snapshot(), $("shareScope").value);
+    const url = await window.SJSCCloud.createShare(state.id, data);
     await copyText(url);
-    toast("أُنشئ رابط مشاركة ونسخ إلى الحافظة.");
+    toast("أنشئ رابط مشاركة ونسخ إلى الحافظة.");
   });
 
   // Scenario data is stored alongside the design, never inserted into legal capital or class totals.
   window.SJSCDesigner = Object.freeze({
+    snapshot, load: loadSnapshot, analysis: stockCalc, capital: capitalCalc, save: saveCurrent,
+    setPartnership: value => { state.partnership = value; },
+    text: preparedText, notify: toast,
     context: () => ({ id: state.id, companyName: state.companyName, currency: state.capital.currency,
       cashPaid: Math.max(0, capitalCalc().paid - capitalCalc().inKind), capitalValid: capitalCalc().errors.length === 0 }),
     dealEngineering: () => state.dealEngineering ? JSON.parse(JSON.stringify(state.dealEngineering)) : null,
