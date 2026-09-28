@@ -98,7 +98,7 @@
   }
 
   async function writeCompanies(incoming) {
-    if (!currentUser) throw new Error("سجّل الدخول أولا.");
+    if (!currentUser) throw new Error("سجل الدخول أولا.");
     const owner = currentUser;
     const ref = userDoc();
     await window.SJSCFirebase.runTransaction(db, async (transaction) => {
@@ -133,14 +133,14 @@
   }
 
   async function loadCompany(id) {
-    if (!(await user())) throw new Error("سجّل الدخول أولا.");
+    if (!(await user())) throw new Error("سجل الدخول أولا.");
     const record = (await readCompanies()).find((item) => item.id === id);
     if (!record) throw new Error("تعذر العثور على الشركة المحفوظة.");
     return { id: record.id, company_name: record.companyName, data: record.data, updated_at: record.updatedAt };
   }
 
   async function saveCompany(record) {
-    if (!(await user())) throw new Error("سجّل الدخول أولا.");
+    if (!(await user())) throw new Error("سجل الدخول أولا.");
     const stored = {
       id: record.id,
       companyName: record.companyName,
@@ -207,7 +207,7 @@
     if (code.includes("permission-denied")) return "تعذر حفظ الملفات في الحساب. النسخة المحلية متاحة على جهازك.";
     if (code.includes("unauthorized-domain")) return "تسجيل الدخول غير متاح من هذا العنوان. افتح رابط الموقع المنشور.";
     if (code.includes("too-many-requests")) return "محاولات كثيرة. أعد المحاولة بعد قليل.";
-    if (code.includes("operation-not-allowed")) return "طريقة الدخول هذه غير متاحة حاليا. جرّب طريقة الدخول الأخرى.";
+    if (code.includes("operation-not-allowed")) return "طريقة الدخول هذه غير متاحة حاليا. جرب طريقة الدخول الأخرى.";
     return "تعذر إكمال العملية الآن.";
   }
 
@@ -231,3 +231,4 @@
     errorMessage
   };
 })();
+

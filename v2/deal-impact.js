@@ -21,7 +21,7 @@
     <h5>1. نطاق العمل والجهة التي تتحمل المقابل</h5>
     <div class="edu-role-fields">
       <label>ما نطاق عمل مهندسي الصفقة؟<select id="impactScope"><option value="one">فرصة محددة</option><option value="all">جميع الفرص في الهيكل</option></select></label>
-      <label>الشركة التي نعد ميزانيتها<select id="impactCompany"></select><small>اختر الشركة نفسها التي تُعد لها ملف الحاسبة.</small></label>
+      <label>الشركة التي نعد ميزانيتها<select id="impactCompany"></select><small>اختر الشركة نفسها التي تعد لها ملف الحاسبة.</small></label>
       <label id="impactOpportunityField">الفرصة المحددة<select id="impactOpportunity"></select></label>
       <label>من يتحمل الأتعاب والمصروفات؟<select id="impactPayer"><option value="company">الشركة التي نعد ميزانيتها</option><option value="target">شركة الفرصة المحددة</option><option value="shareholders">مساهمون محددون خارج ميزانية الشركة</option></select></label>
       <label>العملة<span class="currencySelectWrap"><select id="impactCurrency"><option value="SAR">ريال سعودي</option><option value="USD">دولار أمريكي</option></select><span class="currencyChoiceMark" id="impactCurrencyMark"></span></span><small>جميع مبالغ المعاينة بهذه العملة. تغييرها يتطلب مراجعة المبالغ؛ تحويل الصرف يتم خارج المعاينة.</small></label>
@@ -52,23 +52,23 @@
         <label>كيف تقدم الأسهم؟<select id="impactSource"><option value="holders">نقل من بقية المساهمين بالتناسب</option><option value="donor">نقل من مساهمين محددين</option><option value="issue">محاكاة إصدار أسهم جديدة</option></select></label>
         ${field('CurrentPct', 'ملكية المهندسين الحالية في هذا الكيان (%)', '0')}
         ${field('FinalPct', 'إجمالي ملكية المهندسين المستهدفة بعد التنفيذ (%)', '0')}
-        ${field('DonorPct', 'ملكية المساهمين مقدمي الأسهم قبل النقل (%)', '0', 'تُدخل ملكيتهم مجتمعين، وتستبعد منها ملكية المهندسين المحتسبة في الحقل السابق.')}
+        ${field('DonorPct', 'ملكية المساهمين مقدمي الأسهم قبل النقل (%)', '0', 'تدخل ملكيتهم مجتمعين، وتستبعد منها ملكية المهندسين المحتسبة في الحقل السابق.')}
       </div>
       <p id="impactEquityNote" class="edu-caveat"></p>
     </div>
     <p id="impactError" class="edu-input-error" role="status"></p>
     <div id="impactPreview" aria-live="polite" aria-atomic="true"></div>
     <div class="impact-actions"><button type="button" id="impactAttach" class="primaryBtn" aria-describedby="impactAttachHelp">إضافة ملخص الأتعاب والملكية إلى الحاسبة</button><button type="button" id="impactCopy" class="ghostBtn">نسخ ملخص الأثر</button></div>
-    <p id="impactAttachHelp" class="edu-caveat">يظهر الملخص في قسمي بيانات رأس المال وتحليل الملكية داخل حاسبة رأس المال وفئات الأسهم، ويُحفظ مع ملف الشركة عند الضغط على «حفظ الشركة». تبقى أرقام رأس المال وصفوف الأسهم كما أُدخلت.</p>
+    <p id="impactAttachHelp" class="edu-caveat">يظهر الملخص في قسمي بيانات رأس المال وتحليل الملكية داخل حاسبة رأس المال وفئات الأسهم، ويحفظ مع ملف الشركة عند الضغط على «حفظ الشركة». تبقى أرقام رأس المال وصفوف الأسهم كما أدخلت.</p>
     <p id="impactStatus" role="status"></p>
     <p class="edu-caveat">تظل مخرجات منصة التأسيس كما هي، ويحتاج تعديل الأسهم إلى إعداد التعديل القانوني المناسب. تصدير A4 الحالي مخصص لرأس المال؛ يمكن نسخ هذا الملخص بصورة مستقلة.</p>`;
   roles.querySelector('.edu-role-workspace > details').before(panel);
   roles.querySelector('.edu-role-workspace > summary').textContent = 'تصميم تكليف مهندسي الصفقة وحساب أثره';
-  $('eduEngineerOwner').parentElement.firstChild.textContent = 'هل يملكون أسهمًا حاليًا في الشركة التي تُحسب فيها ملكية مهندسي الصفقة؟';
+  $('eduEngineerOwner').parentElement.firstChild.textContent = 'هل يملكون أسهما حاليا في الشركة التي تحسب فيها ملكية مهندسي الصفقة؟';
   const caption = roles.querySelector('.edu-header p');
-  caption.textContent = 'قد يجمع شخص أو شركة أكثر من دور. تُسجل ملكيته مرة واحدة، وتوضح خدماته وصلاحياته في اتفاق مستقل.';
+  caption.textContent = 'قد يجمع شخص أو شركة أكثر من دور. تسجل ملكيته مرة واحدة، وتوضح خدماته وصلاحياته في اتفاق مستقل.';
   const oldHint = roles.querySelector('.edu-role-fields + p.edu-caveat');
-  if (oldHint) oldHint.textContent = 'راجع مصدر الأسهم وشروطها في المعاينة أدناه. نسب الرسم الأساسي تعليمية، ويعرض جدول المعاينة أثر المقابل المتوقع مستقلًا عن الملكية المسجلة.';
+  if (oldHint) oldHint.textContent = 'راجع مصدر الأسهم وشروطها في المعاينة أدناه. نسب الرسم الأساسي تعليمية، ويعرض جدول المعاينة أثر المقابل المتوقع مستقلا عن الملكية المسجلة.';
 
   const connection = document.createElement('div'); connection.id = 'impactConnection'; connection.className = 'impact-connection';
   root.querySelector('.edu-canvas').append(connection);
@@ -128,29 +128,31 @@
   function budgetHtml(draft, result) {
     const currency = draft.values.Currency;
     const cards = [['إجمالي الاستخدامات لجميع الدافعين', result.total], ['المطلوب من الشركة المختارة', result.required], ['على أطراف أخرى', result.external], ['التمويل المخصص للشركة', result.money.available], ['فجوة تمويل الشركة', result.gap], ['فائض التمويل المخصص', result.surplus]];
-    return `<div class="impact-totals">${cards.map(([label, value]) => `<div><small>${label}</small><b>${cash(value, currency)}</b></div>`).join('')}</div><p>المتبقي من مكافأة الإتمام بعد الخصم: ${cash(result.successDue, currency)}.</p><details><summary>ماذا لو تعثرت الصفقة؟</summary><p>بافتراض استحقاق أتعاب الأعمال وإكمال صرف المصروفات المدخلة، مع عدم تحقق شرط مكافأة الإتمام: إجمالي المقابل والمصروفات ${cash(result.cancelled, currency)}، ومنه على الشركة ${cash(result.cancelledCompany, currency)}. هذا افتراض للمقارنة؛ يحدد الاتفاق المنجز فعليًا والقابل للاسترداد والالتزامات غير القابلة للإلغاء. الأسهم المشروطة تحتاج معالجة مستقلة وفق ما تحقق من شروطها.</p></details>`;
+    return `<div class="impact-totals">${cards.map(([label, value]) => `<div><small>${label}</small><b>${cash(value, currency)}</b></div>`).join('')}</div><p>المتبقي من مكافأة الإتمام بعد الخصم: ${cash(result.successDue, currency)}.</p><details><summary>ماذا لو تعثرت الصفقة؟</summary><p>بافتراض استحقاق أتعاب الأعمال وإكمال صرف المصروفات المدخلة، مع عدم تحقق شرط مكافأة الإتمام: إجمالي المقابل والمصروفات ${cash(result.cancelled, currency)}، ومنه على الشركة ${cash(result.cancelledCompany, currency)}. هذا افتراض للمقارنة؛ يحدد الاتفاق المنجز فعليا والقابل للاسترداد والالتزامات غير القابلة للإلغاء. الأسهم المشروطة تحتاج معالجة مستقلة وفق ما تحقق من شروطها.</p></details>`;
   }
   function brief(draft, result) {
+    if (result.errors.length) return ['مسودة تكليف: مدخلات تحتاج مراجعة، دون نتائج محسوبة.', ...names.map(name => { const field = $('impact' + name); const label = field.closest('label')?.childNodes[0]?.textContent?.trim() || name; return label + ': ' + draft.values[name]; })].join('\n');
     const v = draft.values, money = amount => fmt(amount / 100) + (v.Currency === 'SAR' ? ' ريال سعودي' : ' $');
-    return ['معاينة أثر مهندسي الصفقة', 'الفريق: ' + (draft.roles.eduEngineersName || 'يحدد لاحقًا'),
+    return ['معاينة أثر مهندسي الصفقة', 'الفريق: ' + (draft.roles.eduEngineersName || 'يحدد لاحقا'),
       'الشركة المختارة: ' + v.Company, 'نطاق العمل: ' + (v.Scope === 'all' ? 'جميع الفرص' : 'فرصة ' + v.Opportunity),
       'الجهة المتحملة للمقابل: ' + ({ company: v.Company, target: v.Opportunity, shareholders: 'مساهمون محددون' }[v.Payer]),
       'إجمالي الاستخدامات: ' + money(result.total), 'المطلوب من الشركة: ' + money(result.required),
       'فجوة التمويل: ' + money(result.gap), 'فائض التمويل: ' + money(result.surplus),
       ...(result.equity ? ['الكيان محل الأسهم: ' + v.Entity, ...result.equity.rows.map(row => row.name + ': ' + fmt(row.before / 100) + '% قبل التنفيذ، ' + fmt(row.after / 100) + '% بعد التنفيذ المتوقع')] : []),
-      'الأعمال: ' + (draft.roles.eduEngineerWork || 'تحدد لاحقًا'), 'الشروط: ' + (draft.roles.eduEngineerTerms || 'تحدد لاحقًا'),
+      'الأعمال: ' + (draft.roles.eduEngineerWork || 'تحدد لاحقا'), 'الشروط: ' + (draft.roles.eduEngineerTerms || 'تحدد لاحقا'),
       'معاينة تحضيرية. رأس المال وصفوف الأسهم المسجلة مستقلة عنها. تراجع المصادر والموافقات والتراخيص قبل التنفيذ.'].join('\n');
   }
   function attached() {
     budget.hidden = ownership.hidden = !applied;
     if (!applied) return;
     const result = math.calculate(input(applied.draft));
-    if (errorsFor(applied.draft, result).length) { applied = null; budget.hidden = ownership.hidden = true; return; }
+    const issues = errorsFor(applied.draft, result);
+    if (result.errors.length) { budget.innerHTML = '<p class="advisory danger">المعاينة المرفقة تحتوي على مدخلات تحتاج مراجعة. حفظت المدخلات دون نتائج محسوبة.</p><button type="button" class="ghostBtn" data-impact-remove>إزالة المعاينة المرفقة</button>'; ownership.innerHTML = ''; return; }
     const stale = JSON.stringify(read()) !== JSON.stringify(applied.draft);
     const mismatch = applied.draft.values.Currency !== designer.context().currency;
-    const note = `<h4>سيناريو مهندسي الصفقة المرفق</h4><p>الشركة المقصودة: <bdi>${esc(applied.draft.values.Company)}</bdi>. نسخة معاينة بتاريخ <bdi dir="ltr">${esc(new Date(applied.at).toLocaleString('en-GB'))}</bdi>.</p>${stale ? '<p class="impact-alert">تغيرت المدخلات أو الهيكل بعد الإرفاق. النتائج التالية تخص النسخة السابقة. راجع المعاينة وأرفقها مجددًا لتحديثها.</p>' : ''}${mismatch ? '<p class="impact-alert">عملة السيناريو تختلف عن عملة رأس المال الحالية. لا تجمع القيم قبل توحيد العملة وإعادة الإرفاق.</p>' : ''}`;
+    const note = `<h4>سيناريو مهندسي الصفقة المرفق</h4><p>الشركة المقصودة: <bdi>${esc(applied.draft.values.Company)}</bdi>. نسخة معاينة بتاريخ <bdi dir="ltr">${esc(new Date(applied.at).toLocaleString('en-GB'))}</bdi>.</p>${stale ? '<p class="impact-alert">تغيرت المدخلات أو الهيكل بعد الإرفاق. النتائج التالية تخص النسخة السابقة. راجع المعاينة وأرفقها مجددا لتحديثها.</p>' : ''}${mismatch ? '<p class="impact-alert">عملة السيناريو تختلف عن عملة رأس المال الحالية. لا تجمع القيم قبل توحيد العملة وإعادة الإرفاق.</p>' : ''}`;
     const actions = '<a href="#dealImpact">مراجعة التكليف والمعاينة</a> <button type="button" class="ghostBtn" data-impact-remove>إزالة المعاينة المرفقة</button>';
-    budget.innerHTML = note + budgetHtml(applied.draft, result) + actions;
+    budget.innerHTML = note + (issues.length ? '<p class="advisory warn">راجع ملاحظات التكليف؛ يمكنك الاحتفاظ بالمعاينة ومتابعة التصميم.</p>' : '') + budgetHtml(applied.draft, result) + actions;
     ownership.innerHTML = note + ownershipHtml(applied.draft, result) + '<p>هذه المعاينة مستقلة عن فئات الأسهم المسجلة أعلاه ومخرجات منصة التأسيس.</p>' + actions;
   }
   function render() {
@@ -167,13 +169,13 @@
     $('impactScopeNote').textContent = scene() === 'separate'
       ? 'لكل شركة تكليف ومقابل مستقلان. عند شمول جميع الفرص، خصص نصيب الشركة المختارة من الأتعاب والمصروفات المشتركة قبل إرفاق السيناريو بملفها.'
       : v.Scope === 'all' ? 'يشمل التكليف جميع الفرص في هذا الهيكل. وثق توزيع الأعمال والمصروفات المشتركة، وحدد أي مهام لاحقة في الاتفاق.'
-      : 'يخص التكليف الفرصة المحددة. راجع مدى اتساع المقابل إذا كانت الأسهم المقترحة في الشركة الجامعة التي تملك فرصًا أخرى.';
-    $('impactEquityNote').textContent = (v.Source === 'issue' ? 'الإصدار يحتاج تحديد عدد الأسهم الصحيح وقيمتها وطريقة الوفاء والموافقات. النسبة وحدها لا تسدد رأس المال. ' : 'نقل الأسهم يغير أصحاب الملكية؛ يراجع مقدمو الأسهم وشروط النقل والموافقات. ') + (v.Entity === 'A' && scene() === 'portfolio' ? 'المشاركة في A تمتد اقتصاديًا إلى استثمارات الشركة بحسب حقوق الأسهم، حتى عندما يخص العمل فرصة واحدة.' : 'تعرض النسب في الكيان المختار وحده؛ تبقى نسب الكيانات الأخرى مستقلة.');
+      : 'يخص التكليف الفرصة المحددة. راجع مدى اتساع المقابل إذا كانت الأسهم المقترحة في الشركة الجامعة التي تملك فرصا أخرى.';
+    $('impactEquityNote').textContent = (v.Source === 'issue' ? 'الإصدار يحتاج تحديد عدد الأسهم الصحيح وقيمتها وطريقة الوفاء والموافقات. النسبة وحدها لا تسدد رأس المال. ' : 'نقل الأسهم يغير أصحاب الملكية؛ يراجع مقدمو الأسهم وشروط النقل والموافقات. ') + (v.Entity === 'A' && scene() === 'portfolio' ? 'المشاركة في A تمتد اقتصاديا إلى استثمارات الشركة بحسب حقوق الأسهم، حتى عندما يخص العمل فرصة واحدة.' : 'تعرض النسب في الكيان المختار وحده؛ تبقى نسب الكيانات الأخرى مستقلة.');
     const result = math.calculate(input(draft)), errors = errorsFor(draft, result);
     panel.querySelectorAll('input[inputmode]').forEach(node => node.setAttribute('aria-invalid', String(errors.some(key => key.toLowerCase() === node.id.slice(6).toLowerCase()))));
     $('impactError').textContent = errors.length ? 'راجع المدخلات: مبالغ من 0 إلى 1,000,000,000,000 بمنزلتين عشريتين، ونسب من 0 إلى 100. الملكية المستهدفة تشمل الحالية، والنقل ضمن ملكية مقدمي الأسهم. راجع صفة الملكية وتأكيد تخصيص التكليف المشترك عند الحاجة.' : '';
-    $('impactAttach').disabled = $('impactCopy').disabled = errors.length > 0;
-    $('impactPreview').innerHTML = errors.length ? '<p>تظهر النتائج بعد تصحيح الحقول، حتى تبقى المعاينة متسقة.</p>' : budgetHtml(draft, result) + ownershipHtml(draft, result);
+    $('impactAttach').disabled = $('impactCopy').disabled = false;
+    $('impactPreview').innerHTML = result.errors.length ? '<p class="advisory danger">راجع الأرقام لعرض النتائج. يمكنك حفظ المسودة وإرفاقها ونسخ مدخلاتها الآن.</p>' : budgetHtml(draft, result) + ownershipHtml(draft, result);
     const payer = v.Payer === 'company' ? 'شركة ' + v.Company : v.Payer === 'target' ? 'شركة ' + v.Opportunity : 'مساهمون محددون';
     connection.innerHTML = `<b>العلاقة التعاقدية المقترحة</b><p>الجهة المتحملة للمقابل: <bdi>${esc(payer)}</bdi></p><small>${equity ? 'معاينة الأسهم المقترحة في ' + esc(v.Entity) + ' تظهر في جدول الأثر؛ الملكية المسجلة مستقلة.' : 'المقابل النقدي مستقل عن خطوط الملكية.'}</small><a href="#dealImpact">عرض الأثر على التمويل والملكية</a>`;
     attached();
@@ -190,14 +192,14 @@
       const node = $('impact' + name), value = values[name];
       if (node.tagName === 'SELECT') {
         if ([...node.options].some(option => option.value === value)) node.value = value;
-      } else node.value = typeof value === 'string' || typeof value === 'number' ? String(value).slice(0, 40) : '0';
+      } else node.value = typeof value === 'string' || typeof value === 'number' ? window.SJSCNumbers.western(value).slice(0, 40) : '0';
       if (name === 'Company') syncOptions();
     }
     for (const name of checks) $('impact' + name).checked = values[name] === true;
     for (const id of roleIds) {
       const node = $(id), value = draft?.roles[id] ?? roleDefaults[id];
       if (node.tagName === 'SELECT') node.value = [...node.options].some(option => option.value === value) ? value : roleDefaults[id];
-      else node.value = String(value).slice(0, node.maxLength > 0 ? node.maxLength : 3000);
+      else node.value = window.SJSCNumbers.western(value).slice(0, node.maxLength > 0 ? node.maxLength : 3000);
     }
     applied = valid && saved.applied?.draft?.values && saved.applied?.draft?.roles && Number.isFinite(Date.parse(saved.applied.at))
       ? JSON.parse(JSON.stringify(saved.applied)) : null;
@@ -227,24 +229,22 @@
   });
   document.addEventListener('sjsc:designer-changed', attached);
   $('impactUseCash').addEventListener('click', () => {
-    if (!designer.context().capitalValid) { $('impactStatus').textContent = 'صحح بيانات رأس المال والمدفوع في الحاسبة قبل نسخ مصدر التمويل.'; return; }
-    if ($('impactCurrency').value !== designer.context().currency) { $('impactStatus').textContent = 'وحّد عملة المعاينة وعملة الحاسبة قبل نسخ التمويل. تحويل العملات يحتاج مبلغًا مراجعًا.'; return; }
-    $('impactAvailable').value = fmt(designer.context().cashPaid); render();
-    $('impactStatus').textContent = 'نُسخ المدفوع النقدي كافتراض تمويل. راجع توافره قبل اعتماد الميزانية.';
+    $('impactCurrency').value = designer.context().currency;
+    $('impactAvailable').value = Number.isFinite(designer.context().cashPaid) ? fmt(designer.context().cashPaid) : ''; render();
+    $('impactStatus').textContent = 'نسخ المدفوع النقدي وعملته كافتراض تمويل. راجع المبلغ وتوافره.';
   });
   $('impactAttach').addEventListener('click', () => {
     const draft = read(), result = math.calculate(input(draft));
-    if (errorsFor(draft, result).length) return;
-    if (draft.values.Currency !== designer.context().currency) { $('impactStatus').textContent = 'عملة المعاينة تختلف عن عملة الحاسبة. راجع العملة والمبالغ ووحدها قبل الإرفاق.'; return; }
+    // Incomplete scenarios remain shareable drafts; computed results are withheld.
     applied = { draft, at: new Date().toISOString() }; attached();
-    $('impactStatus').textContent = 'أُضيف الملخص إلى الحاسبة. اضغط «حفظ الشركة» للاحتفاظ به.';
+    $('impactStatus').textContent = 'أضيف الملخص إلى الحاسبة. اضغط «حفظ الشركة» للاحتفاظ به.';
     designer.showAnalysis();
   });
   $('impactCopy').addEventListener('click', async () => {
     const draft = read(), result = math.calculate(input(draft));
-    if (errorsFor(draft, result).length) return;
-    try { await navigator.clipboard.writeText(brief(draft, result)); $('impactStatus').textContent = 'نُسخ ملخص الأثر.'; }
-    catch { $('impactStatus').textContent = 'تعذر النسخ التلقائي. يمكن تحديد النتائج الظاهرة ونسخها يدويًا.'; }
+    // Copy draft inputs when results cannot be calculated.
+    try { await navigator.clipboard.writeText(brief(draft, result)); $('impactStatus').textContent = 'نسخ ملخص الأثر.'; }
+    catch { $('impactStatus').textContent = 'تعذر النسخ التلقائي. يمكن تحديد النتائج الظاهرة ونسخها يدويا.'; }
   });
   for (const node of [budget, ownership]) node.addEventListener('click', event => {
     if (event.target.closest('[data-impact-remove]')) { applied = null; attached(); $('impactStatus').textContent = 'أزيلت المعاينة المرفقة. بقيت مدخلات التكليف ورأس المال والأسهم محفوظة في مساحة العمل.'; }
@@ -256,3 +256,4 @@
   restore(designer.dealEngineering());
   if (location.hash === '#dealImpact') roles.querySelector('.edu-role-workspace').open = true;
 })();
+

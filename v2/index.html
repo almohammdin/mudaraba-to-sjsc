@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="ar-SA" dir="rtl">
 <head>
+<script src="./designer-core.js?v=20260928-1"></script>
+<script src="./numeric-input.js?v=20260928-1"></script>
+<link rel="stylesheet" href="./workspace.css?v=20260928-1">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="دليل عملي لاستخدام شركة المساهمة المبسطة كشركة مشروع للفرص والاستحواذات مع أدوات لتصميم فئات الأسهم ورأس المال والعائد.">
@@ -9,11 +12,11 @@
 <link rel="icon" type="image/svg+xml" href="../assets/site-icon.svg">
 <link rel="apple-touch-icon" href="../assets/site-icon.svg">
 <link rel="stylesheet" href="./structure-learning.css?v=20260924-6">
-<link rel="stylesheet" href="./deal-roles.css?v=20260924-1">
-<link rel="stylesheet" href="./deal-impact.css?v=20260924-1">
-<link rel="stylesheet" href="./structure-compact.css?v=20260924-1">
-<script src="./structure-learning.js?v=20260926-1" defer></script>
-<script src="./deal-roles.js?v=20260926-1" defer></script>
+<link rel="stylesheet" href="./deal-roles.css?v=20260928-1">
+<link rel="stylesheet" href="./deal-impact.css?v=20260928-1">
+<link rel="stylesheet" href="./structure-compact.css?v=20260928-1">
+<script src="./structure-learning.js?v=20260928-1" defer></script>
+<script src="./deal-roles.js?v=20260928-1" defer></script>
 <style>
 @font-face{font-family:Craft;src:url('https://almohammdin.github.io/emtidad/assets/fonts/TheYearofHandicrafts-Regular.woff2')}@font-face{font-family:Craft;src:url('https://almohammdin.github.io/emtidad/assets/fonts/TheYearofHandicrafts-SemiBold.woff2');font-weight:600}@font-face{font-family:Craft;src:url('https://almohammdin.github.io/emtidad/assets/fonts/TheYearofHandicrafts-Black.woff2');font-weight:900}
 :root{--n:#0D3656;--n2:#154D74;--n3:#071F33;--g:#C9853C;--g2:#E2A45E;--green:#165A3D;--ink:#18232D;--muted:#5E6C76;--line:#E3DED6;--soft:#F6F2EC;--paper:#FFFEFC;--shadow:0 16px 42px rgba(13,54,86,.09);--shadow-hover:0 22px 52px rgba(13,54,86,.13);--r:24px;--ease-out:cubic-bezier(.23,1,.32,1)}
@@ -67,14 +70,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <a href="#decision">شركة أم عدة شركات؟</a>
 <a href="#offer">اختيار الهيكل</a>
 <a href="#structure">الهيكل</a>
-<a href="#case">دراسة الحالة</a>
+
 <a href="#shareDesigner">مصمم الشركة</a>
 <a href="#governance">الحوكمة</a>
 <a href="#sources">المراجع</a>
 </div>
 </div>
 </nav>
-<main id="top">
+<main id="top"><div class="c entryActions"><a class="primaryBtn" href="#shareDesigner">ابدأ تصميم الشركة</a><a class="ghostBtn" href="#about">افهم الخيارات</a></div>
 <header class="hero">
 <div class="c">
 <span class="ey">شركة مشروع للفرص والاستحواذات</span>
@@ -152,12 +155,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <p>تملك الشركة مجموعة فروع أو علامات أو أصول متقاربة عندما يكون المساهمون والاستراتيجية واحدة.</p>
 <strong>مثال تطبيقي: شركة استثمار وتشغيل في الأغذية والمشروبات (F&amp;B)</strong>
 </article>
-<article class="card useCard">
-<div class="icon">4</div>
-<h3>تحويل علاقة قائمة إلى ملكية</h3>
-<p>عندما يكون النشاط ممول بعقود متعددة ويراد الانتقال إلى ملكية منظمة في شركة مستقلة بعد معالجة العلاقة القائمة.</p>
-<strong>مثال تطبيقي: الحالة الحالية للمضاربة</strong>
-</article>
+<article class="card useCard"><div class="icon">4</div><h3>دخول مستثمر جديد</h3><p>تنظيم مساهمة مستثمر في توسع الشركة مع توضيح أثر دخوله على الملكية والتصويت.</p><strong>مثال تطبيقي: تمويل افتتاح فروع جديدة</strong></article>
 </div>
 </div>
 </section>
@@ -195,7 +193,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="c">
 <div class="head">
 <span class="ey">اختيار الهيكل</span>
-<h2>شركة مساهمة مبسطة، عقد مضاربة، أو صندوق استثماري؟</h2>
+<h2>شركة مساهمة مبسطة أو صندوق استثماري؟</h2>
 <p>الاختيار يبدأ من طبيعة الحق الذي سيملكه المستثمر، وطريقة إدارة المال، وعدد المستثمرين، وكيف تتحقق الأرباح والتخارج من الاستثمار.</p>
 </div>
 <div class="structureChoices" role="tablist" aria-label="اختيار الهيكل">
@@ -206,15 +204,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <p>المستثمر يملك أسهم في شركة، والشركة تملك الفرصة أو الأصل أو الحصة وتتصرف باسمها.</p>
 <strong>مثال: الاستحواذ على سلسلة مطاعم</strong>
 </button>
-<button class="structureOption mudaraba" type="button" role="tab" aria-pressed="false" data-structure="mudaraba">
-<span class="sIcon">2</span>
-<small>عقد مباشر</small>
-<h3>عقد مضاربة</h3>
-<p>رب المال يقدم المال للمضارب ليعمل فيه، والربح يقسم بالنسبة المتفق عليها في العقد.</p>
-<strong>مثال: تمويل صفقة تشغيلية محددة</strong>
-</button>
+
 <button class="structureOption fund" type="button" role="tab" aria-pressed="false" data-structure="fund">
-<span class="sIcon">3</span>
+<span class="sIcon">2</span>
 <small>استثمار جماعي</small>
 <h3>صندوق استثماري</h3>
 <p>المستثمر يملك وحدات في برنامج استثماري يديره مدير صندوق وفق الإطار التنظيمي.</p>
@@ -241,56 +233,32 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="compareWrap">
 <table class="structureTable" id="structureTable">
 <thead>
-<tr>
-<th>المحور</th>
+<tr><th>المحور</th>
 <th class="activeCol">شركة مساهمة مبسطة</th>
-<th>عقد مضاربة</th>
-<th>صندوق استثماري</th>
-</tr>
+<th>صندوق استثماري</th></tr>
 </thead>
 <tbody>
-<tr>
-<td>صفة المستثمر</td>
+<tr><td>صفة المستثمر</td>
 <td class="activeCol">مساهم</td>
-<td>رب مال</td>
-<td>مالك وحدات</td>
-</tr>
-<tr>
-<td>الحق الأساسي</td>
+<td>مالك وحدات</td></tr>
+<tr><td>الحق الأساسي</td>
 <td class="activeCol">أسهم في شركة</td>
-<td>حق تعاقدي في المضاربة</td>
-<td>وحدات في صندوق</td>
-</tr>
-<tr>
-<td>من يدير؟</td>
+<td>وحدات في صندوق</td></tr>
+<tr><td>من يدير؟</td>
 <td class="activeCol">رئيس أو مدير أو مجلس حسب النظام الأساس</td>
-<td>المضارب وفق العقد</td>
-<td>مدير صندوق وفق لائحة صناديق الاستثمار</td>
-</tr>
-<tr>
-<td>العائد</td>
+<td>مدير صندوق وفق لائحة صناديق الاستثمار</td></tr>
+<tr><td>العائد</td>
 <td class="activeCol">نتائج الشركة وتوزيعاتها وقيمة ملكيتها</td>
-<td>حصة من الربح الفعلي للمضاربة</td>
-<td>نتائج استثمارات الصندوق</td>
-</tr>
-<tr>
-<td>التخارج</td>
+<td>نتائج استثمارات الصندوق</td></tr>
+<tr><td>التخارج</td>
 <td class="activeCol">بيع أو نقل الأسهم أو الاسترداد وفق الشروط</td>
-<td>تسوية العقد أو انتهاؤه</td>
-<td>استرداد أو تخارج حسب نوع الصندوق وشروطه</td>
-</tr>
-<tr>
-<td>جمع رأس المال</td>
+<td>استرداد أو تخارج حسب نوع الصندوق وشروطه</td></tr>
+<tr><td>جمع رأس المال</td>
 <td class="activeCol">إصدار أسهم عبر مسار الطرح المناسب</td>
-<td>إبرام عقد مضاربة مع فحص التكييف عند التوسع</td>
-<td>طرح وحدات وفق لائحة صناديق الاستثمار</td>
-</tr>
-<tr>
-<td>يناسب غالبا</td>
+<td>طرح وحدات وفق لائحة صناديق الاستثمار</td></tr>
+<tr><td>يناسب غالبا</td>
 <td class="activeCol">استحواذ أو شركة مشروع أو نشاط تشغيلي</td>
-<td>علاقة مال وعمل محددة</td>
-<td>برنامج استثمار جماعي</td>
-</tr>
+<td>برنامج استثمار جماعي</td></tr>
 </tbody>
 </table>
 </div>
@@ -301,7 +269,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="capitalRules">
 <div>
 <b>1. حدد ما الذي سيصدر</b>
-<span>أسهم شركة، عقد مضاربة، أو وحدات صندوق.</span>
+<span>أسهم شركة أو وحدات صندوق.</span>
 </div>
 <div>
 <b>2. حدد مسار الطرح</b>
@@ -379,134 +347,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </div>
 </div>
 </section>
-<section class="sec soft" id="case">
-<div class="c">
-<div class="head">
-<span class="ey">دراسة حالة</span>
-<h2>نموذج المضاربة الحالي مثال تطبيقي ضمن استخدامات أوسع</h2>
-</div>
-<details class="caseFold">
-<summary>
-<span class="caseIntro">
-<small>دراسة حالة</small>
-<b>عقود مضاربة متعددة في نشاط المواشي</b>
-</span>
-</summary>
-<div class="caseBody">
-<div class="caseNumbers">
-<div class="caseBig">
-<small>قيمة عقود قائمة</small>
-<strong>50M+</strong>
-<span>أصحاب أموال بعقود ومدد وقيم مختلفة.</span>
-</div>
-<div class="caseText">
-<h3>الوضع الحالي</h3>
-<p>الشركة القائمة بنت شبكة علاقات ومضاربات مع شركات متخصصة في المواشي، ومن هذه العمليات يتحقق الربح. حجم عقود أصحاب الأموال يتجاوز <span class="money">
-<span class="sar" role="img" aria-label="ريال سعودي"></span>
-<span>50,000,000</span>
-</span>، والعقود تختلف في القيمة والمدة وتاريخ الانتهاء. رأس المال التجاري المتوقع للشركة القائمة في حدود <span class="money">
-<span class="sar" role="img" aria-label="ريال سعودي"></span>
-<span>500,000</span>
-</span> إلى <span class="money">
-<span class="sar" role="img" aria-label="ريال سعودي"></span>
-<span>1,000,000</span>
-</span>.</p>
-</div>
-</div>
-<div class="caseSub">
-<h3>الهيكل المقترح في هذه الحالة</h3>
-<p>أصحاب الأموال الذين يختارون الدخول يملكون أسهم في شركة مشروع مساهمة مبسطة. شركة المشروع تملك الأموال وتكون رب المال في عقد مضاربة واحد مع الشركة الأخرى، التي تعمل بصفتها المضارب. يقسم الربح بين الطرفين بالنسبة المتفق عليها، وتثبت حصة شركة المشروع في قوائمها ثم يقرر توزيعها وفق حقوق الأسهم.</p>
-<div class="caseTable">
-<table>
-<thead>
-<tr>
-<th>المحور</th>
-<th>الوضع الحالي</th>
-<th>بعد التحول</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>صفة صاحب المال</td>
-<td>طرف في عقد مضاربة قائم</td>
-<td>مساهم في شركة المشروع</td>
-</tr>
-<tr>
-<td>العلاقة مع المضارب</td>
-<td>كل مستثمر بعلاقته الحالية</td>
-<td>شركة المشروع بعقد واحد مع الشركة الأخرى</td>
-</tr>
-<tr>
-<td>رأس المال</td>
-<td>موزع على عقود متعددة</td>
-<td>مجمع داخل شركة المشروع</td>
-</tr>
-<tr>
-<td>إثبات الحق</td>
-<td>العقد والمستندات المالية</td>
-<td>عدد الأسهم وفئتها في سجل المساهمين</td>
-</tr>
-<tr>
-<td>الربح</td>
-<td>بحسب شروط العقد وآلية الاحتساب الفعلية</td>
-<td>حصة شركة المشروع من المضاربة ثم التوزيع على المساهمين</td>
-</tr>
-<tr>
-<td>الصورة النهائية</td>
-<td>مستثمر ← عقد مضاربة ← مضارب</td>
-<td>مساهمون ← شركة المشروع ← عقد مضاربة ← الشركة الأخرى</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="caseSub">
-<h3>نقاط الفحص قبل اعتماد التحول</h3>
-<div class="caseChecks">
-<div>
-<b>احتساب النتيجة</b>
-<span>كيف يحسب ربح أو خسارة كل عقد فعلي؟</span>
-</div>
-<div>
-<b>ارتباط المال</b>
-<span>هل يرتبط بصفقات محددة أم بالنشاط كله؟</span>
-</div>
-<div>
-<b>السداد</b>
-<span>كيف عولجت العقود التي انتهت مدتها؟</span>
-</div>
-<div>
-<b>التكييف</b>
-<span>يتحدد من واقع الممارسة الفعلية والعقود.</span>
-</div>
-</div>
-</div>
-<div class="caseSub">
-<h3>مسار الانتقال في الحالة الحالية</h3>
-<div class="caseTransition">
-<div>
-<b>1. تحديد الرصيد</b>
-<span>حساب رأس مال المضاربة والربح المستحق حتى تاريخ التسوية.</span>
-</div>
-<div>
-<b>2. تسوية العقد</b>
-<span>تثبيت حقوق الطرفين وإقفال العلاقة القديمة محاسبيا وتعاقديا.</span>
-</div>
-<div>
-<b>3. تحويل القيمة إلى أسهم</b>
-<span>تحديد نوع السهم وفئته وقيمة السهم وعدد الأسهم لكل مساهم.</span>
-</div>
-<div>
-<b>4. تسجيل الملكية</b>
-<span>إثبات الأسهم في سجل المساهمين وبدء العلاقة المؤسسية عبر شركة المشروع.</span>
-</div>
-</div>
-<div class="notice">شركة المشروع هي مصدر الأسهم الجديد، ومعالجة العلاقة القائمة تسبق بدء علاقة المساهمة الجديدة. وتختلف المعالجة من فرصة إلى أخرى بحسب طبيعة العلاقة القائمة.</div>
-</div>
-</div>
-</details>
-</div>
-</section>
 <section class="sec white" id="shareDesigner">
 <div class="c">
 <div class="head">
@@ -516,7 +356,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </div>
 <div class="card cloudPanel" aria-labelledby="cloudTitle">
 <div class="cloudHead">
-<div><h3 id="cloudTitle">ملفات الشركات</h3><span class="helper">احفظ كل شركة وافتحها أو شاركها لاحقًا.</span></div>
+<div><h3 id="cloudTitle">ملفات الشركات</h3><span class="helper">احفظ كل شركة وافتحها أو شاركها لاحقا.</span></div>
 <span class="cloudState" id="cloudState">حفظ محلي على هذا الجهاز</span>
 </div>
 <div class="cloudGrid">
@@ -524,11 +364,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <button class="primaryBtn" id="saveCompany" type="button">حفظ الشركة</button>
 <select id="savedCompanies" aria-label="الشركات المحفوظة"><option value="">فتح شركة محفوظة…</option></select>
 <button class="ghostBtn" id="newCompany" type="button">شركة جديدة</button>
-<button class="ghostBtn" id="shareCompany" type="button">مشاركة</button>
-<button class="ghostBtn" id="exportA4Png" type="button">صورة A4</button>
+<label class="shareScopeLabel">بيانات المشاركة<select id="shareScope"><option value="capital">رأس المال والأسهم فقط</option><option value="full">التصميم والتكليف وملاحظات الشراكة</option></select></label><button class="ghostBtn" id="shareCompany" type="button">مشاركة</button>
+<button class="ghostBtn" id="exportA4Png" type="button">صورة الملخص</button>
 <button class="ghostBtn" id="exportA4Pdf" type="button">PDF A4</button>
 </div>
-<small class="helper">المشاركة تشمل بيانات التكليف ومعاينته، ويمكن لمن يحصل على الرابط قراءتها. تصدير A4 يختص بملخص رأس المال والأسهم.</small>
+<small class="helper">المشاركة ترسل نسخة بالبيانات المختارة. يمكن لمن يحصل على الرابط قراءتها والاحتفاظ بها، ولا يمكن إلغاء النسخة بعد إرسالها. تصدير PDF يشمل جميع صفوف رأس المال والأسهم.</small>
 <div class="cloudAccountBar"><div class="cloudAccountInfo"><span class="cloudAvatar" id="accountAvatar">م</span><span><b id="accountName">ملفات الشركات على هذا الجهاز</b><small id="storageHelp">حفظ محلي</small></span></div><button class="ghostBtn" id="accountSignIn" type="button">تسجيل الدخول</button></div>
 </div>
 <div class="designerShell">
@@ -544,13 +384,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="formGrid">
 <label class="designerField"><span>العملة</span><span class="currencySelectWrap"><select id="cCurrency"><option value="SAR">ريال سعودي</option><option value="USD">دولار أمريكي</option></select><span class="currencyChoiceMark" id="currencyChoiceMark"><span class="sar" role="img" aria-label="ريال سعودي"></span></span></span></label>
 <label class="designerField"><span>طريقة الوفاء برأس المال المصدر</span><select id="cType"><option value="cash">نقدي</option><option value="inkind">عيني</option><option value="mixed">نقدي وعيني</option></select></label>
-<label class="designerField"><span>قيمة رأس المال المصدر</span><input id="cIssued" type="text" inputmode="decimal" value="100000"><small class="helper">إجمالي القيمة المقابلة للأسهم الصادرة حاليًا، وأقل قيمة يقبلها هذا الحقل <bdi dir="ltr">0.01</bdi>.</small></label>
-<label class="designerField" id="inKindField" hidden><span>قيمة رأس المال العيني</span><input id="cInKind" type="text" inputmode="decimal" value="40000"><small class="helper important">وجود حصة عينية يتطلب «تقرير التقييم المعتمد» بصيغة PDF وبحد أقصى 5MB.</small></label>
-<label class="designerField"><span>قيمة رأس المال النقدي</span><input id="cCash" type="text" readonly><small class="helper" id="cashHelp">يُحسب تلقائيًا من رأس المال المصدر.</small></label>
-<label class="designerField"><span>هل تم دفع إجمالي رأس المال المصدر؟</span><select id="cPaidFull"><option value="yes">نعم</option><option value="no">لا</option></select><small class="helper">في العيني فقط يكون كامل رأس المال مدفوعًا.</small></label>
-<label class="designerField"><span>قيمة المدفوع من رأس المال المصدر</span><input id="cPaid" type="text" inputmode="decimal" value="100000"><small class="helper" id="paidHelp">إذا كان السداد كاملًا تساوي القيمة رأس المال المصدر.</small></label>
-<label class="designerField"><span>رأس المال المصرّح به (اختياري)</span><input id="cAuthorized" type="text" inputmode="decimal" placeholder="اتركه فارغًا عند عدم استخدامه"><small class="helper">قيمة مستقلة عن مطابقة الأسهم الحالية. انخفاضه عن المصدر يظهر كتنبيه استرشادي.</small></label>
-<label class="designerField full"><span>اسم البنك</span><input id="cBank" type="text" maxlength="120" placeholder="اكتب اسم البنك كما سيظهر في المنصة"><small class="helper">حقل تجهيز للنسخ. تُجهز شهادة الإيداع خارج هذه الأداة.</small></label>
+<label class="designerField"><span>قيمة رأس المال المصدر</span><input id="cIssued" type="text" inputmode="decimal" value="100000"><small class="helper">إجمالي القيمة الاسمية للأسهم الصادرة حاليا. تختلف عن تقييم الشركة وثمن الاستحواذ.</small></label>
+<label class="designerField" id="inKindField" hidden><span>قيمة رأس المال العيني</span><input id="cInKind" type="text" inputmode="decimal" value="40000"><small class="helper important">عند تقديم أصول عينية، راجع تعليمات توثيقها وتقييمها في منصة التأسيس.</small></label>
+<label class="designerField"><span>قيمة رأس المال النقدي</span><input id="cCash" type="text" readonly><small class="helper" id="cashHelp">يحسب تلقائيا من رأس المال المصدر.</small></label>
+<label class="designerField"><span>هل تم دفع إجمالي رأس المال المصدر؟</span><select id="cPaidFull"><option value="yes">نعم</option><option value="no">لا</option></select><small class="helper">في العيني فقط يكون كامل رأس المال مدفوعا.</small></label>
+<label class="designerField"><span>قيمة المدفوع من رأس المال المصدر</span><input id="cPaid" type="text" inputmode="decimal" value="100000"><small class="helper" id="paidHelp">إذا كان السداد كاملا تساوي القيمة رأس المال المصدر.</small></label>
+<label class="designerField"><span>رأس المال المصرح به (اختياري)</span><input id="cAuthorized" type="text" inputmode="decimal" placeholder="اتركه فارغا عند عدم استخدامه"><small class="helper">قيمة مستقلة عن مطابقة الأسهم الحالية. انخفاضه عن المصدر يظهر كتنبيه استرشادي.</small></label>
+<label class="designerField full"><span>اسم البنك</span><input id="cBank" type="text" maxlength="120" placeholder="اكتب اسم البنك كما سيظهر في المنصة"><small class="helper">حقل تجهيز للنسخ. تجهز شهادة الإيداع خارج هذه الأداة.</small></label>
 </div>
 <div class="capitalSummary">
 <article><small>رأس المال المصدر</small><strong id="sumIssued">قيد الحساب</strong></article>
@@ -560,9 +400,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <article><small>المدفوع</small><strong id="sumPaid">قيد الحساب</strong></article>
 <article><small>المتبقي غير المدفوع</small><strong id="sumUnpaid">قيد الحساب</strong></article>
 <article><small>نسبة السداد</small><strong id="sumPaidRate">قيد الحساب</strong></article>
-<article><small>المصرّح به</small><strong id="sumAuthorized">قيد الحساب</strong></article>
+<article><small>المصرح به</small><strong id="sumAuthorized">قيد الحساب</strong></article>
 </div>
-<div class="explainBox" id="minimumExplain"></div>
+<div class="explainBox" id="minimumExplain"></div><details class="ruleSource"><summary>مصدر نسبة السداد 25%</summary><p>متطلب ظهر أثناء استخدام منصة المركز السعودي للأعمال حسب تجربة إعداد هذا الملف. النسبة مطبقة على الجزء النقدي، ويضاف كامل الجزء العيني في المدخل المختلط. هذا توثيق للتجربة وليس تحقق جديدا من المنصة اليوم.</p></details>
 </section>
 <section class="card designerPanel" id="stocksPanel" role="tabpanel" data-panel="stocks" hidden>
 <div class="panelTitle"><div><h3>الأسهم والفئات</h3></div><span class="stepNo">02</span></div>
@@ -586,13 +426,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="explainBox warn">أفضل ممارسة: اكتب بدقة نطاق الحق وترتيبه ومحفزه ومدته وسعره أو معادلته وأثر تعديل الفئة. القوالب نقطة بداية تحتاج مراجعة قانونية قبل الاعتماد.</div>
 </section>
 <section class="card designerPanel" id="matchPanel" role="tabpanel" data-panel="match" hidden>
-<div class="panelTitle"><div><h3>مطابقة نموذج التأسيس</h3><p>رتّب البيانات كما ستدخلها في المنصة.</p></div><span class="stepNo">04</span></div>
+<div class="panelTitle"><div><h3>مطابقة نموذج التأسيس</h3><p>رتب البيانات كما ستدخلها في المنصة.</p></div><span class="stepNo">04</span></div>
 <div class="tableScroll"><table class="platformTable"><thead><tr><th>نوع السهم</th><th>فئة السهم</th><th>عدد الأسهم</th><th>قيمة السهم</th><th>قيمة الأسهم</th></tr></thead><tbody id="platformRows"></tbody></table></div>
 <div class="checklist">
 <label class="checkItem"><input id="depositReady" type="checkbox"><span><b>شهادة إيداع رأس المال</b><small>PDF بحد أقصى 5MB.</small></span></label>
-<label class="checkItem" id="valuationCheck" hidden><input id="valuationReady" type="checkbox"><span><b>تقرير التقييم المعتمد</b><small>يظهر عند وجود رأس مال عيني: PDF بحد أقصى 5MB.</small></span></label>
+<div class="explainBox" id="valuationCheck" hidden>عند وجود حصة عينية، راجع تعليمات التقييم والمرفقات في منصة التأسيس. هذه ملاحظة للاطلاع.</div>
 </div>
-<div class="stockActions"><span class="helper">تنتقل البيانات والمرفقات يدويًا بعد المراجعة.</span><button class="primaryBtn" id="preparePlatform" type="button">تجهيز بيانات نموذج التأسيس</button></div>
+<div class="stockActions"><span class="helper">تنتقل البيانات والمرفقات يدويا بعد المراجعة.</span><button class="primaryBtn" id="preparePlatform" type="button">تجهيز بيانات نموذج التأسيس</button></div>
 <div class="platformOutput" id="platformOutput" hidden>
 <div class="outputHead"><h4>بيانات جاهزة للنسخ واللصق</h4><button class="ghostBtn" id="copyAllPlatform" type="button">نسخ الكل</button></div>
 <div class="copyGrid" id="capitalCopyFields"></div>
@@ -631,288 +471,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <div class="accountError" id="accountError" role="status"></div>
 <p class="accountFoot">يمكنك استخدام الحاسبة دون حساب. تسجيل الدخول يضيف المزامنة السحابية.</p>
 </section>
-</div>
-</section>
-<section class="sec soft" id="shares" hidden aria-hidden="true">
-<div class="c">
-<div class="head">
-<span class="ey">تصميم الملكية</span>
-<h2>نوع السهم والفئة تسمح ببناء صفقة تناسب المساهمين</h2>
-<p>يمكن أن تختلف الفئات في التصويت أو الأولوية المالية أو شروط الاسترداد بحسب النظام الأساس وشروط الإصدار.</p>
-</div>
-<div class="shareIntro">
-<div class="card shareLead">
-<span class="ey">مثال مطاعم ومقاهي</span>
-<h3>المؤسس قد يملك حصة اقتصادية أقل مع قوة قرار أعلى</h3>
-<p>مثلا شركة مشروع تستحوذ على سلسلة مطاعم. المؤسس أو المشغل قد يملك فئة عادية بقوة تصويت أعلى، بينما المستثمرون يملكون فئة عادية أخرى أو فئة مالية مختلفة بحسب التصميم النهائي.</p>
-</div>
-<div class="card">
-<h3>ما الذي نحتاج نحدده قبل الإصدار؟</h3>
-<div class="facts" style="margin-top:10px">
-<div class="fact">
-<i>1</i>
-<div>
-<b>الملكية الاقتصادية</b>
-<span>كم يملك كل طرف من رأس المال؟</span>
-</div>
-</div>
-<div class="fact">
-<i>2</i>
-<div>
-<b>قوة القرار</b>
-<span>كيف تتوزع قوة التصويت بين الفئات؟</span>
-</div>
-</div>
-<div class="fact">
-<i>3</i>
-<div>
-<b>العائد والتخارج</b>
-<span>أولوية أرباح، بيع، أو استرداد وفق الشروط.</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="shareKinds">
-<article class="card shareKind">
-<span class="legal">نظام الشركات، المادة 108</span>
-<h3>أسهم عادية</h3>
-<strong>ملكية وتصويت</strong>
-<p>يمكن إنشاء أكثر من فئة من الأسهم العادية بحقوق مختلفة.</p>
-<div class="tip">مثال: فئة مؤسسين بصوت أعلى لكل سهم، وفئة مستثمرين بصوت واحد.</div>
-</article>
-<article class="card shareKind">
-<span class="legal">الأسهم الممتازة</span>
-<h3>أسهم ممتازة</h3>
-<strong>أولوية مالية</strong>
-<p>يمكن منحها حقوق مالية تفضيلية وفق النظام وشروط الإصدار.</p>
-<div class="tip">مثال: مستثمر يحصل على أولوية مالية قبل الأسهم العادية ضمن الشروط المعتمدة.</div>
-</article>
-<article class="card shareKind">
-<span class="legal">الأسهم القابلة للاسترداد</span>
-<h3>قابلة للاسترداد</h3>
-<strong>تخارج وفق شروط مكتوبة</strong>
-<p>الشركة تمارس خيار الاسترداد وفق شروط الإصدار والسعر أو المعادلة المحددة.</p>
-<div class="tip">الاسترداد حق تمارسه الشركة وفق شروط الإصدار، وتحدد الشروط توقيت التنفيذ وقيمته وطريقته.</div>
-</article>
-</div>
-<div class="tayba">
-<span class="ey">مثال منشور</span>
-<h3>شركة أرباح طيبة: فئات مختلفة داخل رأس مال واحد</h3>
-<p>يوضح المثال كيف تختلف قوة التصويت ونوع السهم داخل شركة واحدة.</p>
-<div class="taybaGrid">
-<div>
-<small>عادي، الفئة الأولى</small>
-<b>910,636 سهم</b>
-<strong>10 أصوات</strong>
-</div>
-<div>
-<small>عادي، الفئة الثانية</small>
-<b>8,173,761 سهم</b>
-<strong>1 صوت</strong>
-</div>
-<div>
-<small>قابل للاسترداد</small>
-<b>8,658,721 سهم</b>
-<strong>0 صوت</strong>
-</div>
-</div>
-</div>
-<div class="shareCalc legacyShares" id="share-calculator" hidden>
-<div class="card controls">
-<div class="calcHead">
-<span class="ey">حاسبة فئات الأسهم</span>
-<h3>ابن نموذج الملكية والتصويت</h3>
-<p>غيّر نوع السهم وقيمة الاكتتاب وقيمة السهم وعدد الأصوات وشاهد النتيجة مباشرة.</p>
-</div>
-<div class="presetRow">
-<button class="preset active" data-share-preset="restaurant">استحواذ مطعم</button>
-<button class="preset" data-share-preset="cafe">توسع مقهى</button>
-<button class="preset" data-share-preset="weighted">تصويت مرجح</button>
-<button class="preset" data-share-preset="preferred">فئة ممتازة</button>
-<button class="preset" data-share-preset="tayba">مثال أرباح طيبة</button>
-</div>
-<div id="shareClasses">
-</div>
-</div>
-<div>
-<div class="card shareResult" id="shareExport">
-<div class="resultTop">
-<b>نتيجة نموذج الأسهم</b>
-<span class="mode" id="shareMode">استحواذ مطعم</span>
-</div>
-<div class="summaryBox">
-<b id="shareSummaryTitle">قوة التصويت تتغير عن نسبة الملكية</b>
-<span id="shareSummaryText">
-</span>
-</div>
-<div class="capNote" id="shareCapWarning">
-</div>
-<table class="resultTable">
-<thead>
-<tr>
-<th>الفئة</th>
-<th>النوع</th>
-<th>الأسهم</th>
-<th>الملكية</th>
-<th>الأصوات</th>
-<th>قوة التصويت</th>
-</tr>
-</thead>
-<tbody id="shareResultRows">
-</tbody>
-</table>
-<div class="voteViz" id="voteViz">
-</div>
-</div>
-<div class="actions">
-<button class="exportBtn" id="exportShares">تصدير النتيجة صورة</button>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="sec white" id="capital" hidden aria-hidden="true">
-<div class="c">
-<div class="head">
-<span class="ey">رأس المال والعائد</span>
-<h2>اختبر حجم الصفقة قبل اعتمادها</h2>
-<p>الحاسبة للتدريب على أثر حجم رأس المال والعائد والمصروفات، وتستخدم أمثلة المطاعم والمقاهي لشرح الأثر المالي.</p>
-</div>
-<div class="finTop">
-<div class="card finLead">
-<span class="ey">مثال تدريبي</span>
-<h3>استحواذ على شركة مطاعم</h3>
-<p>يمكن اختبار رأس مال 15 مليون ريال، ثم تعديل العائد والمصروفات لمعرفة الحد الذي يصبح عنده الهيكل مجدي أو مكلف.</p>
-</div>
-<div class="card finExample">
-<h3>سيناريوهات جاهزة</h3>
-<div class="presetRow">
-<button class="preset" data-fin-preset="cafe">مقهى قائم</button>
-<button class="preset active" data-fin-preset="restaurant">شركة مطاعم</button>
-<button class="preset" data-fin-preset="platform">شركة أغذية ومشروبات (F&amp;B)</button>
-</div>
-<p>كل الأرقام قابلة للتعديل. الهدف قياس أثر المصروفات الثابتة على العائد في سيناريوهات مختلفة.</p>
-</div>
-</div>
-<div class="finance">
-<div class="card finControls">
-<div class="field">
-<div class="fieldTop">
-<label>رأس المال</label>
-<output id="capLabel">15,000,000</output>
-</div>
-<input id="capR" type="range" min="3000000" max="50000000" step="500000" value="15000000">
-<div class="inputWrap">
-<span class="sar" role="img" aria-label="ريال سعودي"></span>
-<input id="capN" type="text" value="15,000,000" inputmode="numeric">
-</div>
-</div>
-<div class="field">
-<div class="fieldTop">
-<label>العائد السنوي المتوقع للشركة</label>
-<output id="retLabel">20%</output>
-</div>
-<input id="retR" type="range" min="-20" max="35" step="0.5" value="20">
-<div class="inputWrap">
-<input id="retN" type="text" value="20" inputmode="decimal">
-<span>%</span>
-</div>
-</div>
-<div style="margin-top:12px">
-<span class="ey">المصروفات السنوية</span>
-</div>
-<div class="costGrid">
-<label>
-<span>الإدارة</span>
-<input id="m" type="text" value="240,000">
-<small>سنوي</small>
-</label>
-<label>
-<span>المحاسبة</span>
-<input id="a" type="text" value="60,000">
-<small>سنوي</small>
-</label>
-<label>
-<span>المحامي</span>
-<input id="l" type="text" value="30,000">
-<small>سنوي</small>
-</label>
-<label>
-<span>التدقيق</span>
-<input id="u" type="text" value="25,000">
-<small>سنوي</small>
-</label>
-<label>
-<span>أخرى</span>
-<input id="x" type="text" value="84,000">
-<small>سنوي</small>
-</label>
-</div>
-</div>
-<div class="finResults">
-<div class="card kpis" id="calcExport">
-<article>
-<small>المصروفات السنوية</small>
-<strong>
-<span class="sar" role="img" aria-label="ريال سعودي"></span>
-<span id="kCosts">439,000</span>
-</strong>
-</article>
-<article>
-<small>المصروفات من رأس المال</small>
-<strong id="kRate">2.93%</strong>
-</article>
-<article>
-<small>الربح قبل المصروفات</small>
-<strong>
-<span class="sar" role="img" aria-label="ريال سعودي"></span>
-<span id="kGross">3,000,000</span>
-</strong>
-</article>
-<article class="accent">
-<small>الربح بعد المصروفات</small>
-<strong>
-<span class="sar" role="img" aria-label="ريال سعودي"></span>
-<span id="kNet">2,561,000</span>
-</strong>
-</article>
-<article class="accent">
-<small>العائد بعد المصروفات</small>
-<strong id="kNetR">17.07%</strong>
-</article>
-<article>
-<small>تكلفة الإدارة لكل مليون</small>
-<strong>
-<span class="sar" role="img" aria-label="ريال سعودي"></span>
-<span id="kMil">29,267</span>
-</strong>
-</article>
-</div>
-<div class="card bars">
-<h3>أثر المصروفات على العائد</h3>
-<div class="bar">
-<span>قبل المصروفات</span>
-<div class="track">
-<i id="gBar">
-</i>
-</div>
-<b id="gVal">20%</b>
-</div>
-<div class="bar net">
-<span>بعد المصروفات</span>
-<div class="track">
-<i id="nBar">
-</i>
-</div>
-<b id="nVal">17.07%</b>
-</div>
-</div>
-<div class="actions">
-<button class="exportBtn" id="exportCalc">تصدير النتيجة صورة</button>
-</div>
-</div>
-</div>
 </div>
 </section>
 <section class="sec soft" id="governance">
@@ -1066,80 +624,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </div>
 </footer>
 <script src="./firebase-config.js?v=20260923-5" defer></script>
-<script src="./cloud-storage.js?v=20260923-5" defer></script>
-<script src="./sjsc-designer.js?v=20260926-1" defer></script>
-<script src="./deal-impact-model.js?v=20260924-1" defer></script>
-<script src="./deal-impact.js?v=20260926-1" defer></script>
-<script>
-(()=>{const $=id=>document.getElementById(id),num=v=>{const n=parseFloat(String(v??'').replace(/,/g,''));return Number.isFinite(n)?n:0},fmt=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Math.round(num(n))),fmt2=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(num(n)),pct=n=>num(n).toFixed(2).replace(/\.00$/,'')+'%';
-const navLinks=[...document.querySelectorAll('.links a[href^="#"]')];function nav(){let y=scrollY+120,current='';navLinks.forEach(a=>{let el=document.querySelector(a.getAttribute('href'));if(el&&el.offsetTop<=y)current=a.getAttribute('href')});navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===current))}addEventListener('scroll',nav,{passive:true});nav();
-const sharePresets={restaurant:[{name:'المؤسسون',type:'ordinary',capital:2000000,value:10,votes:10},{name:'المستثمرون',type:'ordinary',capital:8000000,value:10,votes:1},{name:'فئة إضافية',type:'ordinary',capital:0,value:10,votes:1}],cafe:[{name:'المؤسسون',type:'ordinary',capital:1500000,value:10,votes:5},{name:'المستثمرون',type:'ordinary',capital:3500000,value:10,votes:1},{name:'قابلة للاسترداد',type:'redeemable',capital:2000000,value:10,votes:0}],weighted:[{name:'المؤسسون',type:'ordinary',capital:1500000,value:10,votes:10},{name:'المستثمرون',type:'ordinary',capital:13500000,value:10,votes:1},{name:'فئة إضافية',type:'ordinary',capital:0,value:10,votes:1}],preferred:[{name:'المؤسسون',type:'ordinary',capital:3000000,value:10,votes:10},{name:'المستثمرون العاديون',type:'ordinary',capital:4500000,value:10,votes:1},{name:'الأسهم الممتازة',type:'preferred',capital:7500000,value:10,votes:0}],tayba:[{name:'الفئة الأولى',type:'ordinary',capital:9106360,value:10,votes:10},{name:'الفئة الثانية',type:'ordinary',capital:81737610,value:10,votes:1},{name:'القابلة للاسترداد',type:'redeemable',capital:86587210,value:10,votes:0}]};
-const labels={restaurant:'استحواذ مطعم',cafe:'توسع مقهى',weighted:'تصويت مرجح',preferred:'فئة ممتازة',tayba:'مثال أرباح طيبة'},typeLabels={ordinary:'عادية',preferred:'ممتازة',redeemable:'قابلة للاسترداد'};let shareMode='restaurant';
-function renderShares(data){$('shareClasses').innerHTML=data.map((d,i)=>`<div class="shareClass">
-<div class="shareClassTop">
-<b>الفئة ${i+1}</b>
-<span>${i===0?'مؤسسون':i===1?'مستثمرون':'فئة إضافية'}</span>
-</div>
-<div class="shareFields">
-<label>اسم الفئة<input id="sn${i}" value="${d.name}">
-</label>
-<label>نوع السهم<select id="st${i}">
-<option value="ordinary"${d.type==='ordinary'?' selected':''}>عادية</option>
-<option value="preferred"${d.type==='preferred'?' selected':''}>ممتازة</option>
-<option value="redeemable"${d.type==='redeemable'?' selected':''}>قابلة للاسترداد</option>
-</select>
-</label>
-<label>قيمة الاكتتاب<input id="sc${i}" value="${fmt(d.capital)}">
-</label>
-<label>قيمة السهم<input id="sv${i}" value="${fmt2(d.value)}">
-</label>
-<label>أصوات لكل سهم<input id="so${i}" value="${fmt(d.votes)}">
-</label>
-</div>
-</div>`).join('');for(let i=0;i<3;i++){['sn','sc','sv','so'].forEach(k=>$(k+i).addEventListener('input',()=>{shareMode='manual';document.querySelectorAll('[data-share-preset]').forEach(b=>b.classList.remove('active'));$('shareMode').textContent='تعديل يدوي';shareUpdate()}));$('st'+i).addEventListener('change',()=>{let t=$('st'+i).value,v=$('so'+i);if(t!=='ordinary'){v.value='0';v.disabled=true}else{v.disabled=false;if(num(v.value)===0)v.value='1'}shareUpdate()});if(data[i].type!=='ordinary')$('so'+i).disabled=true}shareUpdate()}
-function shareData(){let rows=[];for(let i=0;i<3;i++){let name=$('sn'+i).value,type=$('st'+i).value,capital=num($('sc'+i).value),value=Math.max(.000001,num($('sv'+i).value)),votesPer=type==='ordinary'?num($('so'+i).value):0,shares=capital/value,votes=shares*votesPer;rows.push({name,type,capital,value,votesPer,shares,votes})}let totalCapital=rows.reduce((s,r)=>s+r.capital,0),totalVotes=rows.reduce((s,r)=>s+r.votes,0);rows.forEach(r=>{r.ownership=totalCapital?100*r.capital/totalCapital:0;r.voteShare=totalVotes?100*r.votes/totalVotes:0});return{rows,totalCapital,totalVotes}}
-function shareUpdate(){let d=shareData(),tb=$('shareResultRows'),viz=$('voteViz');tb.innerHTML='';viz.innerHTML='';d.rows.forEach(r=>{tb.insertAdjacentHTML('beforeend',`<tr>
-<td>${r.name}</td>
-<td>${typeLabels[r.type]}</td>
-<td>${fmt2(r.shares)}</td>
-<td>${pct(r.ownership)}</td>
-<td>${fmt2(r.votes)}</td>
-<td>${pct(r.voteShare)}</td>
-</tr>`);viz.insertAdjacentHTML('beforeend',`<div class="voteRow">
-<b>${r.name}</b>
-<div class="dual">
-<div class="mini">
-<span>الملكية</span>
-<i>
-<em style="width:${Math.min(100,r.ownership)}%">
-</em>
-</i>
-<strong>${pct(r.ownership)}</strong>
-</div>
-<div class="mini vote">
-<span>التصويت</span>
-<i>
-<em style="width:${Math.min(100,r.voteShare)}%">
-</em>
-</i>
-<strong>${pct(r.voteShare)}</strong>
-</div>
-</div>
-</div>`)});let top=[...d.rows].sort((a,b)=>b.voteShare-a.voteShare)[0];$('shareSummaryTitle').textContent=top&&d.totalVotes?`${top.name} تملك ${pct(top.voteShare)} من قوة التصويت`:'إجمالي الأصوات = 0';$('shareSummaryText').textContent=top&&d.totalVotes?`نسبة ملكيتها الاقتصادية ${pct(top.ownership)}. هذا يوضح الفرق بين الملكية وقوة التصويت.`:'أدخل فئة عادية وأصوات للسهم لتظهر النتيجة.';let special=d.rows.filter(r=>r.type==='preferred'||r.type==='redeemable').reduce((s,r)=>s+r.capital,0),ratio=d.totalCapital?100*special/d.totalCapital:0,w=$('shareCapWarning');w.className='capNote';if(ratio>50){w.classList.add('danger');w.innerHTML=`النموذج الحالي يتجاوز 50% في الأسهم الممتازة والقابلة للاسترداد: <b>${pct(ratio)}</b>. راجع القيد النظامي قبل اعتماد الإصدار.`}else if(ratio>=49.99){w.classList.add('warn');w.innerHTML=`النموذج عند 50% للأسهم الممتازة والقابلة للاسترداد. يراجع تطبيق المادة 51 من اللائحة التنفيذية لنظام الشركات عند اعتماد الإصدار النهائي.`}else{w.innerHTML=`الأسهم الممتازة والقابلة للاسترداد تمثل <b>${pct(ratio)}</b> من رأس المال في هذا النموذج.`}}
-function applySharePreset(k){shareMode=k;renderShares(sharePresets[k]);document.querySelectorAll('[data-share-preset]').forEach(b=>b.classList.toggle('active',b.dataset.sharePreset===k));$('shareMode').textContent=labels[k]}document.querySelectorAll('[data-share-preset]').forEach(b=>b.addEventListener('click',()=>applySharePreset(b.dataset.sharePreset)));
-const finPresets={cafe:{cap:8000000,ret:18,m:180000,a:48000,l:25000,u:20000,x:60000},restaurant:{cap:15000000,ret:20,m:240000,a:60000,l:30000,u:25000,x:84000},platform:{cap:25000000,ret:22,m:360000,a:84000,l:45000,u:35000,x:120000}};
-function vals(){let c=num($('capN').value),r=num($('retN').value),cost=num($('m').value)+num($('a').value)+num($('l').value)+num($('u').value)+num($('x').value),gross=c*r/100,net=gross-cost,rate=c?100*cost/c:0,nr=c?100*net/c:0;return{c,r,cost,gross,net,rate,nr}}
-function finUpdate(){let v=vals();$('capLabel').textContent=fmt(v.c);$('retLabel').textContent=pct(v.r);$('kCosts').textContent=fmt(v.cost);$('kRate').textContent=pct(v.rate);$('kGross').textContent=fmt(v.gross);$('kNet').textContent=fmt(v.net);$('kNetR').textContent=pct(v.nr);$('kMil').textContent=fmt(v.c?v.cost/(v.c/1e6):0);$('gVal').textContent=pct(v.r);$('nVal').textContent=pct(v.nr);let mx=Math.max(25,Math.abs(v.r),Math.abs(v.nr),1);$('gBar').style.width=Math.min(100,Math.abs(v.r)/mx*100)+'%';$('nBar').style.width=Math.min(100,Math.abs(v.nr)/mx*100)+'%'}
-function pair(r,n){$(r).addEventListener('input',()=>{$(n).value=$(r).value;finUpdate()});$(n).addEventListener('input',()=>{$(r).value=num($(n).value);finUpdate()})}pair('capR','capN');pair('retR','retN');['m','a','l','u','x'].forEach(id=>$(id).addEventListener('input',finUpdate));
-function applyFinPreset(k){let v=finPresets[k];$('capR').value=v.cap;$('capN').value=fmt(v.cap);$('retR').value=v.ret;$('retN').value=v.ret;['m','a','l','u','x'].forEach(id=>$(id).value=fmt(v[id]));document.querySelectorAll('[data-fin-preset]').forEach(b=>b.classList.toggle('active',b.dataset.finPreset===k));finUpdate()}document.querySelectorAll('[data-fin-preset]').forEach(b=>b.addEventListener('click',()=>applyFinPreset(b.dataset.finPreset)));
-const structureModes={company:{ey:'شركة مساهمة مبسطة',title:'المستثمر يدخل كمساهم والشركة تملك الفرصة',tag:'شركة مشروع',summary:'رأس المال يدخل إلى الشركة، والشركة تملك الأصل أو الحصة أو تدخل العقد باسمها. ويصمم النظام الأساس الإدارة والتصويت وفئات الأسهم والتخارج.'},mudaraba:{ey:'عقد مضاربة',title:'العلاقة تقوم بين رب المال والمضارب',tag:'عقد مباشر',summary:'رب المال يقدم المال للمضارب ليعمل فيه، والربح يقسم بنسبة متفق عليها. قوة النموذج هنا في دقة العقد وطريقة احتساب الربح والخسارة وربط المال بالنشاط.'},fund:{ey:'صندوق استثماري',title:'المستثمر يملك وحدات في برنامج استثماري',tag:'استثمار جماعي',summary:'الصندوق برنامج استثمار مشترك يشارك المستثمرون جماعيا في أرباحه، ويديره مدير صندوق وفق الإطار التنظيمي وشروط الصندوق.'}};
-function applyStructure(key){let d=structureModes[key],panel=$('structurePanel');document.querySelectorAll('[data-structure]').forEach(b=>{let on=b.dataset.structure===key;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on?'true':'false')});$('structureEy').textContent=d.ey;$('structureTitle').textContent=d.title;$('structureTag').textContent=d.tag;$('structureSummary').textContent=d.summary;let col={company:2,mudaraba:3,fund:4}[key];document.querySelectorAll('#structureTable .activeCol').forEach(el=>el.classList.remove('activeCol'));document.querySelectorAll(`#structureTable tr>*:nth-child(${col})`).forEach(el=>el.classList.add('activeCol'));panel.classList.remove('isSwitching');void panel.offsetWidth;panel.classList.add('isSwitching')}
-document.querySelectorAll('[data-structure]').forEach(b=>b.addEventListener('click',()=>applyStructure(b.dataset.structure)));
-async function exportNode(id,name,btn){let node=$(id);if(!node||typeof html2canvas==='undefined')return;let old=btn.textContent;btn.disabled=true;btn.textContent='جاري التجهيز';let host=document.createElement('div');host.style.cssText='position:fixed;left:-12000px;top:0;width:1080px;padding:35px;background:#FFFEFC;direction:rtl';let clone=node.cloneNode(true);clone.style.width='1010px';host.appendChild(clone);document.body.appendChild(host);try{await document.fonts.ready;let canvas=await html2canvas(host,{backgroundColor:'#FFFEFC',scale:2,useCORS:true,logging:false,width:1080,windowWidth:1080});let a=document.createElement('a');a.download=name+'.png';a.href=canvas.toDataURL('image/png');a.click()}finally{host.remove();btn.disabled=false;btn.textContent=old}}
-$('exportShares').addEventListener('click',()=>exportNode('shareExport','sjsc-share-model',$('exportShares')));$('exportCalc').addEventListener('click',()=>exportNode('calcExport','sjsc-capital-model',$('exportCalc')));
-if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver'in window){const items=[...document.querySelectorAll('.card,.fact,.node,.guardrails>div,.caseFold,.caseText,.caseSub,.caseChecks>div,.caseTransition>div,.tayba,.taybaGrid>div,.structureOption,.structurePanel,.caseLaw,.capitalRules>div,.fundSignal,.src')];items.forEach((el,i)=>{el.classList.add('revealItem');el.style.transitionDelay=`${(i%4)*35}ms`});const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('isVisible');observer.unobserve(entry.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});items.forEach(el=>observer.observe(el))}
-applySharePreset('restaurant');applyFinPreset('restaurant');applyStructure('company');
-})();
-</script>
+<script src="./cloud-storage.js?v=20260928-1" defer></script>
+<script src="./export-pages.js?v=20260928-1" defer></script>
+<script src="./sjsc-designer.js?v=20260928-1" defer></script>
+<script src="./deal-impact-model.js?v=20260928-1" defer></script>
+<script src="./deal-impact.js?v=20260928-1" defer></script>
+<script src="./page-navigation.js?v=20260928-1" defer></script>
+<script src="./partnership-workspace.js?v=20260928-1" defer></script>
 </body>
 </html>
