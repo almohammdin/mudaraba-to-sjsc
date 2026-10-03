@@ -59,7 +59,7 @@
     <p id="impactError" class="edu-input-error" role="status"></p>
     <div id="impactPreview" aria-live="polite" aria-atomic="true"></div>
     <div class="impact-actions"><button type="button" id="impactAttach" class="primaryBtn" aria-describedby="impactAttachHelp">إضافة ملخص الأتعاب والملكية إلى الحاسبة</button><button type="button" id="impactCopy" class="ghostBtn">نسخ ملخص الأثر</button></div>
-    <p id="impactAttachHelp" class="edu-caveat">يظهر الملخص في قسمي بيانات رأس المال وتحليل الملكية داخل حاسبة رأس المال وفئات الأسهم، ويحفظ مع ملف الشركة عند الضغط على «حفظ الشركة». تبقى أرقام رأس المال وصفوف الأسهم كما أدخلت.</p>
+    <p id="impactAttachHelp" class="edu-caveat">يظهر الملخص في قسمي بيانات رأس المال وتحليل الملكية داخل حاسبة رأس المال وفئات الأسهم، ويحفظ مع ملف الشركة عند الضغط على «حفظ». تبقى أرقام رأس المال وصفوف الأسهم كما أدخلت.</p>
     <p id="impactStatus" role="status"></p>
     <p class="edu-caveat">تظل مخرجات منصة التأسيس كما هي، ويحتاج تعديل الأسهم إلى إعداد التعديل القانوني المناسب. تصدير A4 الحالي مخصص لرأس المال؛ يمكن نسخ هذا الملخص بصورة مستقلة.</p>`;
   roles.querySelector('.edu-role-workspace > details').before(panel);
@@ -237,7 +237,7 @@
     const draft = read(), result = math.calculate(input(draft));
     // Incomplete scenarios remain shareable drafts; computed results are withheld.
     applied = { draft, at: new Date().toISOString() }; attached();
-    $('impactStatus').textContent = 'أضيف الملخص إلى الحاسبة. اضغط «حفظ الشركة» للاحتفاظ به.';
+    $('impactStatus').textContent = 'أضيف الملخص إلى الحاسبة. اضغط «حفظ» للاحتفاظ به.';
     designer.showAnalysis();
   });
   $('impactCopy').addEventListener('click', async () => {

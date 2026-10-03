@@ -7,7 +7,7 @@
   const stateDefaults = () => ({ valuation:'', price:'', costs:'0', reserve:'0', decision:'بيع أصل مهم', threshold:'75', supporters:[], exit:'', valuationMethod:'', deadlock:'', workStops:'' });
   let draft = stateDefaults(), restoring = false;
   const toolbar = document.createElement('div'); toolbar.className='workActions';
-  toolbar.innerHTML='<button class="ghostBtn" id="duplicateDesign" type="button">نسخ التصميم</button><button class="ghostBtn" id="baselineDesign" type="button">تثبيت نسخة للمقارنة</button><button class="ghostBtn" id="exportDesignText" type="button">تنزيل الملخص النصي</button><button class="ghostBtn" id="exportDesignHtml" type="button">ملخص قابل للطباعة</button><select id="designVersions" aria-label="النسخ السابقة"><option value="">النسخ السابقة</option></select><button class="ghostBtn" id="restoreDesignVersion" type="button">فتح الإصدار كنسخة جديدة</button>';
+  toolbar.innerHTML='<button class="ghostBtn" id="baselineDesign" type="button">تثبيت بيانات للمقارنة</button><button class="ghostBtn" id="exportDesignText" type="button">تنزيل الملخص النصي</button><button class="ghostBtn" id="exportDesignHtml" type="button">ملخص قابل للطباعة</button><details id="legacyVersions"><summary>إصدارات محفوظة سابقا</summary><p class="helper">هذه الإصدارات محفوظة قبل تحديث آلية الحفظ. يمكنك اختيار إصدار وحفظه باسم مستقل.</p><select id="designVersions" aria-label="الإصدارات المحفوظة سابقا"><option value="">اختر إصدارا</option></select><button class="ghostBtn" id="restoreDesignVersion" type="button">حفظ الإصدار باسم</button></details>';
   $('shareDesigner').querySelector('.cloudPanel').append(toolbar);
   const dirty = document.createElement('p'); dirty.id='designDirty'; dirty.className='workDirty'; dirty.setAttribute('role','status'); dirty.textContent='مساحة العمل جاهزة'; toolbar.after(dirty);
   const panel = document.createElement('section'); panel.className='workPanel'; panel.id='partnershipWorkspace';
@@ -30,7 +30,7 @@
     </div></details><div id="scenarioComparison"></div>`;
   $('shareDesigner').querySelector('.designerShell').after(panel);
   function stash() { api.setPartnership(JSON.parse(JSON.stringify(draft))); }
-  function markDirty() { if (!restoring) dirty.textContent='تغييرات غير محفوظة'; }
+  function markDirty(event) { if (event?.target?.closest('#saveAsDialog')) return; if (!restoring) dirty.textContent='تغييرات غير محفوظة'; }
   function financeText() {
     const cap=api.capital(), currency=api.context().currency;
     if(draft.price==='') return 'أدخل ثمن الاستثمار لعرض احتياج التمويل.';
@@ -60,7 +60,7 @@
     renderComparison();
   }
   function versions() {
-    const data=api.snapshot(); $('designVersions').innerHTML='<option value="">النسخ السابقة</option>'+(data.versions||[]).map((v,i)=>`<option value="${i}">${esc(new Date(v.at).toLocaleString('en-GB'))}</option>`).reverse().join('');
+    const data=api.snapshot(); $('legacyVersions').hidden=!(data.versions||[]).length; $('designVersions').innerHTML='<option value="">اختر إصدارا</option>'+(data.versions||[]).map((v,i)=>`<option value="${i}">${esc(new Date(v.at).toLocaleString('en-GB'))}</option>`).reverse().join('');
   }
   function restore() {
     restoring=true; draft={...stateDefaults(),...(api.snapshot().partnership||{})};
@@ -83,18 +83,14 @@
   $('structureLearning')?.addEventListener('input',markDirty);
   document.addEventListener('sjsc:designer-changed',()=>{render();});
   document.addEventListener('sjsc:design-loaded',restore);
-  document.addEventListener('sjsc:design-saved',()=>{dirty.textContent='حفظت النسخة الحالية؛ حالة المزامنة موضحة أعلى الملف';versions();});
-  $('duplicateDesign').addEventListener('click',()=>{
-    const copy=api.snapshot(); copy.id=crypto.randomUUID();copy.companyName=(copy.companyName||'تصميم الشركة')+' - نسخة';copy.versions=[];
-    api.load(copy);markDirty();api.notify('فتحت نسخة مستقلة. احفظها للاحتفاظ بها.');
-  });
+  document.addEventListener('sjsc:design-saved',event=>{dirty.textContent=event.detail?.changedDuringSave?'تعديلات جديدة بانتظار الحفظ':'حفظت الشركة الحالية؛ حالة المزامنة موضحة أعلى الملف';versions();});
   $('baselineDesign').addEventListener('click',()=>{
     const data=api.snapshot();draft.baseline={capital:data.capital,stocks:data.stocks,at:new Date().toISOString()};stash();markDirty();render();api.notify('ثبتت نسخة للمقارنة. يمكنك تجربة التعديلات الآن.');
   });
   $('restoreDesignVersion').addEventListener('click',()=>{
     const index=$('designVersions').value;if(index===''){api.notify('اختر إصدارا سابقا من القائمة.');return;}
     const version=api.snapshot().versions?.[Number(index)];if(!version)return;
-    const copy=JSON.parse(JSON.stringify(version.data));copy.id=crypto.randomUUID();copy.companyName=(copy.companyName||'تصميم')+' - إصدار سابق';copy.versions=[];api.load(copy);markDirty();
+    api.saveAs(version.data);
   });
   function report() {
     const lines=[api.text(),'','قرارات الشراكة',financeText(),votingText(),`تقييم الشركة قبل الاستثمار: ${draft.valuation||'غير محدد'} ${api.context().currency}`];

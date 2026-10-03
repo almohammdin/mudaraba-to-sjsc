@@ -65,6 +65,23 @@
     attachments: { deposit: false, valuation: false }
   };
   let accountUser = null;
+  const files = window.SJSCCompanyFiles;
+  let cloudRecords = [], fileBusy = false, editRevision = 0;
+  const knownRecords = () => [...localRecords(), ...cloudRecords];
+  function fillCompanyName() {
+    if (files.cleanName($('companyName').value)) return;
+    $('companyName').value = state.companyName = files.uniqueName(knownRecords());
+  }
+  function fileError(error, asNew = false) {
+    const message = error.code === 'company/name-exists' ? 'يوجد ملف شركة بهذا الاسم. اختر اسما آخر، أو افتح الشركة المحفوظة ثم اضغط حفظ.' : (error.message || 'تعذر الحفظ. أعد المحاولة.');
+    $(asNew ? 'saveAsError' : 'companyNameError').textContent = message;
+    $(asNew ? 'saveAsName' : 'companyName').setAttribute('aria-invalid', 'true');
+    toast(message);
+  }
+  function setFileBusy(value) {
+    fileBusy = value;
+    ['saveCompany', 'saveCompanyAs', 'newCompany', 'savedCompanies', 'accountSignIn', 'confirmSaveAs', 'cancelSaveAs'].forEach(id => $(id).disabled = value);
+  }
 
   const num = window.SJSCNumbers.parse;
   const esc = (value) => String(value ?? "").replace(/[&<>'"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[c]));
@@ -274,6 +291,8 @@
       return normalized;
     });
     $('companyName').value = state.companyName || "";
+    $('companyNameError').textContent = '';
+    $('companyName').removeAttribute('aria-invalid');
     $('cCurrency').value = state.capital.currency || "SAR";
     $('cType').value = state.capital.type || "cash";
     $('cIssued').value = inputText(state.capital.issued ?? 100000);
@@ -300,44 +319,66 @@
     $('savedCompanies').innerHTML = '<option value="">فتح شركة محفوظة…</option>' + records.map((record) => `<option value="${esc(record.id)}">${esc(record.companyName)}: ${new Date(record.updatedAt).toLocaleDateString('en-GB')}</option>`).join("");
   }
 
-  async function saveCurrent() {
-    const data = snapshot();
-    if (!data.companyName) { data.companyName = "تصميم " + new Date().toLocaleDateString("en-GB"); state.companyName = data.companyName; $("companyName").value = data.companyName; }
-    const records = localRecords();
-    const index = records.findIndex((record) => record.id === data.id);
-    const previous = index >= 0 ? records[index] : null;
-    if (previous && JSON.stringify({ ...previous.data, versions: [] }) !== JSON.stringify({ ...data, versions: [] })) {
-      const oldData = { ...previous.data }; delete oldData.versions;
-      data.versions = [...(previous.data.versions || []), { at: previous.updatedAt, data: oldData }].slice(-10);
-    }
-    state.versions = data.versions || [];
-    const record = { id: data.id, companyName: data.companyName, updatedAt: new Date().toISOString(), data };
-    if (index >= 0) records[index] = record; else records.unshift(record);
-    localStorage.setItem(accountUser ? `${localKey}:${accountUser.uid}` : localKey, JSON.stringify(records));
-    refreshLocalList();
-    document.dispatchEvent(new CustomEvent("sjsc:design-saved"));
-    $('savedCompanies').value = data.id;
-    if (window.SJSCCloud?.isConfigured && await window.SJSCCloud.user()) {
-      try {
-        await window.SJSCCloud.saveCompany({ id: data.id, companyName: data.companyName, data });
-        $('cloudState').textContent = "محفوظ على الحساب";
-        $('cloudState').classList.add('online');
-        toast("حفظت الشركة محليا وفي حسابك السحابي.");
-        await refreshCloudList();
-        $('savedCompanies').value = `cloud:${data.id}`;
-      } catch (error) {
-        console.error(error);
-        $('cloudState').textContent = "محفوظ على الجهاز، تعذرت المزامنة";
-        $('cloudState').classList.remove('online');
-        toast(`حفظت محليا. ${window.SJSCCloud.errorMessage(error)}`);
+  async function saveCurrent(options = {}) {
+    if (fileBusy) return false;
+    setFileBusy(true);
+    const owner = accountUser?.uid;
+    const revision = editRevision;
+    const source = options.source || snapshot();
+    try {
+      // Refresh names before creating or renaming a file; the cloud transaction checks again.
+      const signedIn = window.SJSCCloud?.isConfigured && await window.SJSCCloud.user();
+      if (signedIn) {
+        try { cloudRecords = await window.SJSCCloud.listCompanies(); }
+        catch { /* Cached names support offline saves; the cloud write checks names atomically. */ }
       }
-      return;
-    }
-    toast("حفظت الشركة محليا على هذا الجهاز فقط.");
+      if (accountUser?.uid !== owner) throw new Error('تغير الحساب أثناء الحفظ. أعد المحاولة.');
+      const data = files.prepare(source, knownRecords(), { ...options, id: options.asNew ? crypto.randomUUID() : source.id });
+      let cloudSaved = false, syncError = null;
+      if (signedIn) {
+        try {
+          await window.SJSCCloud.saveCompany({ id: data.id, companyName: data.companyName, data });
+          cloudSaved = true;
+        } catch (error) {
+          if (error.code === 'company/name-exists' || accountUser?.uid !== owner) throw error;
+          syncError = error;
+        }
+      }
+      if (accountUser?.uid !== owner) throw new Error('تغير الحساب أثناء الحفظ. أعد المحاولة.');
+      const records = localRecords();
+      const index = records.findIndex(record => record.id === data.id);
+      const record = { id: data.id, companyName: data.companyName, updatedAt: new Date().toISOString(), data };
+      if (index >= 0) records[index] = record; else records.unshift(record);
+      try { localStorage.setItem(owner ? `${localKey}:${owner}` : localKey, JSON.stringify(records)); }
+      catch (error) { if (!cloudSaved) throw new Error('تعذر الحفظ على الجهاز. تحقق من مساحة التخزين ثم أعد الحفظ.'); }
+      if (options.source) loadSnapshot(data);
+      else {
+        state.id = data.id;
+        state.versions = data.versions || [];
+        if (editRevision === revision || options.asNew) $('companyName').value = state.companyName = data.companyName;
+      }
+      $('companyNameError').textContent = '';
+      $('companyName').removeAttribute('aria-invalid');
+      if (cloudSaved) {
+        cloudRecords = [{ id: data.id, company_name: data.companyName }, ...cloudRecords.filter(record => record.id !== data.id)];
+        renderCompanyList();
+        $('savedCompanies').value = `cloud:${data.id}`;
+      } else { refreshLocalList(); $('savedCompanies').value = data.id; }
+      $('cloudState').textContent = cloudSaved ? 'محفوظ على الحساب' : syncError ? 'محفوظ على الجهاز، تعذرت المزامنة' : 'محفوظ على الجهاز';
+      $('cloudState').classList.toggle('online', cloudSaved);
+      document.dispatchEvent(new CustomEvent('sjsc:design-saved', { detail: { changedDuringSave: editRevision !== revision } }));
+      toast(cloudSaved ? 'حفظت الشركة في حسابك.' : syncError ? 'حفظت الشركة على الجهاز. أعد الحفظ لمزامنتها مع حسابك.' : 'حفظت الشركة على هذا الجهاز.');
+      return true;
+    } finally { setFileBusy(false); }
   }
 
   async function refreshCloudList() {
-    const records = await window.SJSCCloud.listCompanies();
+    cloudRecords = await window.SJSCCloud.listCompanies();
+    renderCompanyList();
+  }
+
+  function renderCompanyList() {
+    const records = cloudRecords;
     const cloudIds = new Set(records.map((record) => record.id));
     $('savedCompanies').innerHTML = '<option value="">فتح شركة محفوظة…</option>' + records.map((record) => `<option value="cloud:${esc(record.id)}">${esc(record.company_name)}: سحابي</option>`).join("") + localRecords().filter((record) => !cloudIds.has(record.id)).map((record) => `<option value="${esc(record.id)}">${esc(record.companyName)}: على الجهاز</option>`).join("");
   }
@@ -369,6 +410,7 @@
   }
 
   function renderAccount(user) {
+    cloudRecords = [];
     accountUser = user || null;
     if (!user) {
       $('cloudState').textContent = "حفظ محلي على هذا الجهاز";
@@ -868,15 +910,46 @@
   $('preparePlatform').addEventListener('click', renderPrepared);
   $('copyAllPlatform').addEventListener('click', () => copyText(preparedText()));
   $('capitalCopyFields').addEventListener('click', (event) => { const button = event.target.closest('[data-copy]'); if (button) copyText(button.dataset.copy); });
-  $('saveCompany').addEventListener('click', () => saveCurrent().catch((error) => toast(error.message || "تعذر الحفظ.")));
+  let saveAsSource = null;
+  function openSaveAs(source = null) {
+    if (fileBusy) return;
+    saveAsSource = source;
+    const name = (source || snapshot()).companyName;
+    $('saveAsName').value = files.uniqueName([...knownRecords(), { id: state.id, companyName: name }], name || 'شركة جديدة');
+    $('saveAsError').textContent = '';
+    $('saveAsName').removeAttribute('aria-invalid');
+    $('saveAsDialog').showModal();
+    $('saveAsName').focus();
+    $('saveAsName').select();
+  }
+  $('saveCompany').addEventListener('click', () => saveCurrent().catch(error => fileError(error)));
+  $('saveCompanyAs').addEventListener('click', () => openSaveAs());
+  $('cancelSaveAs').addEventListener('click', () => $('saveAsDialog').close());
+  $('saveAsDialog').addEventListener('cancel', event => { if (fileBusy) event.preventDefault(); });
+  $('saveAsName').addEventListener('input', () => { $('saveAsError').textContent = ''; $('saveAsName').removeAttribute('aria-invalid'); });
+  $('saveAsForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    try {
+      if (await saveCurrent({ asNew: true, name: $('saveAsName').value, source: saveAsSource })) $('saveAsDialog').close();
+    } catch (error) { fileError(error, true); }
+  });
+  $('companyName').addEventListener('blur', fillCompanyName);
+  $('shareDesigner').addEventListener('input', event => {
+    if (event.target.closest('#saveAsDialog')) return;
+    editRevision++;
+    if (event.target.id !== 'companyName') fillCompanyName();
+    else { $('companyNameError').textContent = ''; $('companyName').removeAttribute('aria-invalid'); }
+  });
   $('newCompany').addEventListener('click', () => {
     loadSnapshot({ id: crypto.randomUUID(), companyName: "", capital: { currency: "SAR", type: "cash", issued: 100000, inKind: 0, paidFull: true, paid: 100000, authorized: null, bank: "" }, stocks: [{ id: crypto.randomUUID(), categoryMode: "none", existingCategory: "", categoryName: "", rights: "", extra: "", count: 10000, value: 10, votesPerShare: 1 }], attachments: { deposit: false, valuation: false } });
     $('savedCompanies').value = "";
+    fillCompanyName();
     toast("بدأ نموذج شركة جديد مع إبقاء النماذج المحفوظة.");
   });
   $('savedCompanies').addEventListener('change', async () => {
     const value = $('savedCompanies').value;
     if (!value) return;
+    setFileBusy(true);
     try {
     if (value.startsWith('cloud:')) {
       const record = await window.SJSCCloud.loadCompany(value.slice(6));
@@ -890,6 +963,7 @@
     }
     toast("فتحت الشركة المحفوظة.");
     } catch (error) { toast(window.SJSCCloud.errorMessage(error)); }
+    finally { setFileBusy(false); }
   });
   $('accountSignIn').addEventListener('click', async () => {
     if (!accountUser) return openAccount();
@@ -946,7 +1020,7 @@
 
   // Scenario data is stored alongside the design, never inserted into legal capital or class totals.
   window.SJSCDesigner = Object.freeze({
-    snapshot, load: loadSnapshot, analysis: stockCalc, capital: capitalCalc, save: saveCurrent,
+    snapshot, load: loadSnapshot, analysis: stockCalc, capital: capitalCalc, save: saveCurrent, saveAs: openSaveAs,
     setPartnership: value => { state.partnership = value; },
     text: preparedText, notify: toast,
     context: () => ({ id: state.id, companyName: state.companyName, currency: state.capital.currency,
@@ -957,3 +1031,4 @@
   loadSnapshot(state);
   prepareAccount();
 })();
+

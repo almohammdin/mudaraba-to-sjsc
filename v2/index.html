@@ -3,7 +3,7 @@
 <head>
 <script src="./designer-core.js?v=20260928-1"></script>
 <script src="./numeric-input.js?v=20260928-1"></script>
-<link rel="stylesheet" href="./workspace.css?v=20260928-1">
+<link rel="stylesheet" href="./workspace.css?v=20261003-1">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="دليل عملي لاستخدام شركة المساهمة المبسطة كشركة مشروع للفرص والاستحواذات مع أدوات لتصميم فئات الأسهم ورأس المال والعائد.">
@@ -360,8 +360,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <span class="cloudState" id="cloudState">حفظ محلي على هذا الجهاز</span>
 </div>
 <div class="cloudGrid">
-<input id="companyName" type="text" maxlength="120" placeholder="اسم الشركة أو المشروع">
-<button class="primaryBtn" id="saveCompany" type="button">حفظ الشركة</button>
+<input id="companyName" type="text" maxlength="120" placeholder="اسم الشركة أو المشروع" aria-label="اسم الشركة أو المشروع" aria-describedby="companyNameError">
+<button class="primaryBtn" id="saveCompany" type="button">حفظ</button>
+<button class="ghostBtn" id="saveCompanyAs" type="button">حفظ باسم</button>
 <select id="savedCompanies" aria-label="الشركات المحفوظة"><option value="">فتح شركة محفوظة…</option></select>
 <button class="ghostBtn" id="newCompany" type="button">شركة جديدة</button>
 <label class="shareScopeLabel">بيانات المشاركة<select id="shareScope"><option value="capital">رأس المال والأسهم فقط</option><option value="full">التصميم والتكليف وملاحظات الشراكة</option></select></label><button class="ghostBtn" id="shareCompany" type="button">مشاركة</button>
@@ -369,6 +370,18 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 <button class="ghostBtn" id="exportA4Pdf" type="button">PDF A4</button>
 </div>
 <small class="helper">المشاركة ترسل نسخة بالبيانات المختارة. يمكن لمن يحصل على الرابط قراءتها والاحتفاظ بها، ولا يمكن إلغاء النسخة بعد إرسالها. تصدير PDF يشمل جميع صفوف رأس المال والأسهم.</small>
+<p id="companyNameError" class="fileError" role="alert"></p>
+<p class="helper">حفظ يحدّث الشركة المفتوحة. حفظ باسم ينشئ ملفا مستقلا بالاسم الذي تختاره. يتعبأ الاسم الفارغ تلقائيا عند بدء التعبئة.</p>
+<dialog id="saveAsDialog" class="fileDialog" aria-labelledby="saveAsTitle" dir="rtl">
+<form id="saveAsForm">
+<h3 id="saveAsTitle">حفظ باسم</h3>
+<p>احفظ التصميم الحالي في ملف شركة مستقل.</p>
+<label for="saveAsName">اسم الشركة الجديدة</label>
+<input id="saveAsName" type="text" maxlength="120" aria-describedby="saveAsError" autocomplete="off">
+<p id="saveAsError" class="fileError" role="alert"></p>
+<div class="workActions"><button id="confirmSaveAs" class="primaryBtn" type="submit">حفظ باسم</button><button id="cancelSaveAs" class="ghostBtn" type="button">إلغاء</button></div>
+</form>
+</dialog>
 <div class="cloudAccountBar"><div class="cloudAccountInfo"><span class="cloudAvatar" id="accountAvatar">م</span><span><b id="accountName">ملفات الشركات على هذا الجهاز</b><small id="storageHelp">حفظ محلي</small></span></div><button class="ghostBtn" id="accountSignIn" type="button">تسجيل الدخول</button></div>
 </div>
 <div class="designerShell">
@@ -624,12 +637,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 </div>
 </footer>
 <script src="./firebase-config.js?v=20260923-5" defer></script>
-<script src="./cloud-storage.js?v=20260928-1" defer></script>
+<script src="./company-files.js?v=20261003-1" defer></script>
+<script src="./cloud-storage.js?v=20261003-1" defer></script>
 <script src="./export-pages.js?v=20260928-1" defer></script>
-<script src="./sjsc-designer.js?v=20260928-1" defer></script>
+<script src="./sjsc-designer.js?v=20261003-1" defer></script>
 <script src="./deal-impact-model.js?v=20260928-1" defer></script>
-<script src="./deal-impact.js?v=20260928-1" defer></script>
+<script src="./deal-impact.js?v=20261003-1" defer></script>
 <script src="./page-navigation.js?v=20260928-1" defer></script>
-<script src="./partnership-workspace.js?v=20260928-1" defer></script>
+<script src="./partnership-workspace.js?v=20261003-1" defer></script>
 </body>
 </html>
+

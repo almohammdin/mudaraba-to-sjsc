@@ -97,7 +97,7 @@
     return Array.isArray(records) ? records : [];
   }
 
-  async function writeCompanies(incoming) {
+  async function writeCompanies(incoming, checkNames = false) {
     if (!currentUser) throw new Error("سجل الدخول أولا.");
     const owner = currentUser;
     const ref = userDoc();
@@ -107,6 +107,14 @@
       const records = new Map(remote.map((record) => [record.id, record]));
       for (const record of incoming) {
         const previous = records.get(record.id);
+        const duplicate = window.SJSCCompanyFiles.conflict([...records.values()], record.companyName, record.id);
+        if (duplicate && checkNames) {
+          const error = new Error('يوجد ملف شركة بهذا الاسم. اختر اسما آخر.');
+          error.code = 'company/name-exists';
+          throw error;
+        }
+        // Keep an offline name collision on its device for the user to rename.
+        if (duplicate && (!previous || previous.companyName !== record.companyName)) continue;
         if (!previous || String(record.updatedAt) >= String(previous.updatedAt)) records.set(record.id, record);
       }
       const companies = [...records.values()];
@@ -147,7 +155,7 @@
       updatedAt: isoNow(),
       data: record.data
     };
-    await writeCompanies([stored]);
+    await writeCompanies([stored], true);
     return stored;
   }
 
