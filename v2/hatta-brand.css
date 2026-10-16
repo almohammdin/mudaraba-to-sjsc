@@ -1,0 +1,62 @@
+@font-face{font-family:"El Messiri";src:url("./assets/hatta/el-messiri-400.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"El Messiri";src:url("./assets/hatta/el-messiri-600.woff2") format("woff2");font-style:normal;font-weight:600;font-display:swap}
+@font-face{font-family:"El Messiri";src:url("./assets/hatta/el-messiri-700.woff2") format("woff2");font-style:normal;font-weight:700;font-display:swap}
+@font-face{font-family:"Thmanyah Serif Display";src:url("./assets/hatta/thmanyah-serif-400.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"Thmanyah Serif Display";src:url("./assets/hatta/thmanyah-serif-700.woff2") format("woff2");font-style:normal;font-weight:700;font-display:swap}
+@font-face{font-family:"Thmanyah Serif Display";src:url("./assets/hatta/thmanyah-serif-900.woff2") format("woff2");font-style:normal;font-weight:900;font-display:swap}
+@font-face{font-family:"Thmanyah Sans";src:url("./assets/hatta/thmanyah-sans-400.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"Thmanyah Sans";src:url("./assets/hatta/thmanyah-sans-500-600.woff2") format("woff2");font-style:normal;font-weight:500 600;font-display:swap}
+@font-face{font-family:"Thmanyah Sans";src:url("./assets/hatta/thmanyah-sans-700-900.woff2") format("woff2");font-style:normal;font-weight:700 900;font-display:swap}
+:root{--frame-light:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 220'%3E%3Cpath d='M-18 215V55Q-18 18 20 18H285' fill='none' stroke='%23061f56' stroke-width='14'/%3E%3Cpath d='M10 220V75Q10 42 43 42H300' fill='none' stroke='%23b47a2d' stroke-width='4' opacity='.46'/%3E%3C/svg%3E");--frame-light-opposite:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 220'%3E%3Cg transform='translate(300 220) rotate(180)'%3E%3Cpath d='M-18 215V55Q-18 18 20 18H285' fill='none' stroke='%23061f56' stroke-width='14'/%3E%3Cpath d='M10 220V75Q10 42 43 42H300' fill='none' stroke='%23b47a2d' stroke-width='4' opacity='.46'/%3E%3C/g%3E%3C/svg%3E");--frame-dark:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 220'%3E%3Cpath d='M-18 215V55Q-18 18 20 18H285' fill='none' stroke='%23b47a2d' stroke-width='14'/%3E%3Cpath d='M10 220V75Q10 42 43 42H300' fill='none' stroke='%23ffffff' stroke-width='4' opacity='.14'/%3E%3C/svg%3E");--frame-dark-opposite:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 220'%3E%3Cg transform='translate(300 220) rotate(180)'%3E%3Cpath d='M-18 215V55Q-18 18 20 18H285' fill='none' stroke='%23b47a2d' stroke-width='14' opacity='.55'/%3E%3Cpath d='M10 220V75Q10 42 43 42H300' fill='none' stroke='%23ffffff' stroke-width='4' opacity='.10'/%3E%3C/g%3E%3C/svg%3E")}
+/* Hatta identity 1.2: serif titles, alternate sans subheadings, default sans UI. */
+:root{--n:#061f56;--n2:#0b2f75;--n3:#04163d;--g:#b47a2d;--g2:#d2a05a;--green:#087a55;--ink:#17233c;--muted:#657084;--line:rgba(6,31,86,.13);--soft:#f4f0e8;--paper:#fbfaf7;--shadow:0 16px 42px rgba(6,31,86,.07);--shadow-hover:0 22px 52px rgba(6,31,86,.11)}
+body{background:var(--paper);font-family:"Thmanyah Sans",Tahoma,Arial,sans-serif;font-feature-settings:"salt" 0;font-synthesis:none;line-height:1.85}
+h1,h2{font-family:"Thmanyah Serif Display","Thmanyah Sans",sans-serif;font-feature-settings:"salt" 1;font-weight:700;line-height:1.3}
+.hero h1{font-weight:900;line-height:1.25;max-width:1020px}
+h3,h4,h5,h6,.caseIntro b{font-family:"Thmanyah Sans",Tahoma,sans-serif;font-feature-settings:"salt" 1;font-weight:500;line-height:1.5}
+button,input,select,textarea,table,summary,.links,.ey{font-family:"Thmanyah Sans",Tahoma,Arial,sans-serif;font-feature-settings:"salt" 0}
+button,input,select,textarea{font-synthesis:none}
+button,select,textarea{font-family:"Thmanyah Sans",Tahoma,Arial,sans-serif!important}
+input[inputmode],input[type=number],.money span:last-child,.edu-number,.edu-sim output{font-family:"El Messiri",Arial,sans-serif!important;font-variant-numeric:tabular-nums;font-feature-settings:"salt" 0}
+[lang=en],.handle{font-family:"El Messiri",Arial,sans-serif;font-feature-settings:"salt" 0}
+.nav{background:rgba(251,250,247,.96);border-color:var(--line)}
+.navin{gap:22px}
+.brand{flex:0 0 auto;white-space:normal}
+.brand .hattaLogo{display:block;width:158px;height:auto;max-height:84px;object-fit:contain;padding:12px 0}
+.brand span{font-size:12px;font-weight:500;max-width:145px;line-height:1.65;border-inline-start:1px solid var(--line);padding-inline-start:14px}
+.links{min-width:0;max-width:100%;flex:1}
+.links a:hover,.links a.active{background:#edf0f6}
+.hero{background:var(--n);padding:90px 0;isolation:isolate}
+.hero:after{inset:0;height:auto;background-image:var(--frame-dark),var(--frame-dark-opposite);background-position:left top,right bottom;background-size:min(40vw,500px) auto;background-repeat:no-repeat;opacity:.6;pointer-events:none;z-index:0}
+.hero .ey{color:var(--g2)}
+.hero p{color:#dfe6f3;line-height:1.9}
+.heroTags span{font-feature-settings:"salt" 0}
+.entryActions .primaryBtn{background:var(--g);color:#fff;border-color:var(--g)}
+.introLead,.shareLead,.caseBig,.platformBanner{background:var(--n)}
+.finLead{background:linear-gradient(145deg,#087a55,#065c40)}
+.head h2{line-height:1.35}
+.card h3,.workPanel h3,.edu-header h3{font-feature-settings:"salt" 1;font-weight:500;line-height:1.5}
+.edu{--edu-gold:var(--g);--edu-light:var(--soft)}
+.edu-node .edu-orb{border-color:#173a78}
+.edu-node.person .edu-orb{border-color:#d8dfe3}
+.edu-node.asset .edu-orb{border-color:#b8d8c6}
+.footer{position:relative;isolation:isolate;background:var(--n);border-top:2px solid var(--g)}
+.footer:before{content:"";position:absolute;inset:0;background-image:var(--frame-dark-opposite);background-repeat:no-repeat;background-position:right bottom;background-size:260px auto;opacity:.2;pointer-events:none;z-index:-1}
+.footin{padding:28px 0;flex-wrap:wrap;gap:24px}
+.footerHatta{display:inline-flex;align-items:center;justify-content:center;background:var(--paper);padding:14px 20px;border-radius:12px;flex:0 0 auto}
+.footerHatta img{display:block;width:164px;height:auto}
+.footBrand{gap:12px;margin-inline-start:auto}
+.footBrand p{font-size:12px}
+.socials a,.handle{color:var(--g2)}
+:focus-visible{outline-color:var(--g)}
+@media(min-width:981px){.links{justify-content:flex-end}.links a{font-size:12px;padding-inline:8px}}
+@media(max-width:980px){.navin{flex-wrap:wrap;gap:0;padding-block:8px}.brand{width:100%;justify-content:space-between}.brand .hattaLogo{width:150px;padding:5px 0}.brand span{display:block;max-width:200px;font-size:12px}.links{flex-basis:100%;max-width:100%;padding-top:4px}.links a{padding:7px 10px}.edu .edu-tools{top:124px}.controls,.finControls,.matchRail{top:140px}html{scroll-padding-top:145px}}
+@media(max-width:680px){.hero{padding:56px 0}.hero:after{background-size:55vw auto;opacity:.45}.hero h1{font-size:clamp(32px,8.5vw,44px);line-height:1.35}.hero p{font-size:17px}.brand span{max-width:155px}.head h2{font-size:30px}.card h3{font-size:24px}.edu .edu-tools{top:124px}.footer .footin{align-items:center;gap:20px}.footBrand{margin-inline:0}.footerRight{width:100%}.footerHatta{padding:12px 18px}}
+@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.nav{display:none!important}.hero{padding:28px 0}.hero:after{opacity:.35}.footerHatta img{width:150px}.footin{display:flex;flex-direction:row}.edu .edu-tools{position:static}}
+
+.footerCredit{display:flex;align-items:center;justify-content:flex-end;gap:22px;margin-inline-start:auto;flex-wrap:wrap}
+.footerCredit .footBrand{margin:0;font-size:12px;color:#dfe6f3;gap:8px}
+.footerCredit .naifLogo{width:72px;height:auto;max-height:42px;object-fit:contain}
+.footerCredit .footerRight{gap:10px}
+.footerCredit .socials a{width:32px;height:32px}
+@media(max-width:680px){.footerCredit{margin-inline:0;justify-content:center;gap:14px;width:100%}.footerCredit .footerRight{width:auto;justify-content:center}.footerCredit .footBrand{justify-content:center}}
