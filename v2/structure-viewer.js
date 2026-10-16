@@ -12,13 +12,59 @@
   const expandIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg>';
   const closeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>';
   header.append(button);
+  const reading = document.createElement('aside');
+  reading.className = 'edu-reading-panel';
+  reading.setAttribute('aria-label', 'شرح الرسم');
+  const readingToggle = document.createElement('button');
+  readingToggle.type = 'button';
+  readingToggle.className = 'edu-reading-toggle';
+  readingToggle.textContent = 'شرح الرسم';
+  readingToggle.setAttribute('aria-controls', 'eduFullscreenReading');
+  readingToggle.setAttribute('aria-expanded', 'false');
+  reading.id = 'eduFullscreenReading';
+  const readingClose = document.createElement('button');
+  readingClose.type = 'button';
+  readingClose.className = 'edu-reading-close';
+  readingClose.textContent = 'العودة إلى الرسم';
+  reading.append(readingClose);
+  header.append(readingToggle);
+  let moved = [];
+  function setReading(open) {
+    root.classList.toggle('edu-reading-open', open);
+    readingToggle.setAttribute('aria-expanded', String(open));
+    if (open) readingClose.focus({preventScroll:true});
+    else readingToggle.focus({preventScroll:true});
+  }
+  readingToggle.addEventListener('click', () => setReading(!root.classList.contains('edu-reading-open')));
+  readingClose.addEventListener('click', () => setReading(false));
+  function setExpandedLayout(on) {
+    if (on && !moved.length) {
+      for (const selector of ['#eduDetail','#eduCaption','#eduSequence','#eduInsight']) {
+        const element = root.querySelector(selector);
+        const marker = document.createComment('fullscreen return position');
+        element.before(marker);
+        moved.push([element, marker]);
+        reading.append(element);
+      }
+      root.querySelector('.edu-layout').append(reading);
+    } else if (!on && moved.length) {
+      for (const [element, marker] of moved) { marker.replaceWith(element); }
+      moved = [];
+      reading.remove();
+      root.classList.remove('edu-reading-open');
+      readingToggle.setAttribute('aria-expanded', 'false');
+    }
+    requestAnimationFrame(() => root.dispatchEvent(new Event('edu:layout')));
+  }
   let fallback = false, busy = false, savedScroll = 0, previousOverflow = '';
   let previousRole = null, previousModal = null, inertSiblings = [];
   const active = () => document.fullscreenElement === root || fallback;
   function update() {
     const on = active();
     root.classList.toggle('edu-expanded', on);
+    setExpandedLayout(on);
     button.setAttribute('aria-expanded', String(on));
+    button.setAttribute('aria-label', on ? 'إغلاق ملء الشاشة' : 'ملء الشاشة');
     button.innerHTML = (on ? closeIcon : expandIcon) + '<span>' + (on ? 'إغلاق ملء الشاشة' : 'ملء الشاشة') + '</span>';
     // Existing ResizeObserver redraws lines against the resized nodes.
     requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
@@ -80,6 +126,7 @@
   });
   root.addEventListener('keydown', event => {
     if (!active() || event.defaultPrevented) return;
+    if (event.key === 'Escape' && root.classList.contains('edu-reading-open')) { event.preventDefault(); setReading(false); return; }
     if (event.key === 'Escape' && fallback) { event.preventDefault(); fallbackClose(); return; }
     if (event.key !== 'Tab') return;
     const focusable = [...root.querySelectorAll('button,a[href],input,select,textarea,summary,[tabindex="0"]')]

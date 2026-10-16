@@ -188,7 +188,7 @@
     stop(); paths=[];dots=[];
     const svg=network.querySelector('.edu-lines'),labels=network.querySelector('.edu-edge-labels');
     if(!svg)return;
-    const rect=network.getBoundingClientRect(),mobile=window.matchMedia('(max-width:600px)').matches;
+    const rect=network.getBoundingClientRect(),mobile=window.matchMedia('(max-width:600px)').matches&&!root.classList.contains('edu-expanded');
     svg.setAttribute('viewBox','0 0 '+rect.width+' '+rect.height);
     svg.innerHTML='<defs><marker id="eduArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 10 5 0 10" fill="'+(state.mode==='ownership'?'#b8752e':'#165a3d')+'"/></marker></defs>';
     labels.innerHTML='';
@@ -305,6 +305,7 @@
   reduced.addEventListener('change',()=>{if(reduced.matches){movement=false;q('#eduMotion').checked=false;stop();}q('#eduMotion').disabled=reduced.matches;q('#eduReplay').disabled=!movement||reduced.matches;});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   new ResizeObserver(()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{const resume=Boolean(frame);draw();if(resume)play();});}).observe(network);
+  root.addEventListener('edu:layout',draw);
   document.fonts.ready.then(draw);
   render(false);
 
